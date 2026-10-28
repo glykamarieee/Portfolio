@@ -1,0 +1,489 @@
+/*
+ * Home-page scenes (DESIGN.md §9). Default rules are the static layout
+ * (mobile, reduced motion, no JS). JS adds [data-mode] on desktop with
+ * motion allowed to switch a scene into its pinned/3D layout.
+ */
+
+/* Hero */
+.hero-blooms {
+  background:
+    radial-gradient(60% 50% at 25% 20%, var(--color-bloom-1), transparent 70%),
+    radial-gradient(50% 40% at 80% 30%, var(--color-bloom-2), transparent 70%),
+    var(--color-bg);
+}
+
+.hero-canvas {
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-ui);
+}
+
+.hero-canvas[data-ready] {
+  opacity: 1;
+}
+
+.scroll-cue {
+  display: inline-block;
+  animation: scroll-cue 1.6s var(--ease-ui) infinite;
+}
+
+@keyframes scroll-cue {
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+/* Manifesto */
+.manifesto-chip {
+  position: relative;
+  display: inline-block;
+  width: 1.6em;
+  height: 0.8em;
+  margin-right: 0.2em;
+  overflow: hidden;
+  vertical-align: 0.05em;
+  border-radius: 9999px;
+}
+
+/* About teaser */
+.about-bloom {
+  background: radial-gradient(closest-side, var(--color-bloom-1), transparent);
+  filter: blur(40px);
+}
+
+.outline-type {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-fg);
+}
+
+.lens-image-reveal {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  clip-path: circle(var(--lens-r) at var(--mx, 50%) var(--my, 50%));
+  transition: --lens-r var(--dur-base) var(--ease-reveal);
+}
+
+.has-lens .lens-image:hover .lens-image-reveal {
+  --lens-r: 120px;
+}
+
+/* Selected Work */
+.work-track {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  padding-inline: var(--page-margin);
+}
+
+.work[data-mode="track"] {
+  padding-block: 0;
+}
+
+.work[data-mode="track"] .work-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.work[data-mode="track"] .work-track {
+  flex-direction: row;
+  gap: var(--gutter);
+  width: max-content;
+  will-change: transform;
+}
+
+/* Panel width follows viewport height so media + title always fit in the pin */
+.work[data-mode="track"] .work-panel {
+  width: min(52vw, calc((100svh - 400px) * 1.6));
+}
+
+.work[data-mode="track"] header {
+  margin-bottom: 32px;
+  padding-top: 64px;
+}
+
+/* Skills */
+.skills-field {
+  display: grid;
+  gap: 32px;
+}
+
+@media (min-width: 48rem) {
+  .skills-field {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.skills-label {
+  margin-bottom: 12px;
+}
+
+.skill-chip {
+  padding: 8px 16px;
+  border: 1px solid var(--color-line);
+  border-radius: 9999px;
+  background: var(--color-bg-elev);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  letter-spacing: var(--text-meta--letter-spacing);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-fast) var(--ease-ui),
+    color var(--dur-fast) var(--ease-ui),
+    border-color var(--dur-fast) var(--ease-ui);
+}
+
+.skill-chip.is-active,
+.skill-chip:focus-visible {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+.skills-field[data-mode="orbit"] {
+  position: relative;
+  display: block;
+  height: 70svh;
+  min-height: 480px;
+}
+
+.skills-field[data-mode="orbit"] :is(.skills-group, .skills-group > ul) {
+  display: contents;
+}
+
+.skills-field[data-mode="orbit"] :is(.skills-node, .skills-label) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+}
+
+.skills-field[data-mode="orbit"] .skills-label {
+  color: var(--color-fg-faint);
+  pointer-events: none;
+}
+
+/* Journey */
+.journey {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding-left: 32px;
+}
+
+.journey-spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  width: 1px;
+  background: var(--color-line);
+}
+
+.journey-spine-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  transform-origin: top center;
+}
+
+.journey-item {
+  position: relative;
+}
+
+.journey-dot {
+  position: absolute;
+  top: 6px;
+  left: -32px;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--color-accent);
+  border-radius: 9999px;
+  background: var(--color-bg);
+}
+
+.journey-card {
+  max-width: 34rem;
+}
+
+.journey-details summary {
+  list-style: none;
+}
+
+.journey-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.journey-details summary::before {
+  content: "+ ";
+}
+
+.journey-details[open] summary::before {
+  content: "− ";
+}
+
+.journey-year {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .journey {
+    padding-left: 0;
+  }
+
+  .journey-spine {
+    left: 50%;
+  }
+
+  .journey-item.is-work {
+    padding-right: calc(50% + 48px);
+    text-align: right;
+  }
+
+  .journey-item.is-work .journey-card {
+    margin-left: auto;
+  }
+
+  .journey-item.is-school {
+    padding-left: calc(50% + 48px);
+  }
+
+  .journey-dot {
+    left: calc(50% - 4px);
+  }
+
+  .journey-year {
+    display: block;
+    position: sticky;
+    top: 30svh;
+    height: 0;
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-fg-faint);
+    pointer-events: none;
+  }
+}
+
+/* The Archive */
+.archive-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+/* Mobile: swipeable deck */
+.archive-camera {
+  display: flex;
+  gap: var(--gutter);
+  overflow-x: auto;
+  padding-inline: var(--page-margin);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.archive-card {
+  flex: 0 0 75vw;
+  scroll-snap-align: center;
+}
+
+.archive-hud {
+  display: none;
+}
+
+/* Tablet and up (static): grid */
+@media (min-width: 48rem) {
+  .archive-camera {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: visible;
+  }
+}
+
+/* Desktop cinematic: 3D flight */
+.archive[data-mode="3d"] {
+  padding-block: 0;
+}
+
+.archive[data-mode="3d"] .archive-inner {
+  position: relative;
+  height: 100svh;
+  padding-top: 96px;
+  overflow: hidden;
+}
+
+/* Cards sit behind the z=0 plane, so the stage/camera must not catch pointers */
+.archive[data-mode="3d"] .archive-stage {
+  position: relative;
+  flex: 1;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.archive[data-mode="3d"] .archive-camera {
+  position: absolute;
+  inset: 0;
+  display: block;
+  padding: 0;
+  overflow: visible;
+  transform-style: preserve-3d;
+}
+
+.archive[data-mode="3d"] .archive-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(26vw, 380px);
+  pointer-events: auto;
+  will-change: transform, opacity, filter;
+}
+
+.archive[data-mode="3d"] .archive-card:hover {
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+.archive[data-mode="3d"] .archive-hud {
+  position: absolute;
+  right: var(--page-margin);
+  bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: right;
+}
+
+.archive-dialog {
+  position: fixed;
+  width: min(92vw, 880px);
+  max-height: 92svh;
+  margin: auto;
+  padding: 48px 32px 32px;
+  overflow: auto;
+  border: 1px solid var(--color-line);
+  border-radius: 4px;
+  background: var(--color-bg-elev);
+  color: var(--color-fg);
+}
+
+.archive-dialog:focus-visible {
+  outline: none;
+}
+
+.archive-dialog::backdrop {
+  background: rgb(10 10 11 / 0.8);
+  backdrop-filter: blur(8px);
+}
+
+/* Field Notes */
+.field-notes[data-mode="globe"] {
+  padding-block: 0;
+}
+
+.field-notes[data-mode="globe"] .field-inner {
+  height: 100svh;
+  padding-top: 96px;
+  padding-bottom: 48px;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.field-notes[data-mode="globe"] .field-list {
+  display: none;
+}
+
+.field-globe {
+  position: relative;
+  min-height: 0;
+}
+
+.globe-canvas {
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-ui);
+}
+
+.globe-canvas[data-ready] {
+  opacity: 1;
+}
+
+.field-lens {
+  position: relative;
+  flex-shrink: 0;
+  width: min(22vw, 40svh);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: var(--color-bg-elev);
+  box-shadow: 0 0 0 1px var(--color-line);
+}
+
+/* Resume moment */
+.resume-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: clamp(24px, 3vw, 32px);
+  border: 1px solid var(--color-line);
+  border-radius: 4px;
+  background: var(--color-bg-elev);
+}
+
+.resume-block + .resume-block {
+  padding-top: 16px;
+  border-top: 1px solid var(--color-line);
+}
+
+.btn-pill {
+  display: inline-block;
+  padding: 16px 32px;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  letter-spacing: var(--text-meta--letter-spacing);
+  text-transform: uppercase;
+}
+
+/* Footer marquee */
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: inline-flex;
+  animation: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Scene counter (desktop only) */
+.scene-counter {
+  position: fixed;
+  bottom: 24px;
+  left: var(--page-margin);
+  z-index: var(--z-nav);
+  display: none;
+  mix-blend-mode: difference;
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-ui);
+}
+
+.scene-counter[data-visible] {
+  opacity: 1;
+}
+
+@media (min-width: 64rem) {
+  .scene-counter {
+    display: block;
+  }
+}

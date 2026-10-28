@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { site } from "@/content";
 import { Cursor } from "@/components/system/Cursor";
+import { Footer } from "@/components/system/Footer";
 import { Grain } from "@/components/system/Grain";
 import { Nav } from "@/components/system/Nav";
 import { Preloader } from "@/components/system/Preloader";
@@ -39,7 +40,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SmoothScroll />
         <Preloader />
         <Nav />
-        <main id="main">{children}</main>
+        <main id="main" tabIndex={-1} className="outline-none">
+          {children}
+        </main>
+        <Footer />
         <Grain />
         <Cursor />
       </body>

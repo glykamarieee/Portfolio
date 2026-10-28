@@ -25,6 +25,15 @@ export const smoothScroll = {
   lerp: 0.1,
 } as const;
 
+// Media queries for gsap.matchMedia(). Pinned/3D scenes run only under `cinematic`;
+// everything else gets the static layout the markup renders by default.
+export const mq = {
+  motion: "(prefers-reduced-motion: no-preference)",
+  desktop: "(min-width: 1024px)",
+  finePointer: "(hover: hover) and (pointer: fine)",
+  cinematic: "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+} as const;
+
 // Micro-interaction constants (DESIGN.md §6–7)
 export const interaction = {
   magnetStrength: 0.35,

@@ -10,4 +10,11 @@ export const education: Education[] = [
     honors: ["Dean's Lister"],
     highlights: ["Placeholder highlight."],
   },
+  {
+    school: "Senior High School Name",
+    program: "STEM Strand",
+    start: 2020,
+    end: 2022,
+    honors: ["With Honors"],
+  },
 ];

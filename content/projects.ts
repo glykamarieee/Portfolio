@@ -1,6 +1,8 @@
 import type { Project } from "./types";
 
 // TODO: 4–6 projects. Media goes in /public/media/projects/<slug>/.
+const PLACEHOLDER = "/media/placeholder.svg";
+
 export const projects: Project[] = [
   {
     slug: "project-one",
@@ -11,7 +13,7 @@ export const projects: Project[] = [
     problem: "One line on the problem this solved.",
     outcome: "One line on the result.",
     url: "https://example.com",
-    cover: { src: "/media/projects/project-one/cover.jpg", alt: "Project One cover" },
+    cover: { src: PLACEHOLDER, alt: "Project One cover" },
     featured: true,
   },
   {
@@ -19,10 +21,10 @@ export const projects: Project[] = [
     title: "Project Two",
     year: 2025,
     role: "Frontend Development",
-    stack: ["React", "TypeScript", "Tailwind"],
+    stack: ["React", "TypeScript", "Tailwind CSS"],
     problem: "One line on the problem this solved.",
     outcome: "One line on the result.",
-    cover: { src: "/media/projects/project-two/cover.jpg", alt: "Project Two cover" },
+    cover: { src: PLACEHOLDER, alt: "Project Two cover" },
     featured: true,
   },
   {
@@ -30,10 +32,21 @@ export const projects: Project[] = [
     title: "Project Three",
     year: 2025,
     role: "UI Design",
-    stack: ["Figma", "Framer"],
+    stack: ["Figma", "UI/UX"],
     problem: "One line on the problem this solved.",
     outcome: "One line on the result.",
-    cover: { src: "/media/projects/project-three/cover.jpg", alt: "Project Three cover" },
+    cover: { src: PLACEHOLDER, alt: "Project Three cover" },
+    featured: true,
+  },
+  {
+    slug: "project-four",
+    title: "Project Four",
+    year: 2024,
+    role: "Motion & Development",
+    stack: ["React", "GSAP"],
+    problem: "One line on the problem this solved.",
+    outcome: "One line on the result.",
+    cover: { src: PLACEHOLDER, alt: "Project Four cover" },
     featured: true,
   },
 ];

@@ -4,6 +4,7 @@
 @import "../styles/lens.css";
 @import "../styles/interactions.css";
 @import "../styles/transitions.css";
+@import "../styles/scenes.css";
 
 @theme inline {
   --font-display: var(--font-display-face);
@@ -18,6 +19,8 @@
   }
 
   body {
+    /* clip (not hidden) so position: sticky keeps working */
+    overflow-x: clip;
     background: var(--color-bg);
     color: var(--color-fg);
     font-family: var(--font-sans);

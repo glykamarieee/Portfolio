@@ -37,7 +37,8 @@ export type Site = {
 export type About = {
   shortBio: string;
   longBio: string[];
-  manifesto: string; // home scene 2: 2–3 sentences
+  manifesto: string; // home scene 2: 2–3 sentences. Wrap key phrases in *stars*.
+  manifestoMedia: Media[]; // one small image per *key phrase*, in order
   portrait: Media;
   portraitAlt: Media; // revealed by the lens ("travel me")
   values: { title: string; body: string }[];
@@ -103,6 +104,7 @@ export type Adventure = {
   date: string; // ISO "YYYY-MM"
   coordinates: { lat: number; lng: number };
   story: string; // one line
+  cover: Media; // still shown in lists and as the video poster fallback
   video?: Video;
   photos?: Media[];
 };

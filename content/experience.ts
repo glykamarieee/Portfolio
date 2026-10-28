@@ -10,4 +10,12 @@ export const experience: Experience[] = [
     location: "Remote",
     achievements: ["Placeholder achievement.", "Placeholder achievement."],
   },
+  {
+    organization: "Studio Name",
+    role: "Freelance Web Designer",
+    start: "2023-03",
+    end: "present",
+    location: "Manila",
+    achievements: ["Placeholder achievement.", "Placeholder achievement."],
+  },
 ];

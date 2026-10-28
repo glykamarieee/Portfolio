@@ -8,11 +8,18 @@ type MagneticProps = {
   children: ReactNode;
   className?: string;
   strength?: number;
+  /** Lens state while hovered (default "magnetic"). */
+  cursor?: string;
 };
 
 // Pulls its content toward the pointer and springs back on leave.
 // An optional child marked [data-magnetic-inner] moves further, for a parallax label.
-export function Magnetic({ children, className, strength = interaction.magnetStrength }: MagneticProps) {
+export function Magnetic({
+  children,
+  className,
+  strength = interaction.magnetStrength,
+  cursor = "magnetic",
+}: MagneticProps) {
   const ref = useRef<HTMLSpanElement>(null);
 
   useGSAP(
@@ -46,7 +53,7 @@ export function Magnetic({ children, className, strength = interaction.magnetStr
   );
 
   return (
-    <span ref={ref} className={cn("inline-block", className)} data-cursor="magnetic">
+    <span ref={ref} className={cn("inline-block", className)} data-cursor={cursor}>
       {children}
     </span>
   );

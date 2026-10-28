@@ -151,6 +151,17 @@ html.has-lens * {
   transform: scale(0.33, 5);
 }
 
+/* Contact: the lens swells into a screen-filling inversion */
+.lens[data-state="invert"] {
+  --ring: 40;
+  --dot: 0;
+}
+
+.lens[data-state="invert"] .lens-ring-shape {
+  background: #fff;
+  transition-duration: var(--dur-slow);
+}
+
 .lens[data-state="hide"] {
   --ring: 0;
   --dot: 0;
