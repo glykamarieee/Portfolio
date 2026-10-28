@@ -41,7 +41,7 @@ Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind CSS v4 · G
 3. **Single RAF loop:** Lenis is driven by `gsap.ticker`. Don't create other RAF loops, except R3F's own, which must pause offscreen.
 4. **Motion tokens only:** import eases and durations from `lib/motion`. Don't use inline magic numbers.
 5. **Design tokens only:** colors, spacing, type, and z-index come from `styles/tokens.css` / Tailwind theme.
-6. **Cursor:** opt in with `data-cursor="link|view|play|drag|text|magnetic|hide"`. Don't build one-off cursor logic.
+6. **Cursor:** opt in with `data-cursor="link|view|play|drag|text|magnetic|invert|hide"`. Don't build one-off cursor logic.
 7. **Reduced motion:** every scene needs a `prefers-reduced-motion` path (no pin, no parallax, no smooth scroll).
 8. **Performance:** animate only transform/opacity/clip-path/filter. Dynamic-import WebGL, matter.js, and heavy scenes. Use `next/image` for images. Videos are `muted playsinline preload="none"` with a poster.
 9. **Accessibility:** semantic HTML, a visible focus state, keyboard-operable overlays, alt text, and content must not be hidden behind animation.
@@ -49,6 +49,7 @@ Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind CSS v4 · G
 11. **Pages & links:** wrap every `page.tsx` body in `<PageTransition>`; use `<TransitionLink>` (not bare `next/link`) for internal links so navigations get the lens wipe.
 12. **Late GSAP tweens:** tweens created after the `useGSAP` callback returns (in promises, timers, event handlers) must be wrapped in `contextSafe` so cleanup kills them. Only pass `scope` to `useGSAP` when using selector strings.
 13. **Intro animations:** start them with `onReady()` from `lib/motion` (fired when the preloader opens), not on mount.
+14. **Themes:** light (default) and dark. Only use color tokens — never hard-code colors — so both themes work. Accent-colored text uses `text-accent-fg`, not `text-accent`. Check every change in both themes.
 
 ## Definition of done (per scene)
 Passes the checklist in DESIGN.md §13, `npm run build` succeeds, and it has been checked at 375 / 768 / 1440 / 1920.

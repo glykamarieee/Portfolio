@@ -22,25 +22,33 @@ Code tokens live in `styles/tokens.css` and `lib/motion/`. Keep them in sync wit
 
 ## 2. Color
 
-| Token | Value | Use |
-|---|---|---|
-| `--color-bg` | `#0A0A0B` | page background |
-| `--color-bg-elev` | `#111114` | cards, panels |
-| `--color-line` | `rgba(255,255,255,0.08)` | grid lines, dividers |
-| `--color-fg` | `#EDEDED` | primary text |
-| `--color-fg-muted` | `#8A8A8F` | secondary text, meta labels |
-| `--color-fg-faint` | `#4A4A50` | disabled, unrevealed manifesto words |
-| `--color-accent` | `#C6FF3D` *(placeholder: lime)* | CTAs, active states, lens highlights |
-| `--color-accent-ink` | `#0A0A0B` | text on accent |
-| `--bloom-1` | `#5B3DF5` @ 25% | atmospheric gradient light |
-| `--bloom-2` | `#1FB6FF` @ 15% | atmospheric gradient light |
+Two themes. **Light is the default**; dark is one click away (nav toggle) and
+remembered per visitor. Both are the same custom properties: light in `@theme`,
+dark overriding them under `:root[data-theme="dark"]` (`styles/tokens.css`).
+
+| Token | Light | Dark | Use |
+|---|---|---|---|
+| `--color-bg` | `#FFFFFF` | `#0A0A0B` | page background |
+| `--color-bg-elev` | `#F4F4F2` | `#111114` | cards, panels |
+| `--color-line` | `rgba(10,10,11,0.1)` | `rgba(255,255,255,0.08)` | grid lines, dividers |
+| `--color-fg` | `#0A0A0B` | `#EDEDED` | primary text |
+| `--color-fg-muted` | `#5F5F66` | `#8A8A8F` | secondary text, meta labels |
+| `--color-fg-faint` | `#C2C2C8` | `#4A4A50` | disabled, unrevealed manifesto words |
+| `--color-accent` | `#C6FF3D` | `#C6FF3D` | fills: CTAs, chips, selection *(placeholder: lime)* |
+| `--color-accent-fg` | `#3F7A00` | `#C6FF3D` | accent **text and thin lines** (readable on bg) |
+| `--color-accent-ink` | `#0A0A0B` | `#0A0A0B` | text on an accent fill |
+| `--color-bloom-1` | `#D9D0FF` | `#5B3DF5` @ 25% | atmospheric light (CSS + hero shader) |
+| `--color-bloom-2` | `#C8EEFF` | `#1FB6FF` @ 15% | atmospheric light |
 
 **Accent options** (pick one, then update the token): electric lime `#C6FF3D`, ultraviolet `#7B5CFF`, signal orange `#FF5B1F`.
 
 Rules:
 - Accent covers ≤ 5% of any screen.
-- Text contrast must meet WCAG AA at minimum. `--color-fg-muted` on `--color-bg` passes for body text.
-- A light theme is optional and only available as an easter egg. Dark is the default.
+- Never use `--color-accent` for text — lime on white fails contrast. Use `text-accent-fg`.
+- Text contrast must meet WCAG AA in **both** themes.
+- Elements with `mix-blend-mode: difference` (nav, cursor, scene counter) draw in white; the blend makes them read correctly on either theme.
+- WebGL scenes read colors from the tokens and remount when the theme changes.
+- Switching theme opens the new one as a lens from the toggle (view transition, type `theme`).
 
 ---
 

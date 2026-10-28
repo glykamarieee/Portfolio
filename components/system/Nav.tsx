@@ -2,6 +2,7 @@ import { site } from "@/content";
 import { RollText } from "@/components/ui/RollText";
 import { LocalTime } from "./LocalTime";
 import { ScrollProgress } from "./ScrollProgress";
+import { ThemeToggle } from "./ThemeToggle";
 import { TransitionLink } from "./TransitionLink";
 
 // Fixed top bar. Anchored during page transitions (view-transition-name)
@@ -23,7 +24,7 @@ export function Nav() {
           </span>
         </p>
 
-        <nav aria-label="Primary" className="col-span-6 md:col-span-5">
+        <nav aria-label="Primary" className="col-span-6 flex items-center justify-end gap-4 md:col-span-5 md:gap-6">
           <ul className="flex justify-end gap-4 md:gap-6">
             {/* Work + Resume hide on mobile until the Phase 4 mobile menu lands */}
             {site.nav.map((item, i) => (
@@ -34,6 +35,7 @@ export function Nav() {
               </li>
             ))}
           </ul>
+          <ThemeToggle />
         </nav>
       </header>
       <ScrollProgress />

@@ -75,9 +75,9 @@ export const heroFragment = /* glsl */ `
     vec3 col = uBg;
     col = mix(col, uBloomA, smoothstep(-0.25, 0.8, n) * 0.6);
     col = mix(col, uBloomB, smoothstep(0.05, 0.9, n2) * 0.35);
-    col += uAccent * lens * (0.06 + 0.06 * n);
+    col = mix(col, uAccent, lens * (0.1 + 0.1 * n));
 
-    // Keep the lower third dark so the hero type stays readable
+    // Fade the lower third into the background so the hero type stays readable
     col = mix(col, uBg, smoothstep(0.6, 0.0, vUv.y) * 0.75);
 
     gl_FragColor = vec4(col, 1.0);

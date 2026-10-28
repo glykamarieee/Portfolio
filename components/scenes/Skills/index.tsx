@@ -112,7 +112,7 @@ export function Skills() {
               key={project.slug}
               className={cn(
                 "font-display text-lead font-semibold transition-colors duration-(--dur-fast)",
-                active === null ? "text-fg-muted" : related.has(project.slug) ? "text-accent" : "text-fg-faint",
+                active === null ? "text-fg-muted" : related.has(project.slug) ? "text-accent-fg" : "text-fg-faint",
               )}
             >
               {project.title}

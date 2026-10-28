@@ -103,7 +103,7 @@ export function Journey() {
               <span className="journey-dot" aria-hidden="true" />
               <article data-card className="journey-card">
                 <p className="meta">
-                  <span className="text-accent">{m.lane === "work" ? "Work" : "School"}</span> · {m.dates}
+                  <span className="text-accent-fg">{m.lane === "work" ? "Work" : "School"}</span> · {m.dates}
                 </p>
                 <h3 className="font-display text-h2 mt-3 font-semibold">{m.title}</h3>
                 <p className="mt-2 text-fg-muted">{m.place}</p>

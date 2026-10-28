@@ -186,7 +186,7 @@
 .journey-spine-fill {
   position: absolute;
   inset: 0;
-  background: var(--color-accent);
+  background: var(--color-accent-fg);
   transform-origin: top center;
 }
 
@@ -200,7 +200,7 @@
   left: -32px;
   width: 9px;
   height: 9px;
-  border: 1px solid var(--color-accent);
+  border: 1px solid var(--color-accent-fg);
   border-radius: 9999px;
   background: var(--color-bg);
 }
@@ -376,7 +376,7 @@
 }
 
 .archive-dialog::backdrop {
-  background: rgb(10 10 11 / 0.8);
+  background: color-mix(in srgb, var(--color-bg) 80%, transparent);
   backdrop-filter: blur(8px);
 }
 

@@ -31,6 +31,15 @@
   animation: none;
 }
 
+/* Theme switch (lib/theme.ts): the new theme opens as a lens from the toggle */
+:root:active-view-transition-type(theme)::view-transition-new(root) {
+  animation: lens-open var(--dur-slow) var(--ease-reveal) both;
+}
+
+:root:active-view-transition-type(theme)::view-transition-old(root) {
+  animation: none;
+}
+
 ::view-transition-group(.lens-in) {
   z-index: 2;
 }

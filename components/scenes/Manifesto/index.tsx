@@ -53,7 +53,7 @@ export function Manifesto() {
             )}
             {segment.text.split(/(\s+)/).map((word, w) =>
               word.trim() ? (
-                <span key={w} data-word className={segment.em ? "text-accent" : undefined}>
+                <span key={w} data-word className={segment.em ? "text-accent-fg" : undefined}>
                   {word}
                 </span>
               ) : (

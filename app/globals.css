@@ -38,7 +38,7 @@
 
   /* Focus ring styled as the lens (DESIGN.md §12) */
   :focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-accent-fg);
     outline-offset: 4px;
     border-radius: 9999px;
   }

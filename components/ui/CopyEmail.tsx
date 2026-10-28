@@ -38,7 +38,7 @@ export function CopyEmail({ email, className }: CopyEmailProps) {
     >
       <span className="copy-email-track">
         <span className="copy-email-label">{email}</span>
-        <span className="copy-email-label text-accent" aria-hidden="true">
+        <span className="copy-email-label text-accent-fg" aria-hidden="true">
           Copied ✓
         </span>
       </span>

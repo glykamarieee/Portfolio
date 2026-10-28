@@ -186,7 +186,7 @@ export function Archive() {
                   href={selected.credentialUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="meta link-underline text-accent"
+                  className="meta link-underline text-accent-fg"
                   data-cursor="link"
                 >
                   Verify credential ↗

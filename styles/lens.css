@@ -186,7 +186,7 @@ html.has-lens * {
 .lens-text-reveal {
   position: absolute;
   inset: 0;
-  color: var(--color-accent);
+  color: var(--color-accent-fg);
   background: var(--color-bg);
   pointer-events: none;
   white-space: nowrap;

@@ -9,12 +9,33 @@
   view-transition-name: site-nav;
 }
 
+/*
+ * Blend-difference overlays (nav, scene counter) must draw in white: white
+ * "differenced" over a light page reads black, over a dark page reads white.
+ */
+:is(.site-nav, .scene-counter) {
+  color: #fff;
+}
+
+:is(.site-nav, .scene-counter) .meta {
+  color: rgb(255 255 255 / 0.6);
+}
+
+:is(.site-nav, .scene-counter) :is(a, .text-fg) {
+  color: #fff;
+}
+
+/* Pre-inverted so the dot lands on --color-accent-fg after the difference blend */
+:root:not([data-theme="dark"]) .site-nav .status-dot {
+  background: #c085ff;
+}
+
 .scroll-progress {
   position: fixed;
   inset: 0 0 auto;
   z-index: var(--z-nav);
   height: 2px;
-  background: var(--color-accent);
+  background: var(--color-accent-fg);
   transform-origin: left center;
   transform: scaleX(0);
   view-transition-name: scroll-progress;
@@ -25,7 +46,7 @@
   width: 6px;
   height: 6px;
   border-radius: 9999px;
-  background: var(--color-accent);
+  background: var(--color-accent-fg);
 }
 
 .status-dot::after {
@@ -42,6 +63,36 @@
     transform: scale(3);
     opacity: 0;
   }
+}
+
+/* Theme toggle: a half-filled lens that turns over */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.theme-toggle-icon {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  overflow: hidden;
+  border: 1px solid currentColor;
+  border-radius: 9999px;
+  transition: transform var(--dur-base) var(--ease-reveal);
+}
+
+.theme-toggle-icon::after {
+  content: "";
+  position: absolute;
+  inset: 0 50% 0 0;
+  background: currentColor;
+}
+
+.theme-toggle-icon[data-theme-icon="dark"] {
+  transform: rotate(180deg);
 }
 
 /* RollText: letter-stagger roll on hover/focus */

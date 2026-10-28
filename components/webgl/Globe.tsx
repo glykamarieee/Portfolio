@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, type RefObject } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Line } from "@react-three/drei";
 import { BufferGeometry, Color, Float32BufferAttribute, type Group, type Mesh, QuadraticBezierCurve3, Vector3 } from "three";
-import { useInView } from "@/lib/hooks";
+import { useInView, useTheme } from "@/lib/hooks";
 import { tokenColor } from "@/lib/color";
 
 type GlobeProps = {
@@ -27,6 +27,7 @@ function toVector({ lat, lng }: { lat: number; lng: number }, radius = 1) {
 export default function Globe({ points, progress }: GlobeProps) {
   const wrap = useRef<HTMLDivElement>(null);
   const active = useInView(wrap);
+  const theme = useTheme();
 
   return (
     <div ref={wrap} className="globe-canvas absolute inset-0">
@@ -37,17 +38,18 @@ export default function Globe({ points, progress }: GlobeProps) {
         gl={{ antialias: true, alpha: true }}
         onCreated={() => wrap.current?.setAttribute("data-ready", "")}
       >
-        <GlobeScene points={points} progress={progress} />
+        {/* Remount on theme change so colors are re-read from the tokens */}
+        <GlobeScene key={theme} points={points} progress={progress} dotOpacity={theme === "light" ? 0.9 : 0.55} />
       </Canvas>
     </div>
   );
 }
 
-function GlobeScene({ points, progress }: GlobeProps) {
+function GlobeScene({ points, progress, dotOpacity }: GlobeProps & { dotOpacity: number }) {
   const tilt = useRef<Group>(null);
   const spin = useRef<Group>(null);
   const pins = useRef<(Mesh | null)[]>([]);
-  const accent = useMemo(() => new Color(...tokenColor("--color-accent", [0.78, 1, 0.24])), []);
+  const accent = useMemo(() => new Color(...tokenColor("--color-accent-fg", [0.78, 1, 0.24])), []);
   const muted = useMemo(() => new Color(...tokenColor("--color-fg-muted", [0.54, 0.54, 0.56])), []);
 
   const dots = useMemo(() => {
@@ -111,7 +113,7 @@ function GlobeScene({ points, progress }: GlobeProps) {
     <group ref={tilt}>
       <group ref={spin}>
         <points geometry={dots}>
-          <pointsMaterial color={muted} size={0.012} sizeAttenuation transparent opacity={0.55} depthWrite={false} />
+          <pointsMaterial color={muted} size={0.012} sizeAttenuation transparent opacity={dotOpacity} depthWrite={false} />
         </points>
         {pinPositions.map((position, k) => (
           <mesh key={k} position={position} ref={(el) => void (pins.current[k] = el)}>

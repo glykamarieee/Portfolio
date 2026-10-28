@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { type ShaderMaterial, Vector2, Vector3 } from "three";
-import { useInView } from "@/lib/hooks";
+import { useInView, useTheme } from "@/lib/hooks";
 import { getLenis } from "@/lib/motion";
 import { tokenColor } from "@/lib/color";
 import { heroFragment, heroVertex } from "./shaders/heroField";
@@ -13,6 +13,7 @@ import { heroFragment, heroVertex } from "./shaders/heroField";
 export default function HeroField() {
   const wrap = useRef<HTMLDivElement>(null);
   const active = useInView(wrap, "0px");
+  const theme = useTheme();
 
   return (
     <div ref={wrap} className="hero-canvas absolute inset-0">
@@ -22,7 +23,8 @@ export default function HeroField() {
         gl={{ antialias: false, alpha: false, powerPreference: "high-performance" }}
         onCreated={() => wrap.current?.setAttribute("data-ready", "")}
       >
-        <FieldPlane />
+        {/* Remount on theme change so the palette is re-read from the tokens */}
+        <FieldPlane key={theme} />
       </Canvas>
     </div>
   );

@@ -6,6 +6,7 @@ import { Grain } from "@/components/system/Grain";
 import { Nav } from "@/components/system/Nav";
 import { Preloader } from "@/components/system/Preloader";
 import { SmoothScroll } from "@/components/system/SmoothScroll";
+import { DEFAULT_THEME, themeInitScript } from "@/lib/theme";
 import { displayFont, monoFont, sansFont } from "./fonts";
 import "./globals.css";
 
@@ -19,16 +20,24 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0b",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0b" },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
+    // data-theme is replaced before paint by themeInitScript (saved choice)
     <html
       lang="en"
+      data-theme={DEFAULT_THEME}
+      suppressHydrationWarning
       className={`${displayFont.variable} ${sansFont.variable} ${monoFont.variable}`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body>
         <noscript>
           <style>{".preloader{display:none}"}</style>
