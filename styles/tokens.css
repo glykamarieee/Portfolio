@@ -71,6 +71,10 @@
 :root {
   color-scheme: light;
 
+  /* Over photos/video the palette is fixed in both themes (film letterbox, HUD text) */
+  --color-letterbox: #000000;
+  --color-on-media: #ffffff;
+
   /* Layout (DESIGN.md §4) */
   --page-margin: clamp(16px, 4vw, 64px);
   --gutter: clamp(16px, 2vw, 32px);

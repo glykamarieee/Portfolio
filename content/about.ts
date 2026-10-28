@@ -23,6 +23,7 @@ export const about: About = {
     { title: "Motion", body: "Animation should explain, not decorate." },
     { title: "Curiosity", body: "Always learning, always exploring." },
   ],
-  currentlyLearning: ["WebGL shaders", "Three.js"],
-  funFacts: ["Placeholder fun fact."],
+  currentlyLearning: ["WebGL shaders", "Three.js", "Motion design"],
+  funFacts: ["Placeholder fun fact.", "Another placeholder fun fact.", "One more placeholder fun fact."],
+  yearsCreating: 3,
 };

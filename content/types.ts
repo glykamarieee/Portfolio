@@ -13,6 +13,7 @@ export type Video = {
   srcWebm?: string;
   preview?: string; // 3–6s muted loop (≤ 1.5MB)
   poster: string;
+  captions?: string; // WebVTT file, e.g. "/media/adventures/trip-one/captions.vtt"
 };
 
 export type Link = {
@@ -44,6 +45,7 @@ export type About = {
   values: { title: string; body: string }[];
   currentlyLearning: string[];
   funFacts: string[];
+  yearsCreating: number; // "By the numbers" on /about
 };
 
 export type Project = {
@@ -59,6 +61,11 @@ export type Project = {
   cover: Media;
   preview?: Video;
   featured: boolean;
+  // Case study (/work/[slug]) — every section is optional
+  overview?: string;
+  challenge?: string;
+  process?: { title: string; body: string; media: Media }[];
+  metrics?: { label: string; value: number; suffix?: string }[];
 };
 
 export type Certificate = {

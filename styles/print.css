@@ -1,0 +1,52 @@
+/* Print (mainly /resume): plain black on white, no site chrome or motion. */
+@media print {
+  @page {
+    margin: 16mm;
+  }
+
+  :root,
+  :root[data-theme="dark"] {
+    --color-bg: #ffffff;
+    --color-bg-elev: #ffffff;
+    --color-fg: #000000;
+    --color-fg-muted: #444444;
+    --color-line: #cccccc;
+    --color-accent-fg: #000000;
+  }
+
+  .site-nav,
+  .scroll-progress,
+  .scene-counter,
+  .preloader,
+  .grain,
+  .lens,
+  .skip-link,
+  .print-hide,
+  footer {
+    display: none !important;
+  }
+
+  /* Undo scroll-reveal transforms so nothing prints half-hidden */
+  * {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .resume-page {
+    max-width: none;
+    padding: 0;
+    gap: 24px;
+  }
+
+  .resume-section,
+  .resume-entry {
+    break-inside: avoid;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

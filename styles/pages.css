@@ -1,0 +1,163 @@
+/* Sub-pages: /adventures reel + player, shared chips. */
+
+.chip {
+  padding: 8px 16px;
+  border: 1px solid var(--color-line);
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  letter-spacing: var(--text-meta--letter-spacing);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-fast) var(--ease-ui),
+    color var(--dur-fast) var(--ease-ui),
+    border-color var(--dur-fast) var(--ease-ui);
+}
+
+.chip:hover {
+  border-color: var(--color-fg-muted);
+}
+
+.chip.is-active {
+  border-color: var(--color-fg);
+  background: var(--color-fg);
+  color: var(--color-bg);
+}
+
+.chip-on-media {
+  border-color: rgb(255 255 255 / 0.4);
+  color: var(--color-on-media);
+  backdrop-filter: blur(8px);
+}
+
+/* Filters scroll away with the header so each clip gets the full screen */
+.reel-controls {
+  padding-block: 16px 32px;
+}
+
+/* Reel */
+.reel-item {
+  position: relative;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--color-letterbox);
+}
+
+/* Letterbox bars */
+.reel-item::before,
+.reel-item::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  z-index: 1;
+  height: 7svh;
+  background: var(--color-letterbox);
+  pointer-events: none;
+}
+
+.reel-item::before {
+  top: 0;
+}
+
+.reel-item::after {
+  bottom: 0;
+}
+
+/* Slow Ken Burns drift on stills */
+@media (prefers-reduced-motion: no-preference) {
+  .reel-still {
+    animation: ken-burns 24s var(--ease-scrub) infinite alternate;
+  }
+}
+
+@keyframes ken-burns {
+  from {
+    transform: scale(1.04) translate(0, 0);
+  }
+  to {
+    transform: scale(1.15) translate(-2%, -2%);
+  }
+}
+
+.reel-hud {
+  position: absolute;
+  inset: 7svh 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px var(--page-margin);
+  color: var(--color-on-media);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  letter-spacing: var(--text-meta--letter-spacing);
+  text-transform: uppercase;
+  text-shadow: 0 1px 16px rgb(0 0 0 / 0.5);
+  background: linear-gradient(to top, rgb(0 0 0 / 0.55), transparent 45%);
+}
+
+.reel-rec {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 4px;
+  border-radius: 9999px;
+  background: #ff3b30;
+  vertical-align: 0;
+  animation: status-pulse 1.6s var(--ease-ui) infinite;
+}
+
+/* Full-screen player */
+.player {
+  width: 100vw;
+  max-width: none;
+  height: 100svh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--color-letterbox);
+  color: var(--color-on-media);
+}
+
+.player:focus-visible {
+  outline: none;
+}
+
+.player::backdrop {
+  background: var(--color-letterbox);
+}
+
+.player-inner {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  height: 100%;
+}
+
+.player-media {
+  position: relative;
+  min-height: 0;
+}
+
+.player-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.player-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px var(--page-margin);
+  color: var(--color-on-media);
+}
+
+.player-close {
+  position: absolute;
+  top: 20px;
+  right: var(--page-margin);
+  color: var(--color-on-media);
+}
