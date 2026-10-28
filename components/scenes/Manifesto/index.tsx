@@ -4,7 +4,7 @@ import { Fragment, useRef } from "react";
 import { about } from "@/content";
 import { MediaImage } from "@/components/ui/MediaImage";
 import { SceneHeader } from "@/components/ui/SceneHeader";
-import { ease, gsap, mq, useGSAP } from "@/lib/motion";
+import { ease, gsap, interaction, mq, useGSAP } from "@/lib/motion";
 import { parseEmphasis } from "@/lib/format";
 import { sceneIndex } from "../registry";
 
@@ -31,7 +31,14 @@ export function Manifesto() {
         .timeline({
           scrollTrigger: { trigger: el, start: "top top", end: "+=150%", pin: true, scrub: true },
         })
-        .fromTo(words, { opacity: 0.12 }, { opacity: 1, stagger: 0.1, ease: ease.scrub })
+        .fromTo(
+          words,
+          {
+            opacity: (_: number, word: Element) =>
+              word.classList.contains("text-accent-fg") ? interaction.dimAccentText : interaction.dimLargeText,
+          },
+          { opacity: 1, stagger: 0.1, ease: ease.scrub },
+        )
         .fromTo(chips, { scale: 0 }, { scale: 1, stagger: 0.6, ease: ease.ui }, 0);
     });
   });

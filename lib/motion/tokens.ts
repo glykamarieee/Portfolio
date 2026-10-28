@@ -39,6 +39,11 @@ export const interaction = {
   magnetStrength: 0.35,
   tiltMax: 6, // degrees
   copiedResetMs: 1500,
-  preloaderMinSeconds: 1.2,
+  preloaderMinSeconds: 0.8,
+  // Opacity of not-yet-lit words in scroll reveals. Chosen so even the dim
+  // state passes WCAG AA in both themes: 3:1 for large text, 4.5:1 for body.
+  dimLargeText: 0.45,
+  dimBodyText: 0.62,
+  dimAccentText: 0.75, // accent green loses contrast faster than black when faded
   preloaderTimeoutMs: 6000,
 } as const;

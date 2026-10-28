@@ -22,7 +22,7 @@ export function AboutTeaser() {
             className="aspect-[4/5] overflow-hidden rounded-sm"
           />
         </Parallax>
-        <Parallax speed={0.25} className="pointer-events-none absolute -right-[10%] bottom-[8%]">
+        <Parallax speed={0.25} className="pointer-events-none absolute right-0 bottom-[8%] md:-right-[10%]">
           <span className="font-display text-display outline-type font-semibold" aria-hidden="true">
             Hello
           </span>

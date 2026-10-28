@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { ease, gsap, mq, useGSAP } from "@/lib/motion";
+import { ease, gsap, interaction, mq, useGSAP } from "@/lib/motion";
 
 type ScrubTextProps = {
   children: string;
@@ -17,9 +17,11 @@ export function ScrubText({ children, className }: ScrubTextProps) {
     const el = ref.current!;
     const mm = gsap.matchMedia();
     mm.add(mq.motion, () => {
+      // WCAG "large text" is ≥ 24px; smaller text needs a brighter dim state
+      const large = parseFloat(getComputedStyle(el).fontSize) >= 24;
       gsap.fromTo(
         el.querySelectorAll("[data-word]"),
-        { opacity: 0.15 },
+        { opacity: large ? interaction.dimLargeText : interaction.dimBodyText },
         {
           opacity: 1,
           stagger: 0.1,

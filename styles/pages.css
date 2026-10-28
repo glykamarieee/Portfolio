@@ -1,4 +1,38 @@
-/* Sub-pages: /adventures reel + player, shared chips. */
+/* Sub-pages: /adventures reel + player, shared chips, mobile menu. */
+
+.mobile-menu {
+  width: 100vw;
+  max-width: none;
+  height: 100svh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+.mobile-menu:focus-visible {
+  outline: none;
+}
+
+/* The menu lives inside .site-nav (forced white for its blend mode) but
+   renders in the top layer with no blend — restore normal theme colors. */
+.site-nav .mobile-menu :is(a, button, .text-fg) {
+  color: var(--color-fg);
+}
+
+.site-nav .mobile-menu .meta {
+  color: var(--color-fg-muted);
+}
+
+:root .site-nav .mobile-menu .status-dot {
+  background: var(--color-accent-fg);
+}
+
+.mobile-menu::backdrop {
+  background: transparent;
+}
 
 .chip {
   padding: 8px 16px;

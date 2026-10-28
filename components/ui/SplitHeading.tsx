@@ -15,8 +15,9 @@ type SplitHeadingProps = {
 
 const STAGGER = { chars: stagger.chars, words: stagger.words, lines: stagger.items };
 
-// Masked line/word/char reveal. SSR renders plain text (readable without JS);
-// SplitText keeps an aria-label so screen readers read the full string.
+// Masked line/word/char reveal. Screen readers get a plain sr-only copy; the
+// animated copy is aria-hidden (aria-label isn't allowed on every tag, e.g. <p>).
+// SSR renders plain text, so it's readable without JS.
 export function SplitHeading({
   children,
   as: Tag = "h2",
@@ -25,42 +26,43 @@ export function SplitHeading({
   trigger = "scroll",
   delay = 0,
 }: SplitHeadingProps) {
-  const ref = useRef<HTMLHeadingElement>(null);
+  const ref = useRef<HTMLSpanElement>(null);
 
-  useGSAP(
-    () => {
-      const el = ref.current!;
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        let tween: gsap.core.Tween | undefined;
+  useGSAP(() => {
+    const el = ref.current!;
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      let tween: gsap.core.Tween | undefined;
 
-        SplitText.create(el, {
-          type: by === "chars" ? "lines,words,chars" : by === "words" ? "lines,words" : "lines",
-          mask: "lines",
-          autoSplit: true,
-          onSplit(self) {
-            tween = gsap.from(self[by], {
-              yPercent: 110,
-              duration: dur.slow,
-              ease: ease.reveal,
-              stagger: STAGGER[by],
-              delay,
-              paused: trigger === "ready" && !isReady(),
-              scrollTrigger:
-                trigger === "scroll" ? { trigger: el, start: "top 85%", once: true } : undefined,
-            });
-            return tween;
-          },
-        });
-
-        if (trigger === "ready") return onReady(() => tween?.play());
+      SplitText.create(el, {
+        type: by === "chars" ? "lines,words,chars" : by === "words" ? "lines,words" : "lines",
+        mask: "lines",
+        aria: "none",
+        autoSplit: true,
+        onSplit(self) {
+          tween = gsap.from(self[by], {
+            yPercent: 110,
+            duration: dur.slow,
+            ease: ease.reveal,
+            stagger: STAGGER[by],
+            delay,
+            paused: trigger === "ready" && !isReady(),
+            scrollTrigger: trigger === "scroll" ? { trigger: el, start: "top 85%", once: true } : undefined,
+          });
+          return tween;
+        },
       });
-    },
-  );
+
+      if (trigger === "ready") return onReady(() => tween?.play());
+    });
+  });
 
   return (
-    <Tag ref={ref} className={className}>
-      {children}
+    <Tag className={className}>
+      <span className="sr-only">{children}</span>
+      <span ref={ref} className="block" aria-hidden="true">
+        {children}
+      </span>
     </Tag>
   );
 }

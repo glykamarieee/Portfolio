@@ -3,7 +3,8 @@
 import { useRef, useState } from "react";
 import { projects, skills, type SkillCategory } from "@/content";
 import { SceneHeader } from "@/components/ui/SceneHeader";
-import { dur, Draggable, ease, gsap, mq, stagger, useGSAP } from "@/lib/motion";
+import type { Draggable } from "gsap/Draggable";
+import { dur, ease, gsap, mq, stagger, useGSAP } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { sceneIndex } from "../registry";
 
@@ -62,8 +63,17 @@ export function Skills() {
         scrollTrigger: { trigger: el, start: "top 70%", once: true },
       });
 
-      const draggables = Draggable.create(nodes, { bounds: el, zIndexBoost: true });
+      // Draggable is only needed here, so it loads on demand (keeps it out of the initial bundle)
+      let draggables: Draggable[] = [];
+      let cancelled = false;
+      import("gsap/Draggable").then(({ Draggable }) => {
+        if (cancelled) return;
+        gsap.registerPlugin(Draggable);
+        draggables = Draggable.create(nodes, { bounds: el, zIndexBoost: true });
+      });
+
       return () => {
+        cancelled = true;
         draggables.forEach((d) => d.kill());
         delete el.dataset.mode;
       };

@@ -97,13 +97,13 @@ async function CaseStudy({ params }: Pick<PageProps<"/work/[slug]">, "params">) 
 
       {/* Overview + challenge */}
       <section className="container-grid gap-y-16 py-32">
-        <p className="meta col-span-12 md:col-span-3">(01) — Overview</p>
+        <h2 className="meta col-span-12 md:col-span-3">(01) — Overview</h2>
         <ScrubText className="font-display text-h2 col-span-12 font-semibold md:col-span-9">
           {project.overview ?? project.problem}
         </ScrubText>
         {project.challenge && (
           <>
-            <p className="meta col-span-12 md:col-span-3">(02) — Challenge</p>
+            <h2 className="meta col-span-12 md:col-span-3">(02) — Challenge</h2>
             <ScrubText className="text-lead col-span-12 md:col-span-8">{project.challenge}</ScrubText>
           </>
         )}
@@ -112,7 +112,7 @@ async function CaseStudy({ params }: Pick<PageProps<"/work/[slug]">, "params">) 
       {/* Process */}
       {project.process && project.process.length > 0 && (
         <section className="container-grid gap-y-10 pb-32">
-          <p className="meta col-span-12">(03) — Process</p>
+          <h2 className="meta col-span-12">(03) — Process</h2>
           <div className="col-span-12">
             <CaseProcess steps={project.process} />
           </div>
@@ -121,7 +121,7 @@ async function CaseStudy({ params }: Pick<PageProps<"/work/[slug]">, "params">) 
 
       {/* Outcome */}
       <section className="container-grid gap-y-12 border-t border-line py-32">
-        <p className="meta col-span-12 md:col-span-3">(04) — Outcome</p>
+        <h2 className="meta col-span-12 md:col-span-3">(04) — Outcome</h2>
         <Reveal className="col-span-12 md:col-span-9">
           <p className="font-display text-h2 font-semibold">{project.outcome}</p>
         </Reveal>

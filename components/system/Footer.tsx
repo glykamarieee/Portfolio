@@ -12,7 +12,7 @@ export function Footer() {
         <div className="marquee-track font-display text-display font-semibold">
           {/* Two identical halves so translating -50% loops seamlessly */}
           {[0, 1].map((half) => (
-            <span key={half} className="pr-[0.5em] text-fg-faint">
+            <span key={half} className="outline-type pr-[0.5em]">
               {MARQUEE.repeat(3)}
             </span>
           ))}

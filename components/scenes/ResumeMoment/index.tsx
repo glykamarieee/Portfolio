@@ -44,10 +44,29 @@ export function ResumeMoment() {
   const latestSchool = education[0];
 
   return (
-    <section ref={section} data-scene="Resume" className="container-grid min-h-svh content-center gap-y-6 overflow-x-clip py-16">
-      <SceneHeader index={sceneIndex("Resume")} title="Resume" className="col-span-12" />
+    <section
+      ref={section}
+      data-scene="Resume"
+      className="container-grid min-h-svh content-center items-center gap-y-10 overflow-x-clip py-24 lg:py-16"
+    >
+      {/* Two columns on desktop so the pinned scene fits short laptop screens */}
+      <div className="col-span-12 flex flex-col gap-6 lg:col-span-4">
+        <SceneHeader index={sceneIndex("Resume")} title="Resume" />
+        <h2 className="font-display text-display font-semibold">Resume</h2>
+        <p className="text-lead text-fg-muted">The whole story above, on one page.</p>
+        <div data-actions className="flex flex-wrap items-center gap-8">
+          <Magnetic>
+            <a href={site.resumePdf} download className="btn-pill" data-magnetic-inner>
+              Download PDF ↓
+            </a>
+          </Magnetic>
+          <TransitionLink href="/resume" className="meta text-fg" data-cursor="link">
+            <RollText text="View full resume →" />
+          </TransitionLink>
+        </div>
+      </div>
 
-      <div className="resume-sheet col-span-12 md:col-span-8 md:col-start-3 xl:col-span-6 xl:col-start-4">
+      <div className="resume-sheet col-span-12 md:col-span-10 md:col-start-2 lg:col-span-7 lg:col-start-6">
         <div data-block className="resume-block">
           <p className="font-display text-h2 font-semibold">{site.name}</p>
           <p className="meta mt-1">{site.role} · {site.location}</p>
@@ -78,17 +97,6 @@ export function ResumeMoment() {
             {certificates.length} credentials, latest from {certificates[0]?.issuer}
           </p>
         </div>
-      </div>
-
-      <div data-actions className="col-span-12 flex flex-wrap items-center justify-center gap-8">
-        <Magnetic>
-          <a href={site.resumePdf} download className="btn-pill" data-magnetic-inner>
-            Download PDF ↓
-          </a>
-        </Magnetic>
-        <TransitionLink href="/resume" className="meta text-fg" data-cursor="link">
-          <RollText text="View full resume →" />
-        </TransitionLink>
       </div>
     </section>
   );

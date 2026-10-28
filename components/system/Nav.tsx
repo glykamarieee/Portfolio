@@ -1,6 +1,7 @@
 import { site } from "@/content";
 import { RollText } from "@/components/ui/RollText";
 import { LocalTime } from "./LocalTime";
+import { MobileMenu } from "./MobileMenu";
 import { ScrollProgress } from "./ScrollProgress";
 import { ThemeToggle } from "./ThemeToggle";
 import { TransitionLink } from "./TransitionLink";
@@ -25,10 +26,9 @@ export function Nav() {
         </p>
 
         <nav aria-label="Primary" className="col-span-6 flex items-center justify-end gap-4 md:col-span-5 md:gap-6">
-          <ul className="flex justify-end gap-4 md:gap-6">
-            {/* Work + Resume hide on mobile until the Phase 4 mobile menu lands */}
-            {site.nav.map((item, i) => (
-              <li key={item.href} className={i === 0 || i === 3 ? "hidden md:block" : undefined}>
+          <ul className="hidden justify-end gap-6 md:flex">
+            {site.nav.map((item) => (
+              <li key={item.href}>
                 <TransitionLink href={item.href} className="meta text-fg" data-cursor="link">
                   <RollText text={item.label} />
                 </TransitionLink>
@@ -36,6 +36,7 @@ export function Nav() {
             ))}
           </ul>
           <ThemeToggle />
+          <MobileMenu />
         </nav>
       </header>
       <ScrollProgress />
