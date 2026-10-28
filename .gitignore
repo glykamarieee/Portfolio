@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# raw travel footage (compress before use)
+public/media/adventures/_raw/*
+!public/media/adventures/_raw/.gitkeep
