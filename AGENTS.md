@@ -46,6 +46,9 @@ Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind CSS v4 · G
 8. **Performance:** animate only transform/opacity/clip-path/filter. Dynamic-import WebGL, matter.js, and heavy scenes. Use `next/image` for images. Videos are `muted playsinline preload="none"` with a poster.
 9. **Accessibility:** semantic HTML, a visible focus state, keyboard-operable overlays, alt text, and content must not be hidden behind animation.
 10. **Content:** never hard-code personal data in components. Read it from `content/`.
+11. **Pages & links:** wrap every `page.tsx` body in `<PageTransition>`; use `<TransitionLink>` (not bare `next/link`) for internal links so navigations get the lens wipe.
+12. **Late GSAP tweens:** tweens created after the `useGSAP` callback returns (in promises, timers, event handlers) must be wrapped in `contextSafe` so cleanup kills them. Only pass `scope` to `useGSAP` when using selector strings.
+13. **Intro animations:** start them with `onReady()` from `lib/motion` (fired when the preloader opens), not on mount.
 
 ## Definition of done (per scene)
 Passes the checklist in DESIGN.md §13, `npm run build` succeeds, and it has been checked at 375 / 768 / 1440 / 1920.

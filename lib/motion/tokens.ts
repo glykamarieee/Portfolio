@@ -24,3 +24,12 @@ export const stagger = {
 export const smoothScroll = {
   lerp: 0.1,
 } as const;
+
+// Micro-interaction constants (DESIGN.md §6–7)
+export const interaction = {
+  magnetStrength: 0.35,
+  tiltMax: 6, // degrees
+  copiedResetMs: 1500,
+  preloaderMinSeconds: 1.2,
+  preloaderTimeoutMs: 6000,
+} as const;

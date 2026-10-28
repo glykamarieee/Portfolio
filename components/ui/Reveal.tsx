@@ -32,7 +32,6 @@ export function Reveal({ children, className, staggerChildren = false }: RevealP
         });
       });
     },
-    { scope: ref },
   );
 
   return (

@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
 @import "lenis/dist/lenis.css";
+@import "../styles/lens.css";
+@import "../styles/interactions.css";
+@import "../styles/transitions.css";
 
 @theme inline {
   --font-display: var(--font-display-face);

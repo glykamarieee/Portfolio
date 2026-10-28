@@ -15,5 +15,12 @@ export const site: Site = {
     { label: "LinkedIn", href: "https://www.linkedin.com/" },
     { label: "Instagram", href: "https://www.instagram.com/" },
   ],
+  nav: [
+    { label: "Work", href: "/#work" },
+    { label: "About", href: "/about" },
+    { label: "Adventures", href: "/adventures" },
+    { label: "Resume", href: "/resume" },
+    { label: "Contact", href: "/#contact" },
+  ],
   url: "https://example.com",
 };

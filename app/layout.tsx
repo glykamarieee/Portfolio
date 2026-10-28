@@ -1,5 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { site } from "@/content";
+import { Cursor } from "@/components/system/Cursor";
+import { Grain } from "@/components/system/Grain";
+import { Nav } from "@/components/system/Nav";
+import { Preloader } from "@/components/system/Preloader";
 import { SmoothScroll } from "@/components/system/SmoothScroll";
 import { displayFont, monoFont, sansFont } from "./fonts";
 import "./globals.css";
@@ -25,11 +29,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${displayFont.variable} ${sansFont.variable} ${monoFont.variable}`}
     >
       <body>
+        <noscript>
+          <style>{".preloader{display:none}"}</style>
+        </noscript>
         <a href="#main" className="skip-link">
           Skip to content
         </a>
+        {/* SmoothScroll must mount before Preloader, which pauses it */}
         <SmoothScroll />
+        <Preloader />
+        <Nav />
         <main id="main">{children}</main>
+        <Grain />
+        <Cursor />
       </body>
     </html>
   );

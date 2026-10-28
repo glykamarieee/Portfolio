@@ -30,6 +30,7 @@ export type Site = {
   email: string;
   resumePdf: string;
   socials: Link[];
+  nav: Link[];
   url: string; // production URL, for metadata/sitemap
 };
 

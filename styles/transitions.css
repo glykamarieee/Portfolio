@@ -1,0 +1,77 @@
+/*
+ * Lens page transition (DESIGN.md §6, PageTransition.tsx).
+ * The new page opens as a circle from --lens-x/--lens-y (set by
+ * TransitionLink on click) while the old page recedes underneath.
+ */
+
+::view-transition {
+  pointer-events: none;
+}
+
+/* The root snapshot swaps instantly; only the page content animates. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+/* Nav and progress bar stay anchored */
+::view-transition-group(site-nav),
+::view-transition-group(scroll-progress) {
+  animation: none;
+  z-index: 100;
+}
+
+::view-transition-old(site-nav),
+::view-transition-old(scroll-progress) {
+  display: none;
+}
+
+::view-transition-new(site-nav),
+::view-transition-new(scroll-progress) {
+  animation: none;
+}
+
+::view-transition-group(.lens-in) {
+  z-index: 2;
+}
+
+::view-transition-new(.lens-in) {
+  animation: lens-open var(--dur-slow) var(--ease-reveal) both;
+}
+
+::view-transition-old(.lens-out) {
+  animation: lens-recede var(--dur-slow) var(--ease-reveal) both;
+}
+
+@keyframes lens-open {
+  from {
+    clip-path: circle(0 at var(--lens-x, 50%) var(--lens-y, 50%));
+  }
+  to {
+    clip-path: circle(150vmax at var(--lens-x, 50%) var(--lens-y, 50%));
+  }
+}
+
+@keyframes lens-recede {
+  to {
+    opacity: 0.3;
+    scale: 0.96;
+    filter: blur(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-new(.lens-in) {
+    animation: lens-fade 0.2s linear both;
+  }
+
+  ::view-transition-old(.lens-out) {
+    animation: none;
+  }
+
+  @keyframes lens-fade {
+    from {
+      opacity: 0;
+    }
+  }
+}
