@@ -5,5 +5,6 @@ export { projects } from "./projects";
 export { certificates } from "./certificates";
 export { education } from "./education";
 export { experience } from "./experience";
-export { skills } from "./skills";
+export { skills, skillCategories } from "./skills";
 export { adventures } from "./adventures";
+export { heroCards } from "./hero";

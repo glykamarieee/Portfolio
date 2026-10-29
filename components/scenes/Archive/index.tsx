@@ -113,7 +113,7 @@ export function Archive() {
   const selected = open === null ? null : certificates[open];
 
   return (
-    <section ref={section} data-scene="The Archive" className="surface-invert archive py-24 relative isolate">
+    <section ref={section} id="archive" data-scene="The Archive" className="archive py-24 relative isolate">
       <Decor set="archive" />
       <div className="archive-inner">
         <header className="container-grid items-end gap-y-4">

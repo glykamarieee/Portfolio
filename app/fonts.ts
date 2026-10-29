@@ -1,14 +1,7 @@
-import { Archivo, Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 
-// Display: Archivo variable with the width axis, used heavy + condensed +
-// uppercase (see .font-display in app/globals.css) for the bold poster look.
-export const displayFont = Archivo({
-  variable: "--font-display-face",
-  subsets: ["latin"],
-  axes: ["wdth"],
-  display: "swap",
-});
-
+// Geist carries both body and display type (display = medium weight, tight
+// tracking, sentence case — see .font-display in app/globals.css).
 export const sansFont = Geist({
   variable: "--font-sans-face",
   subsets: ["latin"],

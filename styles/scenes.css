@@ -4,32 +4,159 @@
  * motion allowed to switch a scene into its pinned/3D layout.
  */
 
-/* Hero */
-.hero-blooms {
-  background:
-    radial-gradient(60% 50% at 25% 20%, var(--color-bloom-1), transparent 70%),
-    radial-gradient(50% 40% at 80% 30%, var(--color-bloom-2), transparent 70%),
-    var(--color-bg);
+/* Hero — centered copy ringed by tilted cover cards (content/hero.ts) */
+.hero-copy {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-content);
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 20px;
+  padding-inline: var(--page-margin);
+  text-align: center;
+  pointer-events: none;
 }
 
-.hero-canvas {
-  opacity: 0;
-  transition: opacity var(--dur-slow) var(--ease-ui);
+.hero-copy :is(a, button) {
+  pointer-events: auto;
 }
 
-.hero-canvas[data-ready] {
-  opacity: 1;
+.hero-title {
+  max-width: 9.5em;
 }
 
-.scroll-cue {
+/* Small image set inside the headline, sized to the type */
+.hero-pill {
   display: inline-block;
-  animation: scroll-cue 1.6s var(--ease-ui) infinite;
+  width: 0.62em;
+  height: 0.8em;
+  margin-inline: 0.02em;
+  vertical-align: -0.1em;
+  object-fit: cover;
+  border-radius: 0.09em;
+  rotate: 7deg;
+  box-shadow: 0 0.06em 0.16em rgb(0 0 0 / 0.18);
 }
 
-@keyframes scroll-cue {
-  50% {
-    transform: translateY(4px);
+.hero-card-slot {
+  position: absolute;
+  width: clamp(104px, min(15vw, 28svh), 260px);
+  container-type: inline-size;
+}
+
+@media (max-width: 47.99rem) {
+  .hero-card-slot {
+    width: min(34vw, 22svh);
   }
+}
+
+.hero-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  aspect-ratio: 4 / 5;
+  padding: 9%;
+  overflow: hidden;
+  border-radius: 4cqi;
+  background: var(--card-bg);
+  color: var(--card-fg);
+  box-shadow: var(--shadow-card);
+  rotate: var(--card-rotate);
+  transition:
+    rotate var(--dur-base) var(--ease-reveal),
+    translate var(--dur-base) var(--ease-reveal),
+    scale var(--dur-base) var(--ease-reveal),
+    box-shadow var(--dur-base) var(--ease-reveal);
+}
+
+.hero-card:hover,
+.hero-card:focus-visible {
+  rotate: calc(var(--card-rotate) * 0.4);
+  translate: 0 -10px;
+  scale: 1.04;
+  box-shadow: var(--shadow-card-hover);
+}
+
+.hero-card:focus-visible {
+  border-radius: 4cqi;
+}
+
+.hero-card-kicker,
+.hero-card-title {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-card-kicker {
+  font-family: var(--font-mono);
+  font-size: max(7px, 4.4cqi);
+  letter-spacing: var(--text-meta--letter-spacing);
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.hero-card-title {
+  font-size: 13cqi;
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.hero-card-art {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Cover art variants */
+.art-type .hero-card-title {
+  order: -1;
+  font-size: 30cqi;
+  font-weight: 800;
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+}
+
+.art-ring .hero-card-art {
+  top: 18%;
+  left: 19%;
+  width: 62%;
+  aspect-ratio: 1;
+  border: 2.8cqi solid currentColor;
+  border-radius: 50%;
+}
+
+.art-ring .hero-card-art::after {
+  content: "";
+  position: absolute;
+  inset: 42%;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.art-stripes .hero-card-art {
+  right: -20%;
+  bottom: -20%;
+  width: 95%;
+  aspect-ratio: 1;
+  background: repeating-radial-gradient(circle at 100% 100%, transparent 0 5%, currentColor 5% 7.5%);
+  opacity: 0.9;
+}
+
+.art-grid .hero-card-art {
+  inset: 26% 9% 26%;
+  background: radial-gradient(currentColor 1.1px, transparent 1.4px) 0 0 / 9px 9px;
+  opacity: 0.5;
+}
+
+.art-mark .hero-card-art {
+  inset: 14% 10% auto;
+  height: 50%;
+  border-right: 5.5cqi solid currentColor;
+  border-top: 5.5cqi solid currentColor;
+  border-top-right-radius: 40%;
+  rotate: -8deg;
 }
 
 /* Manifesto */
@@ -105,65 +232,116 @@
 }
 
 /* Skills */
-.skills-field {
+/* Skills dial. Static: a numbered list. [data-mode="dial"]: a pinned arc of
+   mono numbers that turns with scroll, details beside the active one. */
+.dial {
+  --num: clamp(1.75rem, 3.4vw, 3.25rem);
+  --num-gap: clamp(16px, 2.2vw, 36px);
+  --radius: clamp(220px, 34svh, 400px);
+  --edge: clamp(96px, 26vw, 400px); /* where the arc's rightmost point sits */
+  padding-inline: var(--page-margin);
+  padding-bottom: 128px;
+}
+
+.dial-wheel {
+  display: none;
+}
+
+.dial-panels {
   display: grid;
-  gap: 32px;
 }
 
-@media (min-width: 48rem) {
-  .skills-field {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.dial-panel {
+  display: grid;
+  grid-template-columns: calc(var(--num) * 1.6) minmax(0, 1fr);
+  gap: var(--gutter);
+  padding-block: 32px;
+  border-top: 1px solid var(--color-line);
 }
 
-.skills-label {
-  margin-bottom: 12px;
-}
-
-.skill-chip {
-  padding: 8px 16px;
-  border: 1px solid var(--color-line);
-  border-radius: 9999px;
-  background: var(--color-bg-elev);
+.dial-panel-num {
   font-family: var(--font-mono);
-  font-size: var(--text-meta);
-  letter-spacing: var(--text-meta--letter-spacing);
-  text-transform: uppercase;
-  white-space: nowrap;
-  transition:
-    background-color var(--dur-fast) var(--ease-ui),
-    color var(--dur-fast) var(--ease-ui),
-    border-color var(--dur-fast) var(--ease-ui);
+  font-size: var(--num);
+  font-weight: 700;
+  line-height: 1;
 }
 
-.skill-chip.is-active,
-.skill-chip:focus-visible {
-  border-color: var(--color-accent);
-  background: var(--color-accent);
-  color: var(--color-accent-ink);
+.skills[data-mode="dial"] {
+  display: flex;
+  flex-direction: column;
+  height: 100svh;
+  overflow: hidden;
 }
 
-.skills-field[data-mode="orbit"] {
+.skills[data-mode="dial"] .skills-head {
+  padding-bottom: 0;
+}
+
+.skills[data-mode="dial"] .dial {
   position: relative;
+  flex: 1;
+  padding: 0;
+}
+
+.skills[data-mode="dial"] .dial-wheel {
   display: block;
-  height: 70svh;
-  min-height: 480px;
-}
-
-.skills-field[data-mode="orbit"] :is(.skills-group, .skills-group > ul) {
-  display: contents;
-}
-
-.skills-field[data-mode="orbit"] :is(.skills-node, .skills-label) {
   position: absolute;
-  top: 0;
-  left: 0;
-  margin: 0;
+  top: 50%;
+  left: calc(var(--edge) - 2 * var(--radius));
+  width: calc(2 * var(--radius));
+  aspect-ratio: 1;
+  margin-top: calc(-1 * var(--radius));
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
 }
 
-.skills-field[data-mode="orbit"] .skills-label {
-  color: var(--color-fg-faint);
-  pointer-events: none;
+.dial-stop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: rotate(var(--angle)) translateX(var(--radius));
+}
+
+.dial-dot {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px;
+  border-radius: 50%;
+  background: var(--color-fg-faint);
+}
+
+.dial-num {
+  position: absolute;
+  left: var(--num-gap);
+  top: 0;
+  translate: 0 -50%;
+  transform-origin: left center;
+  font-family: var(--font-mono);
+  font-size: var(--num);
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.skills[data-mode="dial"] .dial-panels {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--edge) + var(--num-gap) + var(--num) * 2.3 + 24px);
+  right: var(--page-margin);
+  max-width: 34ch;
+  translate: 0 -50%;
+}
+
+.skills[data-mode="dial"] .dial-panel {
+  display: block;
+  grid-area: 1 / 1;
+  padding: 0;
+  border: 0;
+}
+
+.skills[data-mode="dial"] .dial-panel-num {
+  display: none;
 }
 
 /* Journey */
@@ -437,27 +615,25 @@
   border-top: 1px solid var(--color-line);
 }
 
-/* Gradient pill — primary CTA (Download, Send, Contact) */
+/* Black pill — primary CTA (View work, Download, Send) */
 .btn-pill {
   display: inline-block;
-  padding: 16px 32px;
+  padding: 10px 22px;
   border-radius: 9999px;
-  background: var(--gradient-accent);
-  color: #fff;
-  font-family: var(--font-mono);
-  font-size: var(--text-meta);
-  letter-spacing: var(--text-meta--letter-spacing);
-  text-transform: uppercase;
-  box-shadow: 0 10px 30px -10px rgb(106 56 240 / 0.6);
+  background: var(--color-fg);
+  color: var(--color-bg);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   transition:
-    filter var(--dur-fast) var(--ease-ui),
+    opacity var(--dur-fast) var(--ease-ui),
     box-shadow var(--dur-fast) var(--ease-ui);
 }
 
 .btn-pill:hover,
 .btn-pill:focus-visible {
-  filter: brightness(1.12) saturate(1.1);
-  box-shadow: 0 14px 40px -10px rgb(209 31 125 / 0.65);
+  opacity: 0.86;
+  box-shadow: 0 10px 24px -10px rgb(0 0 0 / 0.45);
 }
 
 /* Footer marquee */
@@ -497,4 +673,82 @@
   .scene-counter {
     display: block;
   }
+}
+
+/* Glass folder (components/ui/GlassFolder.tsx) — a fixed object, same in both themes */
+.glass-folder {
+  position: relative;
+  width: clamp(110px, 10vw, 160px);
+  aspect-ratio: 5 / 4;
+}
+
+.glass-folder > span {
+  position: absolute;
+}
+
+.glass-folder-shadow {
+  inset: auto 6% -6%;
+  height: 14%;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.28);
+  filter: blur(14px);
+}
+
+.glass-folder-back {
+  inset: 0 5% 6%;
+  border-radius: 9% / 11%;
+  background: linear-gradient(180deg, #3a3a3d, #161618);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14);
+}
+
+.glass-folder-page {
+  top: 5%;
+  width: 46%;
+  height: 62%;
+  border-radius: 8% / 6%;
+  background:
+    linear-gradient(#c9c9ce, #c9c9ce) 16% 14% / 66% 5% no-repeat,
+    linear-gradient(#dcdce0, #dcdce0) 16% 26% / 48% 4% no-repeat,
+    linear-gradient(180deg, #ffffff, #ececf0);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.25);
+  transition: translate var(--dur-base) var(--ease-reveal);
+}
+
+.glass-folder-page:nth-of-type(3) {
+  left: 13%;
+  rotate: -4deg;
+}
+
+.glass-folder-page:nth-of-type(4) {
+  left: 32%;
+  top: 9%;
+  rotate: 2deg;
+}
+
+.glass-folder-page:nth-of-type(5) {
+  left: 46%;
+  top: 13%;
+  rotate: 5deg;
+}
+
+.glass-folder:hover .glass-folder-page {
+  translate: 0 -14%;
+}
+
+.glass-folder:hover .glass-folder-page:nth-of-type(4) {
+  translate: 0 -22%;
+}
+
+/* Front panel: frosted glass with a raised tab on the left */
+.glass-folder-front {
+  inset: 22% -2% 0;
+  border-radius: 7% / 10%;
+  background:
+    radial-gradient(70% 60% at 50% 40%, rgb(255 255 255 / 0.22), transparent 70%),
+    linear-gradient(180deg, rgb(140 140 146 / 0.32), rgb(28 28 30 / 0.5));
+  backdrop-filter: blur(7px) saturate(1.1);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.35),
+    inset 0 0 0 1px rgb(255 255 255 / 0.12);
+  clip-path: polygon(0 0, 48% 0, 54% 12%, 100% 12%, 100% 100%, 0 100%);
 }

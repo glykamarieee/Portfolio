@@ -5,16 +5,17 @@ Code tokens live in `styles/tokens.css` and `lib/motion/`. Keep them in sync wit
 
 > **Concept:** the site is a film you scroll through. Every section is a *scene*,
 > scroll is the *timeline*, and the cursor is a *lens* that reveals hidden layers.
-> Mood: cinematic, dark, atmospheric, confident, restrained. Inspired by the feel
-> of horizonx.so and getlayers.ai. Never copy their layouts or assets.
+> Mood: calm, gallery-like, confident, restrained — white space, medium-weight
+> type, tactile objects (tilted cover cards, frosted glass) with soft shadows.
+> Motion inspired by the feel of horizonx.so and getlayers.ai. Never copy layouts or assets.
 
 ---
 
 ## 1. Principles
 1. **One hero moment per scene.** If two things compete, cut one.
 2. **Motion explains, never decorates.** Every animation reveals content, shows depth, or gives feedback.
-3. **Depth over shadow.** Create depth with parallax, scale, blur, and light, not drop shadows.
-4. **Restraint in color.** It's a dark world with one vivid accent, used sparingly.
+3. **Depth through objects.** Parallax, scale and soft layered shadows on a few physical-feeling objects.
+4. **Restraint in color.** A monochrome page; color comes from content (covers, photos) and one small accent.
 5. **Content survives without motion.** With reduced motion or no JS, everything stays readable.
 6. **Fast is part of the design.** A janky effect is a broken effect.
 
@@ -29,7 +30,7 @@ dark overriding them under `:root[data-theme="dark"]` (`styles/tokens.css`).
 | Token | Light | Dark | Use |
 |---|---|---|---|
 | `--color-bg` | `#FFFFFF` | `#0A0A0B` | page background |
-| `--color-bg-elev` | `#F4F4F2` | `#111114` | cards, panels |
+| `--color-bg-elev` | `#F4F4F6` | `#111114` | cards, panels |
 | `--color-line` | `rgba(10,10,11,0.1)` | `rgba(255,255,255,0.08)` | grid lines, dividers |
 | `--color-fg` | `#0A0A0B` | `#EDEDED` | primary text |
 | `--color-fg-muted` | `#5F5F66` | `#8A8A8F` | secondary text, meta labels |
@@ -37,7 +38,7 @@ dark overriding them under `:root[data-theme="dark"]` (`styles/tokens.css`).
 | `--color-accent` | `#C6FF3D` | `#C6FF3D` | fills: CTAs, chips, selection *(placeholder: lime)* |
 | `--color-accent-fg` | `#3F7A00` | `#C6FF3D` | accent **text and thin lines** (readable on bg) |
 | `--color-accent-ink` | `#0A0A0B` | `#0A0A0B` | text on an accent fill |
-| `--color-bloom-1` | `#D9D0FF` | `#5B3DF5` @ 25% | atmospheric light (CSS + hero shader) |
+| `--color-bloom-1` | `#D9D0FF` | `#5B3DF5` @ 25% | atmospheric light |
 | `--color-bloom-2` | `#C8EEFF` | `#1FB6FF` @ 15% | atmospheric light |
 
 **Accent options** (pick one, then update the token): electric lime `#C6FF3D`, ultraviolet `#7B5CFF`, signal orange `#FF5B1F`.
@@ -56,27 +57,28 @@ Rules:
 
 | Role | Font | Notes |
 |---|---|---|
-| Display | **Archivo** variable — weight 850, width 72%, ALL CAPS | hero, scene titles, big statements |
+| Display | **Geist** — weight 500, tight tracking, sentence case | hero, scene titles, big statements |
 | Body | **Geist** | paragraphs, UI |
 | Mono | **Geist Mono** | meta labels, HUDs, counters, timecodes |
 
-The display style is a bold poster look: heavy, condensed, uppercase. It is applied
-to every `.font-display` element in `app/globals.css`. Fonts load via `next/font`
-with `display: swap`.
+The display style is quiet and editorial: medium weight, tight negative tracking,
+sentence case, balanced line wraps. It is applied to every `.font-display` element
+in `app/globals.css`. Fonts load via `next/font` with `display: swap`.
 
 **Fluid scale** (`clamp(min, preferred, max)`):
 
 | Token | Value | Use |
 |---|---|---|
-| `--text-hero` | `clamp(4rem, 12vw, 14rem)` | hero name, "Let's get in touch" |
-| `--text-display` | `clamp(2.75rem, 6vw, 6.5rem)` | scene titles |
-| `--text-h2` | `clamp(2rem, 3.5vw, 3.5rem)` | sub-titles |
+| `--text-hero` | `clamp(2.75rem, 6.4vw, 7rem)` | hero headline, "Let's get in touch" |
+| `--text-display` | `clamp(2.25rem, 4.6vw, 5rem)` | scene titles |
+| `--text-h2` | `clamp(1.75rem, 2.8vw, 2.75rem)` | sub-titles |
 | `--text-lead` | `clamp(1.25rem, 2vw, 1.75rem)` | manifesto, intros |
 | `--text-body` | `clamp(1rem, 1.1vw, 1.125rem)` | body |
 | `--text-meta` | `0.75rem` | mono uppercase labels, `letter-spacing: 0.08em` |
 
 Rules:
-- Display type uses tight leading (`0.86–0.95`) and near-zero tracking (condensed caps need no negative tracking).
+- Display type uses leading `1.02–1.1` and tracking `-0.03em` to `-0.045em`.
+- Big numbers (Skills dial) are Geist Mono bold.
 - Meta labels are always mono and uppercase, e.g. `(03) — SELECTED WORK`, `2025`, `14.5995° N`.
 - Body text width is ≤ 65ch.
 
@@ -135,7 +137,6 @@ Components opt in declaratively with `data-cursor`:
 
 The lens motif also shows up in:
 - the preloader opening as a circular reveal
-- the hero shader, which is distorted under the pointer
 - page transitions, a circular wipe from the click point
 - the contact scene, where the lens expands to fill the screen
 
@@ -159,19 +160,18 @@ The lens motif also shows up in:
 
 ## 8. Atmosphere & Effects
 - **Grain:** an animated noise overlay at 3–5% opacity, `pointer-events: none`.
-- **Light blooms:** large blurred radial gradients (`--bloom-*`) that drift slowly and react to scroll.
-- **WebGL hero field:** a noise/fluid gradient that reacts to pointer and scroll velocity. DPR is capped at 2 and it pauses offscreen.
 - **Depth of field:** layered elements blur with distance (`filter: blur()` scaled by depth).
 - **Image treatment:** slightly desaturated at rest, full color plus scale 1.05 on hover or focus.
-- **Floating 3D objects:** glossy, playful objects (flower, heart, bolt, chrome blob, sparkle) around headings.
-  Each one floats idly, leans toward the cursor by its `depth`, drifts on scroll, and pops in on first view.
-  They sit behind the section's text unless marked `front`. Phones show at most one or two per section.
-  Placements live in `content/decor.ts`; images live in `public/media/objects/`. Swap in your own transparent
-  PNGs by changing the `objects` paths. Static under reduced motion.
-- **Inverted bands:** some sections use the opposite theme (`.surface-invert`) for a dark/light rhythm.
-  On a light page, About and The Archive are dark bands; in dark mode they flip to light.
-- **Gradient pill:** primary CTAs use `--gradient-accent` (magenta → violet → blue) with white text.
-  Lime stays the accent for small details (dots, selection, chips, accent text).
+- **Hero cover cards:** tilted, book-cover-like cards ring the hero headline, each linking to a
+  section. Typographic covers by default (`art`: type / ring / stripes / grid / mark), or a photo via
+  `image`. They rise from a fanned stack, lean away from the cursor by `depth`, and drift outward on
+  scroll. Content and placement: `content/hero.ts`. Phones show four.
+- **Glass folder:** a frosted-glass folder with pages (`components/ui/GlassFolder.tsx`) marks Selected
+  work. Real `backdrop-filter` glass; pages slide in on view and lift on hover.
+- **Soft shadows:** objects use `--shadow-card` / `--shadow-card-hover` (layered, low-contrast).
+- **Black pill:** primary CTAs (`.btn-pill`) are a solid `--color-fg` pill with `--color-bg` text.
+- **Floating objects (dormant):** `components/ui/Decor.tsx` + `content/decor.ts` can still place
+  floating images in any section; every set is empty in the current look.
 
 ---
 
@@ -180,11 +180,11 @@ The lens motif also shows up in:
 | # | Scene | Hero moment | Mobile | Reduced motion |
 |---|---|---|---|---|
 | 0 | Preloader | counter 0→100, lens opens | same | instant fade |
-| 1 | Hero | giant split name over WebGL field; disperses into depth on scroll | static gradient fallback | static |
+| 1 | Hero | centered headline with inline image; cover cards fan out from a stack, drift outward on scroll | 4 cards | static cards |
 | 2 | Manifesto | words light up as you scroll; key words become images | shorter text | all words lit |
 | 3 | About teaser | 3-layer portrait parallax; lens reveals "travel me" | tap to swap | static |
-| 4 | Selected Work | pinned horizontal track of project panels | vertical stack + swipe | vertical stack |
-| 5 | Skills | draggable constellation; hover highlights related projects | tag cloud | grouped list |
+| 4 | Selected Work | glass folder header; pinned horizontal track of project panels | vertical stack + swipe | vertical stack |
+| 5 | Skills | pinned dial: mono numbers on an arc turn with scroll, details beside the active one | same dial | numbered list |
 | 6 | Journey | two-lane timeline (work / school), path draws on scroll | single lane | static list |
 | 7 | Certificates — The Archive | camera flies forward through 3–4 depth layers | swipeable card deck | grid |
 | 8 | Adventures — Field Notes | globe with pins, route flies trip to trip, video plays in the lens | map card + video list | list with posters |

@@ -1,137 +1,122 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { projects, skills, type SkillCategory } from "@/content";
+import { useRef, type CSSProperties } from "react";
+import { skillCategories, skills } from "@/content";
 import { SceneHeader } from "@/components/ui/SceneHeader";
-import type { Draggable } from "gsap/Draggable";
-import { dur, ease, gsap, mq, stagger, useGSAP } from "@/lib/motion";
-import { cn } from "@/lib/cn";
+import { dur, ease, gsap, interaction, mq, useGSAP } from "@/lib/motion";
+import { pad } from "@/lib/format";
 import { sceneIndex } from "../registry";
 import { Decor } from "@/components/ui/Decor";
 
-const CATEGORIES: SkillCategory[] = ["Design", "Frontend", "Motion", "Tools"];
-// Cluster centers (fraction of the field) for the constellation layout
-const CLUSTERS: Record<SkillCategory, [number, number]> = {
-  Design: [0.2, 0.3],
-  Frontend: [0.62, 0.26],
-  Motion: [0.3, 0.74],
-  Tools: [0.76, 0.7],
-};
+const STEP = 24; // degrees between stops on the dial
 
-// Scene 4 — skills as a draggable constellation (desktop, fine pointer) or
-// grouped lists. Hovering/focusing a skill lights up the projects that used it.
+// Scene 4 — a pinned dial: big mono numbers sit on an arc, and scrolling turns
+// it so each skill category clicks into place with its details beside it.
+// Under reduced motion (and without JS) it's a plain numbered list.
 export function Skills() {
-  const field = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState<string | null>(null);
-  const related = new Set(skills.find((s) => s.name === active)?.projects ?? []);
+  const section = useRef<HTMLElement>(null);
 
-  useGSAP(() => {
+  useGSAP((_, contextSafe) => {
     const mm = gsap.matchMedia();
-    mm.add(`${mq.cinematic} and ${mq.finePointer}`, () => {
-      const el = field.current!;
-      el.dataset.mode = "orbit";
-      const { width, height } = el.getBoundingClientRect();
+    mm.add(mq.motion, () => {
+      const el = section.current!;
+      el.dataset.mode = "dial";
+      const wheel = el.querySelector<HTMLElement>("[data-wheel]")!;
+      const nums = gsap.utils.toArray<HTMLElement>("[data-dial-num]", el);
+      const panels = gsap.utils.toArray<HTMLElement>("[data-dial-panel]", el);
+      const last = nums.length - 1;
+      const dim = interaction.dimLargeText;
 
-      const nodes: HTMLElement[] = [];
-      for (const category of CATEGORIES) {
-        const [cx, cy] = CLUSTERS[category];
-        const group = el.querySelectorAll<HTMLElement>(`[data-category="${category}"] [data-node]`);
-        group.forEach((node, i) => {
-          const angle = (i / group.length) * Math.PI * 2 + gsap.utils.random(-0.3, 0.3);
-          const radius = gsap.utils.random(70, 130);
-          gsap.set(node, {
-            x: cx * width + Math.cos(angle) * radius,
-            y: cy * height + Math.sin(angle) * radius * 0.7,
-            xPercent: -50,
-            yPercent: -50,
-          });
-          nodes.push(node);
-        });
-        gsap.set(el.querySelector(`[data-category="${category}"] [data-label]`), {
-          x: cx * width,
-          y: cy * height,
-          xPercent: -50,
-          yPercent: -50,
-        });
-      }
-
-      gsap.from(nodes, {
-        scale: 0,
-        autoAlpha: 0,
-        duration: dur.base,
-        ease: ease.reveal,
-        stagger: stagger.items / 2,
-        scrollTrigger: { trigger: el, start: "top 70%", once: true },
+      let active = 0;
+      gsap.set(panels.slice(1), { autoAlpha: 0, y: 16 });
+      const show = contextSafe!((index: number) => {
+        panels.forEach((panel, i) =>
+          gsap.to(panel, {
+            autoAlpha: i === index ? 1 : 0,
+            y: i === index ? 0 : i < index ? -16 : 16,
+            duration: dur.fast,
+            ease: ease.ui,
+            overwrite: true,
+          }),
+        );
       });
 
-      // Draggable is only needed here, so it loads on demand (keeps it out of the initial bundle)
-      let draggables: Draggable[] = [];
-      let cancelled = false;
-      import("gsap/Draggable").then(({ Draggable }) => {
-        if (cancelled) return;
-        gsap.registerPlugin(Draggable);
-        draggables = Draggable.create(nodes, { bounds: el, zIndexBoost: true });
-      });
-
-      return () => {
-        cancelled = true;
-        draggables.forEach((d) => d.kill());
-        delete el.dataset.mode;
+      // p runs 0 → last: the wheel turns one STEP per category, and the number
+      // nearest p grows and darkens (dim floor keeps AA contrast)
+      const render = (p: number) => {
+        gsap.set(wheel, { rotation: -p * STEP });
+        nums.forEach((num, i) => {
+          const near = Math.max(0, 1 - Math.abs(i - p));
+          gsap.set(num, { scale: 1 + near * 0.9, opacity: dim + near * (1 - dim) });
+        });
+        const next = Math.round(p);
+        if (next !== active) {
+          active = next;
+          show(next);
+        }
       };
+      render(0);
+
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: el,
+          start: "top top",
+          end: () => `+=${last * window.innerHeight * 0.8}`,
+          pin: true,
+          scrub: true,
+          snap: { snapTo: 1 / last, duration: { min: 0.2, max: 0.6 }, ease: ease.scrubSoft },
+          invalidateOnRefresh: true,
+          onUpdate: (self) => render(self.progress * last),
+        },
+      });
+
+      return () => delete el.dataset.mode;
     });
   });
 
   return (
-    <section data-scene="Skills" className="container-grid gap-y-12 py-32 relative isolate">
+    <section ref={section} id="skills" data-scene="Skills" className="skills relative isolate">
       <Decor set="skills" />
-      <SceneHeader index={sceneIndex("Skills")} title="Skills" className="col-span-12" />
-      <h2 className="font-display text-display col-span-12 font-semibold">Skills &amp; tools</h2>
+      <header className="container-grid gap-y-4 pt-32 pb-12 skills-head">
+        <SceneHeader index={sceneIndex("Skills")} title="Skills" className="col-span-12" />
+        <h2 className="font-display text-display col-span-12 font-semibold">Skills &amp; tools</h2>
+      </header>
 
-      <div ref={field} className="skills-field col-span-12 lg:col-span-9">
-        {CATEGORIES.map((category) => (
-          <div key={category} data-category={category} className="skills-group">
-            <p data-label className="meta skills-label">
-              {category}
-            </p>
-            <ul className="flex flex-wrap gap-2">
-              {skills
-                .filter((skill) => skill.category === category)
-                .map((skill) => (
-                  <li key={skill.name} data-node className="skills-node">
-                    <button
-                      type="button"
-                      className={cn("skill-chip", active === skill.name && "is-active")}
-                      data-cursor="drag"
-                      onPointerEnter={() => setActive(skill.name)}
-                      onPointerLeave={() => setActive(null)}
-                      onFocus={() => setActive(skill.name)}
-                      onBlur={() => setActive(null)}
-                    >
-                      {skill.name}
-                    </button>
-                  </li>
-                ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+      <div className="dial">
+        <div data-wheel className="dial-wheel" aria-hidden="true">
+          {skillCategories.map((category, i) => (
+            <span key={category.name} className="dial-stop" style={{ "--angle": `${i * STEP}deg` } as CSSProperties}>
+              <span className="dial-dot" />
+              <span data-dial-num className="dial-num">
+                {pad(i + 1)}
+              </span>
+            </span>
+          ))}
+        </div>
 
-      <aside className="col-span-12 lg:col-span-3">
-        <p className="meta mb-4">Used in</p>
-        <ul className="flex flex-col gap-2" aria-live="polite">
-          {projects.map((project) => (
-            <li
-              key={project.slug}
-              className={cn(
-                "font-display text-lead font-semibold transition-colors duration-(--dur-fast)",
-                active === null ? "text-fg-muted" : related.has(project.slug) ? "text-accent-fg" : "text-fg-faint",
-              )}
-            >
-              {project.title}
+        <ol className="dial-panels">
+          {skillCategories.map((category, i) => (
+            <li key={category.name} data-dial-panel className="dial-panel">
+              <span className="dial-panel-num" aria-hidden="true">
+                {pad(i + 1)}
+              </span>
+              <div>
+                <h3 className="text-lead font-semibold">{category.name}</h3>
+                <p className="text-lead text-fg-muted">{category.blurb}</p>
+                <ul className="meta mt-4 flex flex-wrap gap-x-3 gap-y-1">
+                  {skills
+                    .filter((skill) => skill.category === category.name)
+                    .map((skill) => (
+                      <li key={skill.name} className="text-fg">
+                        {skill.name}
+                      </li>
+                    ))}
+                </ul>
+              </div>
             </li>
           ))}
-        </ul>
-      </aside>
+        </ol>
+      </div>
     </section>
   );
 }

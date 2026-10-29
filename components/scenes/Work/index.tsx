@@ -9,6 +9,7 @@ import { dur, ease, gsap, mq, useGSAP } from "@/lib/motion";
 import { pad } from "@/lib/format";
 import { sceneIndex } from "../registry";
 import { Decor } from "@/components/ui/Decor";
+import { GlassFolder } from "@/components/ui/GlassFolder";
 
 const featured = projects.filter((p) => p.featured);
 
@@ -68,10 +69,13 @@ export function Work() {
       <div className="work-inner">
         <header className="container-grid mb-12 items-end gap-y-4">
           <SceneHeader index={sceneIndex("Selected Work")} title="Selected Work" className="col-span-12" />
-          <h2 className="font-display text-display col-span-12 font-semibold md:col-span-8">Selected Work</h2>
-          <p className="meta col-span-12 md:col-span-4 md:text-right">
-            {pad(featured.length)} projects<span className="hidden lg:motion-safe:inline"> · scroll →</span>
-          </p>
+          <h2 className="font-display text-display col-span-12 font-semibold md:col-span-8">Selected work</h2>
+          <div className="col-span-12 flex items-end gap-6 md:col-span-4 md:justify-end">
+            <GlassFolder />
+            <p className="meta md:text-right">
+              {pad(featured.length)} projects<span className="hidden lg:motion-safe:inline"> · scroll →</span>
+            </p>
+          </div>
         </header>
 
         <ul ref={track} className="work-track">

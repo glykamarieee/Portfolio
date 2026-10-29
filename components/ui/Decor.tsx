@@ -15,7 +15,8 @@ export function Decor({ set }: { set: keyof typeof decor }) {
   const items = decor[set] ?? [];
 
   useGSAP((_, contextSafe) => {
-    const root = ref.current!;
+    const root = ref.current;
+    if (!root) return; // empty set renders nothing
     // root is display: contents (no box) — the section is the scroll trigger
     const section = root.parentElement!;
 

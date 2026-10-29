@@ -5,6 +5,8 @@ export const site: Site = {
   name: "Your Name",
   role: "Creative Developer",
   positioning: "I build interfaces that feel alive.",
+  headline: "Interfaces [img] that feel alive.",
+  headlineImage: { src: "/media/hero-pill.svg", alt: "" },
   location: "Manila, PH",
   timeZone: "Asia/Manila",
   available: true,

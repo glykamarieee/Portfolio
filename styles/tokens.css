@@ -12,7 +12,7 @@
 @theme {
   /* Color (DESIGN.md §2) — light theme */
   --color-bg: #ffffff;
-  --color-bg-elev: #f4f4f2;
+  --color-bg-elev: #f4f4f6;
   --color-line: rgb(10 10 11 / 0.1);
   --color-fg: #0a0a0b;
   --color-fg-muted: #5f5f66;
@@ -26,15 +26,15 @@
   --color-bloom-2: #c8eeff;
 
   /* Fluid type scale (DESIGN.md §3) */
-  --text-hero: clamp(4rem, 12vw, 14rem);
-  --text-hero--line-height: 0.86;
-  --text-hero--letter-spacing: -0.01em;
-  --text-display: clamp(2.75rem, 6vw, 6.5rem);
-  --text-display--line-height: 0.88;
-  --text-display--letter-spacing: -0.005em;
-  --text-h2: clamp(2rem, 3.5vw, 3.5rem);
-  --text-h2--line-height: 0.95;
-  --text-h2--letter-spacing: 0;
+  --text-hero: clamp(2.75rem, 6.4vw, 7rem);
+  --text-hero--line-height: 1.02;
+  --text-hero--letter-spacing: -0.045em;
+  --text-display: clamp(2.25rem, 4.6vw, 5rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.04em;
+  --text-h2: clamp(1.75rem, 2.8vw, 2.75rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.03em;
   --text-lead: clamp(1.25rem, 2vw, 1.75rem);
   --text-lead--line-height: 1.35;
   --text-body: clamp(1rem, 1.1vw, 1.125rem);
@@ -71,8 +71,9 @@
 :root {
   color-scheme: light;
 
-  /* Primary CTA fill (gradient pill buttons). White text passes AA on every stop. */
-  --gradient-accent: linear-gradient(100deg, #d11f7d 0%, #6a38f0 50%, #2563eb 100%);
+  /* Soft, layered card shadow (hero cards, glass folder) */
+  --shadow-card: 0 2px 4px rgb(0 0 0 / 0.06), 0 18px 40px -12px rgb(0 0 0 / 0.28);
+  --shadow-card-hover: 0 4px 8px rgb(0 0 0 / 0.08), 0 32px 60px -16px rgb(0 0 0 / 0.36);
 
   /* Over photos/video the palette is fixed in both themes (film letterbox, HUD text) */
   --color-letterbox: #000000;

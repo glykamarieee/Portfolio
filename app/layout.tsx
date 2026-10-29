@@ -7,7 +7,7 @@ import { Nav } from "@/components/system/Nav";
 import { Preloader } from "@/components/system/Preloader";
 import { SmoothScroll } from "@/components/system/SmoothScroll";
 import { DEFAULT_THEME, themeInitScript } from "@/lib/theme";
-import { displayFont, monoFont, sansFont } from "./fonts";
+import { monoFont, sansFont } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -33,7 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-theme={DEFAULT_THEME}
       suppressHydrationWarning
-      className={`${displayFont.variable} ${sansFont.variable} ${monoFont.variable}`}
+      className={`${sansFont.variable} ${monoFont.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />

@@ -49,7 +49,7 @@ Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind CSS v4 · G
 11. **Pages & links:** wrap every `page.tsx` body in `<PageTransition>`; use `<TransitionLink>` (not bare `next/link`) for internal links so navigations get the lens wipe.
 12. **Late GSAP tweens:** tweens created after the `useGSAP` callback returns (in promises, timers, event handlers) must be wrapped in `contextSafe` so cleanup kills them. Only pass `scope` to `useGSAP` when using selector strings.
 13. **Intro animations:** start them with `onReady()` from `lib/motion` (fired when the preloader opens), not on mount.
-14. **Themes:** light (default) and dark. Only use color tokens — never hard-code colors — so both themes work. Accent-colored text uses `text-accent-fg`, not `text-accent`. Check every change in both themes.
+14. **Themes:** light (default) and dark. Only use color tokens — never hard-code colors — so both themes work. Accent-colored text uses `text-accent-fg`, not `text-accent`. Check every change in both themes. Exception: hero cover-card colors in `content/hero.ts` are content (cover art), not theme.
 
 ## Definition of done (per scene)
 Passes the checklist in DESIGN.md §13, `npm run build` succeeds, and it has been checked at 375 / 768 / 1440 / 1920.

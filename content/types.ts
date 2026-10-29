@@ -25,6 +25,9 @@ export type Site = {
   name: string;
   role: string;
   positioning: string;
+  /** Home hero headline. `[img]` marks where the small inline image sits. */
+  headline: string;
+  headlineImage: Media;
   location: string;
   timeZone: string; // IANA, e.g. "Asia/Manila" — drives the live clock in the nav
   available: boolean;
@@ -93,6 +96,22 @@ export type Experience = {
   end: string | "present";
   location?: string;
   achievements: string[];
+};
+
+/** A tilted cover card around the home hero (content/hero.ts) */
+export type HeroCard = {
+  href: string;
+  title: string; // big cover type
+  kicker: string; // small cover line
+  art: "type" | "ring" | "stripes" | "grid" | "mark";
+  bg: string;
+  fg: string;
+  image?: Media; // a photo cover replaces the art
+  // Position in the hero (CSS lengths), resting tilt in degrees, parallax depth ~0.6–1.6
+  place: { top?: string; right?: string; bottom?: string; left?: string };
+  rotate: number;
+  depth: number;
+  mobile?: boolean; // also show on phones (keep it to four)
 };
 
 export type SkillCategory = "Design" | "Frontend" | "Motion" | "Tools";

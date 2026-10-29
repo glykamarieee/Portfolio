@@ -1,4 +1,4 @@
-import type { Skill } from "./types";
+import type { Skill, SkillCategory } from "./types";
 
 // TODO: adjust. `projects` holds project slugs that used the skill.
 export const skills: Skill[] = [
@@ -12,4 +12,12 @@ export const skills: Skill[] = [
   { name: "Three.js", category: "Motion", level: 2, projects: ["project-one"] },
   { name: "Git", category: "Tools", level: 4 },
   { name: "Premiere Pro", category: "Tools", level: 3 },
+];
+
+// The Skills dial (home scene 4): one stop per category, in this order.
+export const skillCategories: { name: SkillCategory; blurb: string }[] = [
+  { name: "Design", blurb: "Interfaces that start on paper and end up obvious." },
+  { name: "Frontend", blurb: "Typed, fast, accessible code that ships." },
+  { name: "Motion", blurb: "Scroll, timing and depth that make it feel alive." },
+  { name: "Tools", blurb: "The kit behind the work — from repo to cut." },
 ];

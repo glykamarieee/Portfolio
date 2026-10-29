@@ -10,7 +10,7 @@
 @import "../styles/print.css";
 
 @theme inline {
-  --font-display: var(--font-display-face);
+  --font-display: var(--font-sans-face);
   --font-sans: var(--font-sans-face);
   --font-mono: var(--font-mono-face);
 }
@@ -91,14 +91,13 @@
 }
 
 /*
- * Display type (DESIGN.md §3): heavy, condensed, all caps. Unlayered so it
- * wins over Tailwind's font-weight utilities wherever font-display is used.
+ * Display type (DESIGN.md §3): medium weight, tight tracking, sentence case.
+ * Unlayered so it wins over Tailwind's font-weight utilities wherever
+ * font-display is used.
  */
 .font-display {
-  font-weight: 850;
-  font-stretch: 72%;
-  font-variation-settings: "wdth" 72;
-  text-transform: uppercase;
+  font-weight: 500;
+  text-wrap: balance;
 }
 
 /* Reduced motion: kill CSS transitions/animations site-wide (DESIGN.md §5) */
