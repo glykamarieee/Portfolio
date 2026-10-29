@@ -6,6 +6,7 @@
 @import "../styles/transitions.css";
 @import "../styles/scenes.css";
 @import "../styles/pages.css";
+@import "../styles/decor.css";
 @import "../styles/print.css";
 
 @theme inline {
@@ -87,6 +88,17 @@
   .skip-link:focus-visible {
     transform: translateY(0);
   }
+}
+
+/*
+ * Display type (DESIGN.md §3): heavy, condensed, all caps. Unlayered so it
+ * wins over Tailwind's font-weight utilities wherever font-display is used.
+ */
+.font-display {
+  font-weight: 850;
+  font-stretch: 72%;
+  font-variation-settings: "wdth" 72;
+  text-transform: uppercase;
 }
 
 /* Reduced motion: kill CSS transitions/animations site-wide (DESIGN.md §5) */

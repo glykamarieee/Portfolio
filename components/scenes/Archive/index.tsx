@@ -7,6 +7,7 @@ import { SceneHeader } from "@/components/ui/SceneHeader";
 import { dur, ease, gsap, getLenis, mq, useGSAP } from "@/lib/motion";
 import { formatMonth, pad, yearOf } from "@/lib/format";
 import { sceneIndex } from "../registry";
+import { Decor } from "@/components/ui/Decor";
 
 // Depth layout: card i sits `GAP` px further away than card i-1, at one of a
 // few screen offsets so the path weaves (DESIGN.md §9, The Archive).
@@ -112,7 +113,8 @@ export function Archive() {
   const selected = open === null ? null : certificates[open];
 
   return (
-    <section ref={section} data-scene="The Archive" className="archive py-24">
+    <section ref={section} data-scene="The Archive" className="surface-invert archive py-24 relative isolate">
+      <Decor set="archive" />
       <div className="archive-inner">
         <header className="container-grid items-end gap-y-4">
           <SceneHeader index={sceneIndex("The Archive")} title="The Archive" className="col-span-12" />

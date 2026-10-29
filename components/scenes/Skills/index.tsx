@@ -7,6 +7,7 @@ import type { Draggable } from "gsap/Draggable";
 import { dur, ease, gsap, mq, stagger, useGSAP } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { sceneIndex } from "../registry";
+import { Decor } from "@/components/ui/Decor";
 
 const CATEGORIES: SkillCategory[] = ["Design", "Frontend", "Motion", "Tools"];
 // Cluster centers (fraction of the field) for the constellation layout
@@ -81,7 +82,8 @@ export function Skills() {
   });
 
   return (
-    <section data-scene="Skills" className="container-grid gap-y-12 py-32">
+    <section data-scene="Skills" className="container-grid gap-y-12 py-32 relative isolate">
+      <Decor set="skills" />
       <SceneHeader index={sceneIndex("Skills")} title="Skills" className="col-span-12" />
       <h2 className="font-display text-display col-span-12 font-semibold">Skills &amp; tools</h2>
 

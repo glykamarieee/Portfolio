@@ -28,7 +28,7 @@ export function HeroBackdrop() {
   }, [cinematic]);
 
   return (
-    <div className="absolute inset-0" aria-hidden="true">
+    <div className="absolute inset-0 -z-10" aria-hidden="true">
       <div className="hero-blooms absolute inset-0" />
       {cinematic && load && <HeroField />}
     </div>

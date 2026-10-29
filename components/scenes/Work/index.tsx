@@ -8,6 +8,7 @@ import { SceneHeader } from "@/components/ui/SceneHeader";
 import { dur, ease, gsap, mq, useGSAP } from "@/lib/motion";
 import { pad } from "@/lib/format";
 import { sceneIndex } from "../registry";
+import { Decor } from "@/components/ui/Decor";
 
 const featured = projects.filter((p) => p.featured);
 
@@ -62,7 +63,8 @@ export function Work() {
   });
 
   return (
-    <section ref={section} id="work" data-scene="Selected Work" className="work py-24">
+    <section ref={section} id="work" data-scene="Selected Work" className="work py-24 relative isolate">
+      <Decor set="work" />
       <div className="work-inner">
         <header className="container-grid mb-12 items-end gap-y-4">
           <SceneHeader index={sceneIndex("Selected Work")} title="Selected Work" className="col-span-12" />

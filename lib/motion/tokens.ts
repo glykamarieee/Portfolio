@@ -7,6 +7,7 @@ export const ease = {
   scrubSoft: "power2.inOut",
   ui: "power3.out",
   spring: "elastic.out(1, 0.4)",
+  float: "sine.inOut", // idle bobbing of floating objects
 } as const;
 
 export const dur = {

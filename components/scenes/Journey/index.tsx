@@ -7,6 +7,7 @@ import { dur, ease, gsap, mq, ScrollTrigger, useGSAP } from "@/lib/motion";
 import { formatMonth, yearOf } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import { sceneIndex } from "../registry";
+import { Decor } from "@/components/ui/Decor";
 
 type Milestone = {
   lane: "work" | "school";
@@ -79,7 +80,8 @@ export function Journey() {
   });
 
   return (
-    <section ref={section} data-scene="Journey" className="container-grid gap-y-12 py-32">
+    <section ref={section} data-scene="Journey" className="container-grid gap-y-12 py-32 relative isolate">
+      <Decor set="journey" />
       <SceneHeader index={sceneIndex("Journey")} title="Journey" className="col-span-12" />
       <div className="col-span-12 flex items-end justify-between gap-6">
         <h2 className="font-display text-display font-semibold">Journey</h2>

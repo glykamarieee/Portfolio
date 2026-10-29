@@ -9,6 +9,7 @@ import { SceneHeader } from "@/components/ui/SceneHeader";
 import { ease, gsap, mq, useGSAP } from "@/lib/motion";
 import { formatMonth } from "@/lib/format";
 import { sceneIndex } from "../registry";
+import { Decor } from "@/components/ui/Decor";
 
 // Where each block flies in from, as [x vw, y vh, rotation deg]
 const ORIGINS: [number, number, number][] = [
@@ -47,8 +48,9 @@ export function ResumeMoment() {
     <section
       ref={section}
       data-scene="Resume"
-      className="container-grid min-h-svh content-center items-center gap-y-10 overflow-x-clip py-24 lg:py-16"
+      className="container-grid min-h-svh content-center items-center gap-y-10 overflow-x-clip py-24 lg:py-16 relative isolate"
     >
+      <Decor set="resume" />
       {/* Two columns on desktop so the pinned scene fits short laptop screens */}
       <div className="col-span-12 flex flex-col gap-6 lg:col-span-4">
         <SceneHeader index={sceneIndex("Resume")} title="Resume" />

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Glossy 3D-style flower. Placeholder: replace with your own image (same name, or update content/decor.ts) -->
+  <defs>
+    <radialGradient id="petal" cx="38%" cy="28%" r="80%">
+      <stop offset="0" stop-color="#f5ecff"/>
+      <stop offset="0.3" stop-color="#c39bff"/>
+      <stop offset="0.7" stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#3b0f8c"/>
+    </radialGradient>
+    <radialGradient id="core" cx="38%" cy="32%" r="72%">
+      <stop offset="0" stop-color="#fffbd6"/>
+      <stop offset="0.45" stop-color="#ffd23f"/>
+      <stop offset="1" stop-color="#d97706"/>
+    </radialGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="3.5"/></filter>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#2e1065" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <g fill="url(#petal)">
+      <ellipse cx="100" cy="54" rx="33" ry="44"/>
+      <ellipse cx="100" cy="54" rx="33" ry="44" transform="rotate(72 100 100)"/>
+      <ellipse cx="100" cy="54" rx="33" ry="44" transform="rotate(144 100 100)"/>
+      <ellipse cx="100" cy="54" rx="33" ry="44" transform="rotate(216 100 100)"/>
+      <ellipse cx="100" cy="54" rx="33" ry="44" transform="rotate(288 100 100)"/>
+    </g>
+    <g fill="#fff" opacity="0.55" filter="url(#soft)">
+      <ellipse cx="90" cy="36" rx="11" ry="7"/>
+      <ellipse cx="90" cy="36" rx="11" ry="7" transform="rotate(72 100 100)"/>
+      <ellipse cx="90" cy="36" rx="11" ry="7" transform="rotate(144 100 100)"/>
+      <ellipse cx="90" cy="36" rx="11" ry="7" transform="rotate(216 100 100)"/>
+      <ellipse cx="90" cy="36" rx="11" ry="7" transform="rotate(288 100 100)"/>
+    </g>
+    <circle cx="100" cy="100" r="29" fill="url(#core)"/>
+    <ellipse cx="90" cy="89" rx="10" ry="6.5" fill="#fff" opacity="0.75" filter="url(#soft)"/>
+  </g>
+</svg>

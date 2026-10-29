@@ -3,11 +3,13 @@ import { HeroBackdrop } from "@/components/webgl/HeroBackdrop";
 import { ScrambleText } from "@/components/ui/ScrambleText";
 import { SplitHeading } from "@/components/ui/SplitHeading";
 import { HeroTitle } from "./HeroTitle";
+import { Decor } from "@/components/ui/Decor";
 
 // Scene 0 — giant split name over the WebGL field; scatters into depth on scroll.
 export function Hero() {
   return (
-    <section data-scene="Intro" className="relative h-svh min-h-[560px] overflow-hidden">
+    <section data-scene="Intro" className="relative h-svh min-h-[560px] overflow-hidden isolate">
+      <Decor set="hero" />
       <HeroBackdrop />
       <div className="container-grid relative z-(--z-content) h-full content-end gap-y-6 pb-16">
         <p className="meta col-span-12">

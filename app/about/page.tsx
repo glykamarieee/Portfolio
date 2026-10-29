@@ -14,6 +14,7 @@ import { ScrubText } from "@/components/ui/ScrubText";
 import { SplitHeading } from "@/components/ui/SplitHeading";
 import { Tilt } from "@/components/ui/Tilt";
 import { pad } from "@/lib/format";
+import { Decor } from "@/components/ui/Decor";
 
 export const metadata: Metadata = {
   title: "About",
@@ -33,7 +34,8 @@ export default function AboutPage() {
   return (
     <PageTransition>
       {/* Intro */}
-      <section className="container-grid gap-y-12 pt-40 pb-24">
+      <section className="container-grid gap-y-12 pt-40 pb-24 relative isolate">
+        <Decor set="aboutPage" />
         <p className="meta col-span-12">(About) — {site.role}</p>
         <SplitHeading as="h1" by="chars" trigger="ready" className="font-display text-hero col-span-12 font-semibold">
           About me

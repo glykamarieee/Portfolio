@@ -13,6 +13,7 @@ import { RollText } from "@/components/ui/RollText";
 import { ScrubText } from "@/components/ui/ScrubText";
 import { SplitHeading } from "@/components/ui/SplitHeading";
 import { pad } from "@/lib/format";
+import { Decor } from "@/components/ui/Decor";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -48,7 +49,8 @@ async function CaseStudy({ params }: Pick<PageProps<"/work/[slug]">, "params">) 
   return (
     <>
       {/* Hero */}
-      <section className="container-grid gap-y-8 pt-40 pb-16">
+      <section className="container-grid gap-y-8 pt-40 pb-16 relative isolate">
+        <Decor set="caseStudy" />
         <p className="meta col-span-12">
           ({pad(index + 1)}) — Case study · {project.year}
         </p>

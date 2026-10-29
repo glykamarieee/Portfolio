@@ -56,17 +56,19 @@ Rules:
 
 | Role | Font | Notes |
 |---|---|---|
-| Display | **Clash Display** (or PP Neue Montreal / Satoshi variable) | hero, scene titles |
-| Body | **Satoshi** / **Inter** | paragraphs, UI |
-| Mono | **Geist Mono** / **JetBrains Mono** | meta labels, HUDs, counters, timecodes |
+| Display | **Archivo** variable — weight 850, width 72%, ALL CAPS | hero, scene titles, big statements |
+| Body | **Geist** | paragraphs, UI |
+| Mono | **Geist Mono** | meta labels, HUDs, counters, timecodes |
 
-Self-host the fonts with `next/font/local`, subset them, and set `display: swap`.
+The display style is a bold poster look: heavy, condensed, uppercase. It is applied
+to every `.font-display` element in `app/globals.css`. Fonts load via `next/font`
+with `display: swap`.
 
 **Fluid scale** (`clamp(min, preferred, max)`):
 
 | Token | Value | Use |
 |---|---|---|
-| `--text-hero` | `clamp(4rem, 12vw, 14rem)` | hero name, "Let's talk" |
+| `--text-hero` | `clamp(4rem, 12vw, 14rem)` | hero name, "Let's get in touch" |
 | `--text-display` | `clamp(2.75rem, 6vw, 6.5rem)` | scene titles |
 | `--text-h2` | `clamp(2rem, 3.5vw, 3.5rem)` | sub-titles |
 | `--text-lead` | `clamp(1.25rem, 2vw, 1.75rem)` | manifesto, intros |
@@ -74,7 +76,7 @@ Self-host the fonts with `next/font/local`, subset them, and set `display: swap`
 | `--text-meta` | `0.75rem` | mono uppercase labels, `letter-spacing: 0.08em` |
 
 Rules:
-- Display type uses tight leading (`0.9`) and negative tracking (`-0.03em`).
+- Display type uses tight leading (`0.86–0.95`) and near-zero tracking (condensed caps need no negative tracking).
 - Meta labels are always mono and uppercase, e.g. `(03) — SELECTED WORK`, `2025`, `14.5995° N`.
 - Body text width is ≤ 65ch.
 
@@ -161,6 +163,15 @@ The lens motif also shows up in:
 - **WebGL hero field:** a noise/fluid gradient that reacts to pointer and scroll velocity. DPR is capped at 2 and it pauses offscreen.
 - **Depth of field:** layered elements blur with distance (`filter: blur()` scaled by depth).
 - **Image treatment:** slightly desaturated at rest, full color plus scale 1.05 on hover or focus.
+- **Floating 3D objects:** glossy, playful objects (flower, heart, bolt, chrome blob, sparkle) around headings.
+  Each one floats idly, leans toward the cursor by its `depth`, drifts on scroll, and pops in on first view.
+  They sit behind the section's text unless marked `front`. Phones show at most one or two per section.
+  Placements live in `content/decor.ts`; images live in `public/media/objects/`. Swap in your own transparent
+  PNGs by changing the `objects` paths. Static under reduced motion.
+- **Inverted bands:** some sections use the opposite theme (`.surface-invert`) for a dark/light rhythm.
+  On a light page, About and The Archive are dark bands; in dark mode they flip to light.
+- **Gradient pill:** primary CTAs use `--gradient-accent` (magenta → violet → blue) with white text.
+  Lime stays the accent for small details (dots, selection, chips, accent text).
 
 ---
 

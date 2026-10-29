@@ -10,6 +10,7 @@ import { SceneHeader } from "@/components/ui/SceneHeader";
 import { ease, gsap, mq, useGSAP } from "@/lib/motion";
 import { formatCoords, formatMonth, pad } from "@/lib/format";
 import { sceneIndex } from "../registry";
+import { Decor } from "@/components/ui/Decor";
 
 const Globe = dynamic(() => import("@/components/webgl/Globe"), { ssr: false });
 const points = adventures.map((trip) => trip.coordinates);
@@ -61,7 +62,8 @@ export function FieldNotes() {
   const still = trip.video?.poster ? { src: trip.video.poster, alt: trip.cover.alt } : trip.cover;
 
   return (
-    <section ref={section} data-scene="Field Notes" className="field-notes py-24">
+    <section ref={section} data-scene="Field Notes" className="field-notes py-24 relative isolate">
+      <Decor set="fieldNotes" />
       <div className="field-inner container-grid gap-y-12">
         <header className="field-header col-span-12 flex flex-col gap-4">
           <SceneHeader index={sceneIndex("Field Notes")} title="Field Notes" />

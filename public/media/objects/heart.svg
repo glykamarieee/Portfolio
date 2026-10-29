@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Glossy 3D-style heart. Placeholder: replace with your own image (same name, or update content/decor.ts) -->
+  <defs>
+    <radialGradient id="body" cx="34%" cy="30%" r="78%">
+      <stop offset="0" stop-color="#ffd6dc"/>
+      <stop offset="0.3" stop-color="#ff5470"/>
+      <stop offset="0.72" stop-color="#e0103a"/>
+      <stop offset="1" stop-color="#7a001c"/>
+    </radialGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="4"/></filter>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#5c0016" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <path d="M100 176C42 134 14 98 24 64 33 33 76 24 100 58 124 24 167 33 176 64 186 98 158 134 100 176Z" fill="url(#body)"/>
+    <ellipse cx="60" cy="64" rx="20" ry="11" transform="rotate(-35 60 64)" fill="#fff" opacity="0.7" filter="url(#soft)"/>
+    <circle cx="142" cy="62" r="6" fill="#fff" opacity="0.6" filter="url(#soft)"/>
+  </g>
+</svg>

@@ -1,0 +1,23 @@
+/* Floating 3D objects (components/ui/Decor.tsx, content/decor.ts) */
+
+.decor {
+  position: absolute;
+  inset: 0;
+  z-index: -1; /* behind the section's text; the section must be `relative isolate` */
+  pointer-events: none;
+}
+
+.decor.is-front {
+  z-index: 20;
+}
+
+.decor-item {
+  position: absolute;
+}
+
+.decor-body img {
+  width: 100%;
+  height: auto;
+  rotate: var(--rotate, 0deg);
+  user-select: none;
+}

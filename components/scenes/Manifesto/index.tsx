@@ -7,6 +7,7 @@ import { SceneHeader } from "@/components/ui/SceneHeader";
 import { ease, gsap, interaction, mq, useGSAP } from "@/lib/motion";
 import { parseEmphasis } from "@/lib/format";
 import { sceneIndex } from "../registry";
+import { Decor } from "@/components/ui/Decor";
 
 // Each *key phrase* gets the next manifestoMedia image as its chip.
 let chips = 0;
@@ -47,8 +48,9 @@ export function Manifesto() {
     <section
       ref={ref}
       data-scene="Manifesto"
-      className="container-grid min-h-svh content-center gap-y-12 py-32"
+      className="container-grid min-h-svh content-center gap-y-12 py-32 relative isolate"
     >
+      <Decor set="manifesto" />
       <SceneHeader index={sceneIndex("Manifesto")} title="Manifesto" className="col-span-12" />
       <p className="font-display text-display col-span-12 font-semibold xl:col-span-11">
         {segments.map((segment, s) => (

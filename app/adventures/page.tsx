@@ -4,6 +4,7 @@ import { AdventureReel } from "@/components/adventures/AdventureReel";
 import { PageTransition } from "@/components/system/PageTransition";
 import { SplitHeading } from "@/components/ui/SplitHeading";
 import { pad } from "@/lib/format";
+import { Decor } from "@/components/ui/Decor";
 
 export const metadata: Metadata = {
   title: "Adventures",
@@ -15,7 +16,8 @@ const countries = new Set(adventures.map((a) => a.country)).size;
 export default function AdventuresPage() {
   return (
     <PageTransition>
-      <section className="container-grid gap-y-8 pt-40 pb-12">
+      <section className="container-grid gap-y-8 pt-40 pb-12 relative isolate">
+        <Decor set="adventures" />
         <p className="meta col-span-12">
           (Adventures) — {pad(adventures.length)} trips · {pad(countries)} countries
         </p>

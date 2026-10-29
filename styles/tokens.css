@@ -27,14 +27,14 @@
 
   /* Fluid type scale (DESIGN.md §3) */
   --text-hero: clamp(4rem, 12vw, 14rem);
-  --text-hero--line-height: 0.9;
-  --text-hero--letter-spacing: -0.03em;
+  --text-hero--line-height: 0.86;
+  --text-hero--letter-spacing: -0.01em;
   --text-display: clamp(2.75rem, 6vw, 6.5rem);
-  --text-display--line-height: 0.9;
-  --text-display--letter-spacing: -0.03em;
+  --text-display--line-height: 0.88;
+  --text-display--letter-spacing: -0.005em;
   --text-h2: clamp(2rem, 3.5vw, 3.5rem);
-  --text-h2--line-height: 1;
-  --text-h2--letter-spacing: -0.02em;
+  --text-h2--line-height: 0.95;
+  --text-h2--letter-spacing: 0;
   --text-lead: clamp(1.25rem, 2vw, 1.75rem);
   --text-lead--line-height: 1.35;
   --text-body: clamp(1rem, 1.1vw, 1.125rem);
@@ -71,6 +71,9 @@
 :root {
   color-scheme: light;
 
+  /* Primary CTA fill (gradient pill buttons). White text passes AA on every stop. */
+  --gradient-accent: linear-gradient(100deg, #d11f7d 0%, #6a38f0 50%, #2563eb 100%);
+
   /* Over photos/video the palette is fixed in both themes (film letterbox, HUD text) */
   --color-letterbox: #000000;
   --color-on-media: #ffffff;
@@ -96,4 +99,35 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
+}
+
+/*
+ * Inverted surface: a section that uses the opposite theme (the dark "About
+ * me" band on a light page, and vice versa). Values mirror the two themes above.
+ */
+:root:not([data-theme="dark"]) .surface-invert {
+  --color-bg: #0a0a0b;
+  --color-bg-elev: #111114;
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-fg: #ededed;
+  --color-fg-muted: #8a8a8f;
+  --color-fg-faint: #4a4a50;
+  --color-accent-fg: #c6ff3d;
+  color-scheme: dark;
+}
+
+:root[data-theme="dark"] .surface-invert {
+  --color-bg: #ffffff;
+  --color-bg-elev: #f4f4f2;
+  --color-line: rgb(10 10 11 / 0.1);
+  --color-fg: #0a0a0b;
+  --color-fg-muted: #5f5f66;
+  --color-fg-faint: #c2c2c8;
+  --color-accent-fg: #3f7a00;
+  color-scheme: light;
+}
+
+.surface-invert {
+  background: var(--color-bg);
+  color: var(--color-fg);
 }

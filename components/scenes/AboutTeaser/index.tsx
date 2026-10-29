@@ -6,12 +6,14 @@ import { RollText } from "@/components/ui/RollText";
 import { SceneHeader } from "@/components/ui/SceneHeader";
 import { SplitHeading } from "@/components/ui/SplitHeading";
 import { sceneIndex } from "../registry";
+import { Decor } from "@/components/ui/Decor";
 
 // Scene 2 — portrait in three parallax layers (bloom / photo / outline type);
 // the lens over the photo reveals the alternate "travel me" shot.
 export function AboutTeaser() {
   return (
-    <section data-scene="About" className="container-grid items-center gap-y-16 overflow-x-clip py-32">
+    <section data-scene="About" className="surface-invert container-grid items-center gap-y-16 overflow-x-clip py-32 relative isolate">
+      <Decor set="about" />
       <div className="relative col-span-12 md:col-span-6 lg:col-span-4 lg:col-start-2">
         <Parallax speed={-0.1} className="about-bloom absolute -inset-[15%]" />
         <Parallax speed={0.06} className="relative">
