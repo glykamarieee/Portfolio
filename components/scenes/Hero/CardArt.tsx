@@ -1,5 +1,4 @@
 import { certificates, education, experience, projects, skillCategories, site, type HeroCard } from "@/content";
-import { MediaImage } from "@/components/ui/MediaImage";
 import { initials, pad } from "@/lib/format";
 
 // Journey stops: when each school and job began, oldest first (the last three)
@@ -10,12 +9,15 @@ const stops = [
   .sort((a, b) => a.year - b.year)
   .slice(-3);
 
-// Work: the featured projects
+// Work: the featured projects and the years they span ("2024–26")
 const featured = projects.filter((p) => p.featured);
+const first = Math.min(...featured.map((p) => p.year));
+const last = Math.max(...featured.map((p) => p.year));
+const years = first === last ? `${first}` : `${first}–${String(last).slice(2)}`;
 
 // Cover art for the hero cards: small, quiet interface pieces built from the
 // real content, in the card's own ink (currentColor) — a timeline for
-// Journey, a bento of the projects for Work, the certificate count for the Archive, and
+// Journey, a single outlined arrow for Work, the certificate count for the Archive, and
 // so on. Cards with a photo cover (`about`) draw nothing.
 export function CardArt({ art }: { art: HeroCard["art"] }) {
   switch (art) {
@@ -37,24 +39,17 @@ export function CardArt({ art }: { art: HeroCard["art"] }) {
       );
 
     case "work":
-      // A bento of the work: two project covers, the count, and a cursor about to open it
+      // Minimal: one outlined arrow, then the count and years on a hairline
       return (
-        <span className="ca-bento">
-          {featured.slice(0, 2).map((project, i) => (
-            <span key={project.slug} className={i === 0 ? "ca-bento-tile is-tall" : "ca-bento-tile"}>
-              <MediaImage media={project.cover} sizes="160px" />
-              {i === 0 && <span className="ca-bento-tag">{project.title}</span>}
-            </span>
-          ))}
-          <span className="ca-bento-tile is-count">
-            <span className="ca-bento-num">{pad(featured.length)}</span>
-            <span className="ca-label">Projects</span>
-          </span>
-          <span className="ca-cursor">
-            <svg viewBox="0 0 24 24" className="ca-cursor-arrow">
-              <path d="M4 2 L4 19 L8.6 14.8 L11.6 21.5 L14.6 20.2 L11.7 13.6 L18 13.4 Z" />
+        <span className="ca-min">
+          <span className="ca-min-circle">
+            <svg viewBox="0 0 24 24" className="ca-min-arrow">
+              <path d="M7 17 L17 7 M9 7 H17 V15" />
             </svg>
-            <span className="ca-cursor-label">Open ↗</span>
+          </span>
+          <span className="ca-min-foot">
+            <span className="ca-label">{pad(featured.length)} Projects</span>
+            <span className="ca-label">{years}</span>
           </span>
         </span>
       );

@@ -255,96 +255,48 @@
   font-weight: 700;
 }
 
-/* Work: a bento of covers + count, with a cursor hovering to open */
-.ca-bento {
-  position: relative;
-  display: grid;
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  grid-template-columns: 1.2fr 1fr;
-  gap: 2.4cqi;
-  height: 62cqi;
-}
-
-.ca-bento-tile {
-  position: relative;
-  overflow: hidden;
-  border-radius: 3.2cqi;
-  background: var(--soft);
-  box-shadow: 0 1.2cqi 3.6cqi -1.6cqi rgb(0 0 0 / 0.3);
-}
-
-.ca-bento-tile.is-tall {
-  grid-row: span 2;
-}
-
-.ca-bento-tag {
-  position: absolute;
-  bottom: 2.4cqi;
-  left: 2.4cqi;
-  z-index: 1;
-  padding: 1.2cqi 2.4cqi;
-  border-radius: 9999px;
-  background: var(--color-on-media);
-  color: var(--color-letterbox);
-  font-size: max(6px, 3.4cqi);
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.ca-bento-tile.is-count {
+/* Work: minimal — one thin outlined arrow, count and years on a hairline */
+/* Sits low on the card: in the hero its top half is off-screen */
+.ca-min {
   display: flex;
   flex-direction: column;
+  gap: 5cqi;
+  margin-top: auto;
+}
+
+.hero-card-art:has(.ca-min) {
   justify-content: flex-end;
-  gap: 0.6cqi;
-  padding: 3cqi;
-  background: var(--card-fg);
-  color: var(--card-bg);
 }
 
-.ca-bento-num {
-  font-family: var(--font-display);
-  font-size: 15cqi;
-  font-weight: 500;
-  letter-spacing: -0.06em;
-  line-height: 0.85;
+.ca-min-circle {
+  display: grid;
+  align-self: flex-start;
+  width: 34cqi;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
 }
 
-/* A cursor drifting over the grid, about to click */
-.ca-cursor {
-  position: absolute;
-  top: 38%;
-  left: 46%;
-  z-index: 2;
-  display: flex;
-  align-items: flex-start;
-  animation: ca-hover 3.2s var(--ease-scrub) infinite;
-}
-
-.ca-cursor-arrow {
-  width: 7cqi;
-  fill: var(--color-letterbox);
-  stroke: var(--color-on-media);
-  stroke-width: 1.6;
+.ca-min-arrow {
+  width: 52%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.1;
+  stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0.6cqi 1cqi rgb(0 0 0 / 0.3));
+  transition: rotate var(--dur-base) var(--ease-reveal);
 }
 
-.ca-cursor-label {
-  margin: 4.5cqi 0 0 -0.6cqi;
-  padding: 1cqi 2.4cqi;
-  border-radius: 9999px;
-  background: var(--color-letterbox);
-  color: var(--color-on-media);
-  font-family: var(--font-mono);
-  font-size: max(6px, 3.2cqi);
-  font-weight: 600;
-  white-space: nowrap;
+.hero-card:is(:hover, :focus-visible) .ca-min-arrow {
+  rotate: 45deg;
 }
 
-@keyframes ca-hover {
-  50% {
-    translate: -3cqi 2.4cqi;
-  }
+.ca-min-foot {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 3cqi;
+  border-top: 1px solid var(--mid);
 }
 
 .ca-bubble.is-typing i {
@@ -352,12 +304,6 @@
   height: 1.8cqi;
   border-radius: 50%;
   background: var(--mid);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ca-cursor {
-    animation: none;
-  }
 }
 
 /* Thin rounded rule used by the Resume page preview */
