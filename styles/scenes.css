@@ -685,7 +685,8 @@
 /* Audio clips get a waveform */
 .tl-clip.is-audio {
   background:
-    repeating-linear-gradient(90deg, rgb(0 0 0 / 0.28) 0 2px, transparent 2px 5px) left 0 bottom 5px / 100% 38% no-repeat,
+    repeating-linear-gradient(90deg, rgb(0 0 0 / 0.28) 0 2px, transparent 2px 5px) left 0 bottom 5px / 100% 38%
+      no-repeat,
     var(--color-clip-audio);
   color: var(--color-clip-ink);
 }
@@ -727,8 +728,7 @@
   border-radius: 14px;
   background:
     radial-gradient(120% 90% at 30% 20%, rgb(109 94 252 / 0.35), transparent 60%),
-    radial-gradient(90% 80% at 80% 90%, rgb(61 220 74 / 0.18), transparent 60%),
-    var(--color-letterbox);
+    radial-gradient(90% 80% at 80% 90%, rgb(61 220 74 / 0.18), transparent 60%), var(--color-letterbox);
   color: var(--color-on-media);
 }
 
@@ -1595,6 +1595,170 @@
   max-width: 12em;
 }
 
+.footer-card {
+  position: relative;
+}
+
+/* "Let's work together": two tapes crossing, running opposite ways */
+.footer-tapes {
+  position: relative;
+  display: grid;
+  margin: clamp(24px, 4vw, 56px) calc(var(--page-margin) * -1) 0;
+  padding-block: 28px;
+}
+
+.footer-tape {
+  grid-area: 1 / 1;
+  width: 110%;
+  margin-left: -5%;
+  overflow: hidden;
+  padding-block: 12px;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.6vw, 2.25rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 10px 30px -14px rgb(0 0 0 / 0.4);
+  rotate: -2.5deg;
+}
+
+.footer-tape.is-back {
+  background: var(--color-fg);
+  color: var(--color-bg);
+  rotate: 2deg;
+}
+
+.footer-tape-track {
+  display: flex;
+  width: max-content;
+  animation: tape-run 38s linear infinite;
+}
+
+.footer-tape.is-back .footer-tape-track {
+  animation-direction: reverse;
+  animation-duration: 46s;
+}
+
+.footer-tape-track span {
+  padding-right: 0.5em;
+}
+
+@keyframes tape-run {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-tape-track,
+  .footer-badge-ring {
+    animation: none;
+  }
+}
+
+/* Highlighter swipe under the last word */
+.footer-hl {
+  padding-inline: 0.08em;
+  background: linear-gradient(var(--color-accent), var(--color-accent)) no-repeat 0 94% / 100% 0.16em;
+}
+
+/* The three crafts, as numbered lines */
+.footer-services {
+  display: grid;
+  max-width: 40rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.footer-services li {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 8rem) minmax(0, 1fr);
+  align-items: baseline;
+  gap: 12px;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.footer-service-name {
+  font-weight: 600;
+}
+
+.footer-service-blurb {
+  color: var(--color-fg-muted);
+  font-size: 0.9375rem;
+}
+
+/* Spinning "available" badge, top-right of the card */
+.footer-badge {
+  position: absolute;
+  top: clamp(20px, 3vw, 40px);
+  right: clamp(20px, 3vw, 40px);
+  display: grid;
+  width: clamp(104px, 10vw, 136px);
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 9999px;
+  background: var(--color-fg);
+  color: var(--color-bg);
+  transition: scale var(--dur-fast) var(--ease-ui);
+}
+
+.footer-badge:hover,
+.footer-badge:focus-visible {
+  scale: 1.08;
+}
+
+.footer-badge-ring {
+  grid-area: 1 / 1;
+  width: 100%;
+  fill: currentColor;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  animation: badge-spin 16s linear infinite;
+}
+
+.footer-badge-arrow {
+  grid-area: 1 / 1;
+  display: grid;
+  width: 40%;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-size: 1.25rem;
+  transition: rotate var(--dur-fast) var(--ease-ui);
+}
+
+.footer-badge:is(:hover, :focus-visible) .footer-badge-arrow {
+  rotate: 45deg;
+}
+
+@keyframes badge-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .footer-badge {
+    position: static;
+    justify-self: start;
+  }
+
+  .footer-services li {
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+  }
+
+  .footer-service-blurb {
+    grid-column: 2;
+  }
+}
+
 .footer-email {
   padding: 10px 20px;
   border: 1px solid var(--color-line);
@@ -1670,4 +1834,3 @@
     display: block;
   }
 }
-
