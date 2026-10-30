@@ -16,8 +16,8 @@ export const about: About = {
     { src: PLACEHOLDER, alt: "" },
     { src: PLACEHOLDER, alt: "" },
   ],
-  portrait: { src: PLACEHOLDER, alt: "Portrait of Glyka Marie Amahan" },
-  portraitAlt: { src: PLACEHOLDER, alt: "Glyka behind the camera" },
+  portrait: { src: "/media/about/portrait.png", alt: "Portrait of Glyka Marie Amahan smiling, in a black blazer" },
+  portraitAlt: { src: "/media/about/portrait-camera.png", alt: "Glyka outdoors at dusk holding a camera, making a call-me hand sign" },
   values: [
     { title: "Craft", body: "Details are the design." },
     { title: "Story", body: "Every scroll, cut and frame should say something." },
