@@ -255,35 +255,67 @@
   font-weight: 700;
 }
 
-/* Work: a wireframe of a site */
-.ca-browser {
-  overflow: hidden;
-  border: 1px solid var(--mid);
-  border-radius: 3cqi;
-  background: color-mix(in srgb, currentColor 5%, transparent);
+/* Work: a fanned stack of project tiles (--i: 0 = front) */
+.ca-stack {
+  position: relative;
+  display: grid;
+  margin-top: 16cqi;
 }
 
-.ca-browser-bar {
+.ca-tile {
+  grid-area: 1 / 1;
   display: flex;
-  gap: 1.4cqi;
-  padding: 2.4cqi 3cqi;
-  border-bottom: 1px solid var(--soft);
+  flex-direction: column;
+  gap: 3cqi;
+  padding: 4.5cqi 5cqi 5cqi;
+  border-radius: 3.5cqi;
+  background: color-mix(in srgb, var(--color-on-media) calc(94% - var(--i) * 30%), var(--card-bg));
+  box-shadow: 0 1.6cqi 5cqi -1.6cqi rgb(0 0 0 / 0.28);
+  translate: calc(var(--i) * 3cqi) calc(var(--i) * -11cqi);
+  rotate: calc(var(--i) * -5deg);
+  scale: calc(1 - var(--i) * 0.07);
+  transform-origin: bottom center;
 }
 
-.ca-browser-bar i,
+.ca-tile-bar {
+  display: flex;
+  gap: 1.2cqi;
+}
+
+.ca-tile-bar i,
 .ca-bubble.is-typing i {
-  width: 1.8cqi;
-  height: 1.8cqi;
+  width: 1.6cqi;
+  height: 1.6cqi;
   border-radius: 50%;
   background: var(--mid);
 }
 
-.ca-browser-body {
-  display: grid;
-  gap: 2.6cqi;
-  padding: 4cqi;
+.ca-tile-title {
+  font-family: var(--font-display);
+  font-size: 11cqi;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
 }
 
+.ca-tile-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ca-tile-arrow {
+  display: grid;
+  width: 7cqi;
+  height: 7cqi;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--card-fg);
+  color: var(--card-bg);
+  font-size: 4cqi;
+}
+
+/* Thin rounded rule used by the Resume page preview */
 .ca-line {
   display: block;
   height: 1.3cqi;
@@ -303,23 +335,6 @@
 
 .ca-line.is-short {
   width: 55%;
-}
-
-.ca-blocks {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2cqi;
-  margin-top: 1cqi;
-}
-
-.ca-blocks span {
-  aspect-ratio: 4 / 3;
-  border-radius: 1.6cqi;
-  background: var(--soft);
-}
-
-.ca-blocks .is-solid {
-  background: currentColor;
 }
 
 /* Archive: the certificate count, set big */

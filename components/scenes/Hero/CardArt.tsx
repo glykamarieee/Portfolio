@@ -1,4 +1,5 @@
-import { certificates, education, experience, skillCategories, site, type HeroCard } from "@/content";
+import type { CSSProperties } from "react";
+import { certificates, education, experience, projects, skillCategories, site, type HeroCard } from "@/content";
 import { initials, pad } from "@/lib/format";
 
 // Journey stops: when each school and job began, oldest first (the last three)
@@ -9,9 +10,15 @@ const stops = [
   .sort((a, b) => a.year - b.year)
   .slice(-3);
 
+// Work: the first three featured projects, stacked back to front (newest on top)
+const shelf = projects
+  .filter((p) => p.featured)
+  .slice(0, 3)
+  .reverse();
+
 // Cover art for the hero cards: small, quiet interface pieces built from the
 // real content, in the card's own ink (currentColor) — a timeline for
-// Journey, a wireframe for Work, the certificate count for the Archive, and
+// Journey, a stack of project tiles for Work, the certificate count for the Archive, and
 // so on. Cards with a photo cover (`about`) draw nothing.
 export function CardArt({ art }: { art: HeroCard["art"] }) {
   switch (art) {
@@ -33,23 +40,25 @@ export function CardArt({ art }: { art: HeroCard["art"] }) {
       );
 
     case "work":
+      // A fanned stack of the featured projects, the newest in front
       return (
-        <span className="ca-browser">
-          <span className="ca-browser-bar">
-            <i />
-            <i />
-            <i />
-          </span>
-          <span className="ca-browser-body">
-            <span className="ca-line is-head" />
-            <span className="ca-line is-sub" />
-            <span className="ca-blocks">
-              <span className="is-solid" />
-              <span />
-              <span />
-              <span />
+        <span className="ca-stack">
+          {shelf.map((project, i) => (
+            <span key={project.slug} className="ca-tile" style={{ "--i": shelf.length - 1 - i } as CSSProperties}>
+              <span className="ca-tile-bar">
+                <i />
+                <i />
+                <i />
+              </span>
+              <span className="ca-tile-title">{project.title}</span>
+              <span className="ca-tile-meta">
+                <span className="ca-label">
+                  {pad(shelf.length - i)} · {project.year}
+                </span>
+                {i === shelf.length - 1 && <span className="ca-tile-arrow">→</span>}
+              </span>
             </span>
-          </span>
+          ))}
         </span>
       );
 
