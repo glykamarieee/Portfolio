@@ -103,6 +103,7 @@ export function Manifesto() {
   return (
     <section
       ref={ref}
+      id="manifesto"
       data-scene="Manifesto"
       className="manifesto container-grid relative isolate min-h-svh content-center gap-y-6 overflow-x-clip py-20"
     >

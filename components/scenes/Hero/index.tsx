@@ -202,12 +202,12 @@ export function Hero() {
       <ul className="contents">
         {heroCards.map((card) => (
           <li
-            key={card.href}
+            key={card.title}
             data-hero-card
             data-depth={card.depth}
             data-rotate={card.rotate}
             className={cn("hero-card-slot", !card.mobile && "max-md:hidden")}
-            style={card.place}
+            style={placement(card)}
           >
             <div data-card-intro>
               <div data-card-float>
@@ -270,6 +270,20 @@ export function Hero() {
       </div>
     </section>
   );
+}
+
+// Card position as CSS variables: --t/--r/--b/--l, and --mt/--mr/--mb/--ml on phones
+function placement(card: HeroCard) {
+  const vars: Record<string, string> = {};
+  const set = (prefix: string, place: HeroCard["place"] = {}) => {
+    if (place.top) vars[`--${prefix}t`] = place.top;
+    if (place.right) vars[`--${prefix}r`] = place.right;
+    if (place.bottom) vars[`--${prefix}b`] = place.bottom;
+    if (place.left) vars[`--${prefix}l`] = place.left;
+  };
+  set("", card.place);
+  set("m", card.placeMobile ?? card.place);
+  return vars as CSSProperties;
 }
 
 function Cover({ card }: { card: HeroCard }) {

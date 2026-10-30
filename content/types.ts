@@ -103,12 +103,24 @@ export type HeroCard = {
   title: string; // big cover type
   kicker: string; // small cover line
   // Cover art that says what the card opens (drawn in components/scenes/Hero/CardArt.tsx)
-  art: "journey" | "work" | "about" | "archive" | "skills" | "hello" | "resume";
+  art:
+    | "journey"
+    | "work"
+    | "about"
+    | "archive"
+    | "skills"
+    | "hello"
+    | "resume"
+    | "learning"
+    | "manifesto"
+    | "time"
+    | "status";
   bg: string;
   fg: string;
   image?: Media; // a photo cover replaces the art
   // Position in the hero (CSS lengths), resting tilt in degrees, parallax depth ~0.6–1.6
   place: { top?: string; right?: string; bottom?: string; left?: string };
+  placeMobile?: { top?: string; right?: string; bottom?: string; left?: string }; // phones (defaults to `place`)
   rotate: number;
   depth: number;
   mobile?: boolean; // also show on phones (keep it to four)

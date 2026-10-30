@@ -1,11 +1,13 @@
 import { about } from "./about";
 import type { HeroCard } from "./types";
 
-// The tilted cover cards around the home hero. They start stacked at the bottom
-// and fan out to these spots. Each one links somewhere, and its art shows what
+// The tilted cover cards around the home hero, spread to fill the space around
+// the headline (top row, sides, bottom row, corners). They start stacked at the
+// bottom and fan out to these spots. Each one links somewhere, and its art shows what
 // it opens (a path to a graduation cap for Journey, a browser for Work, ...).
 // Give one an `image` to use a photo as its cover instead.
 export const heroCards: HeroCard[] = [
+  // Top row
   {
     href: "/#journey",
     title: "Journey",
@@ -13,10 +15,33 @@ export const heroCards: HeroCard[] = [
     art: "journey",
     bg: "#c9ccd1",
     fg: "#111113",
-    place: { top: "-7%", left: "15%" },
+    place: { top: "-9%", left: "3%" },
+    placeMobile: { top: "-5%", left: "-2%" },
     rotate: 11,
     depth: 0.8,
     mobile: true,
+  },
+  {
+    href: "/about",
+    title: "Learning",
+    kicker: "Currently learning",
+    art: "learning",
+    bg: "#6d5efc",
+    fg: "#ffffff",
+    place: { top: "-12%", left: "23%" },
+    rotate: -7,
+    depth: 1.2,
+  },
+  {
+    href: "/#manifesto",
+    title: "Manifesto",
+    kicker: "What I make",
+    art: "manifesto",
+    bg: "#ece8df",
+    fg: "#0a0a0b",
+    place: { top: "-11%", right: "23%" },
+    rotate: 8,
+    depth: 1,
   },
   {
     href: "/#work",
@@ -25,11 +50,13 @@ export const heroCards: HeroCard[] = [
     art: "work",
     bg: "#3ddc4a",
     fg: "#0a0a0b",
-    place: { top: "-9%", right: "15%" },
+    place: { top: "-11%", right: "3%" },
+    placeMobile: { top: "-3%", right: "-2%" },
     rotate: -10,
     depth: 1.1,
     mobile: true,
   },
+  // Sides
   {
     href: "/about",
     title: "Me",
@@ -38,7 +65,7 @@ export const heroCards: HeroCard[] = [
     image: about.portrait,
     bg: "#121214",
     fg: "#ffffff",
-    place: { top: "30%", left: "4%" },
+    place: { top: "35%", left: "5%" },
     rotate: -11,
     depth: 1.4,
   },
@@ -49,9 +76,21 @@ export const heroCards: HeroCard[] = [
     art: "archive",
     bg: "#2a2a2d",
     fg: "#f2f2f2",
-    place: { top: "30%", right: "4%" },
+    place: { top: "33%", right: "5%" },
     rotate: 11,
     depth: 1.2,
+  },
+  // Bottom row
+  {
+    href: "/#contact",
+    title: "Cebu, PH",
+    kicker: "Local time",
+    art: "time",
+    bg: "#ff6a2b",
+    fg: "#0a0a0b",
+    place: { bottom: "-16%", left: "-2%" },
+    rotate: 9,
+    depth: 0.9,
   },
   {
     href: "/#skills",
@@ -60,7 +99,8 @@ export const heroCards: HeroCard[] = [
     art: "skills",
     bg: "#f04fa0",
     fg: "#ffffff",
-    place: { bottom: "-14%", left: "13%" },
+    place: { bottom: "-15%", left: "19%" },
+    placeMobile: { bottom: "-3%", left: "-2%" },
     rotate: 9,
     depth: 1,
     mobile: true,
@@ -72,7 +112,7 @@ export const heroCards: HeroCard[] = [
     art: "hello",
     bg: "#ffffff",
     fg: "#0a0a0b",
-    place: { bottom: "-20%", left: "43%" },
+    place: { bottom: "-21%", left: "42%" },
     rotate: -9,
     depth: 1.5,
   },
@@ -83,9 +123,21 @@ export const heroCards: HeroCard[] = [
     art: "resume",
     bg: "#f3e92c",
     fg: "#0a0a0b",
-    place: { bottom: "-16%", right: "15%" },
+    place: { bottom: "-15%", right: "19%" },
+    placeMobile: { bottom: "-5%", right: "-2%" },
     rotate: 7,
     depth: 0.9,
     mobile: true,
+  },
+  {
+    href: "/#contact",
+    title: "Open to work",
+    kicker: "Availability",
+    art: "status",
+    bg: "#c6ff3d",
+    fg: "#0a0a0b",
+    place: { bottom: "-16%", right: "-2%" },
+    rotate: -8,
+    depth: 1.3,
   },
 ];
