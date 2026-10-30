@@ -14,11 +14,8 @@ import { sceneIndex } from "../registry";
 
 const HEADLINE = "Let's get in touch";
 
-// "instagram.com/glykamarieee/" → "@glykamarieee"
-const handle = (href: string) => `@${new URL(href).pathname.split("/").filter(Boolean).pop()}`;
-
 // Scene 9 — giant magnetic "Let's get in touch", a ticket stub with every way
-// to reach me (from Cebu → to you), socials as a numbered list, and the form
+// to reach me (from Cebu → to you), and the form
 // as a postcard: write on the left, address on the right, a stamp with my
 // portrait and a postmark. Everything lands once on enter; static under
 // reduced motion.
@@ -38,7 +35,6 @@ export function Contact() {
         });
 
       enter("[data-ticket]").from(q("[data-ticket]"), { x: -60, rotation: -6, autoAlpha: 0, duration: 1 });
-      enter("[data-social]").from(q("[data-social]"), { y: 24, autoAlpha: 0, duration: 0.6, stagger: 0.06 });
       enter("[data-postcard]")
         .from(q("[data-postcard]"), { y: 120, rotation: 9, autoAlpha: 0, duration: 1.2 })
         .from(q("[data-postage]"), { y: -60, rotation: 30, autoAlpha: 0, duration: 0.7 }, "-=0.6")
@@ -134,21 +130,6 @@ export function Contact() {
             <span className="ticket-barcode" />
           </div>
         </div>
-
-        <ul className="social-list">
-          {site.socials.map((social, i) => (
-            <li key={social.href} data-social>
-              <a href={social.href} target="_blank" rel="noreferrer" className="social-row" data-cursor="link">
-                <span className="meta">{String(i + 1).padStart(2, "0")}</span>
-                <span className="social-row-name">{social.label.startsWith("@") ? "Instagram" : social.label}</span>
-                <span className="social-row-handle">{handle(social.href)}</span>
-                <span className="social-row-arrow" aria-hidden="true">
-                  ↗
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
       </div>
 
       <div className="col-span-12 self-center lg:col-span-7 lg:col-start-6 xl:col-span-6 xl:col-start-7">
