@@ -467,7 +467,7 @@
   --lens-r: 120px;
 }
 
-/* Selected Work — an interactive index: big rows, lime sweep, floating preview */
+/* Selected Work — expanding slices: hover one to open it, the rest become strips */
 .work-count {
   margin-left: 0.12em;
   color: var(--color-accent-fg);
@@ -477,239 +477,272 @@
   vertical-align: super;
 }
 
-.work-list {
+/* Base (phones, tablets): every slice is an open card, stacked */
+.slices {
+  display: grid;
+  gap: 16px;
   padding-inline: var(--page-margin);
 }
 
-.work-row {
+.slice-link {
   position: relative;
-  isolation: isolate;
-  display: grid;
-  grid-template-areas:
-    "thumb thumb thumb thumb thumb"
-    "index title meta year arrow";
-  grid-template-columns: 3.5rem minmax(0, 1fr) minmax(0, 17rem) 4rem 3rem;
-  align-items: center;
-  column-gap: 24px;
-  padding: clamp(18px, 2.4vw, 30px) clamp(12px, 1.4vw, 20px);
-  transition:
-    color var(--dur-fast) var(--ease-ui),
-    opacity var(--dur-fast) var(--ease-ui);
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--color-bg-elev);
+  color: var(--color-on-media);
 }
 
-/* Lime fill that sweeps in from the left on hover / focus */
-.work-row::before {
+@media (min-width: 48rem) {
+  .slice-link {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+.slice-media {
+  position: absolute;
+  inset: 0;
+  transition:
+    filter var(--dur-slow) var(--ease-reveal),
+    scale var(--dur-slow) var(--ease-reveal);
+}
+
+/* Shade from the bottom so the white text always reads on any cover */
+.slice-link::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
-  border-radius: 18px;
-  background: var(--color-accent);
-  clip-path: inset(0 100% 0 0 round 18px);
-  transition: clip-path var(--dur-base) var(--ease-reveal);
-}
-
-.work-row:is(:hover, :focus-visible)::before {
-  clip-path: inset(0 0 0 0 round 18px);
-}
-
-.work-row:is(:hover, :focus-visible) {
-  color: var(--color-accent-ink);
-}
-
-.work-row:is(:hover, :focus-visible) :is(.meta, .work-stack) {
-  color: inherit;
-}
-
-/* The rows you're not on step back */
-.work-list:has(.work-row:is(:hover, :focus-visible)) .work-row:not(:hover, :focus-visible) {
-  opacity: 0.35;
-}
-
-.work-rule {
-  position: absolute;
-  inset: 0 0 auto;
-  height: 1px;
-  background: var(--color-line);
-  transform-origin: left center;
-}
-
-.work-rule.is-end {
-  position: relative;
-  display: block;
-}
-
-.work-thumb {
-  grid-area: thumb;
-  position: relative;
-  display: block;
-  aspect-ratio: 16 / 9;
-  margin-bottom: 18px;
-  overflow: hidden;
-  border-radius: 14px;
-  background: var(--color-bg-elev);
-}
-
-.work-index {
-  grid-area: index;
-}
-
-.work-title {
-  grid-area: title;
-  overflow: hidden;
-  padding-bottom: 0.06em;
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 4.75rem);
-  font-weight: 500;
-  letter-spacing: -0.045em;
-  line-height: 1.02;
-  transition: translate var(--dur-base) var(--ease-reveal);
-}
-
-.work-row:is(:hover, :focus-visible) .work-title {
-  translate: 14px 0;
-}
-
-/* The open slot: outlined until you hover it */
-.work-row.is-open .work-title {
-  color: transparent;
-  -webkit-text-stroke: 1px var(--color-fg);
-}
-
-.work-row.is-open:is(:hover, :focus-visible) .work-title {
-  color: var(--color-accent-ink);
-  -webkit-text-stroke: 0;
-}
-
-.work-meta {
-  grid-area: meta;
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 2px;
-  font-size: 0.9375rem;
-  font-weight: 500;
-}
-
-.work-stack {
-  color: var(--color-fg-muted);
-  font-size: 0.8125rem;
-  font-weight: 400;
-}
-
-.work-year {
-  grid-area: year;
-  justify-self: end;
-}
-
-.work-arrow {
-  grid-area: arrow;
-  display: grid;
-  justify-self: end;
-  width: 44px;
-  height: 44px;
-  place-items: center;
-  border-radius: 9999px;
-  background: var(--color-fg);
-  color: var(--color-bg);
-  font-size: 1.125rem;
-  transition:
-    rotate var(--dur-base) var(--ease-reveal),
-    background-color var(--dur-fast) var(--ease-ui),
-    color var(--dur-fast) var(--ease-ui);
-}
-
-.work-row:is(:hover, :focus-visible) .work-arrow {
-  rotate: -45deg;
-  background: var(--color-accent-ink);
-  color: var(--color-accent);
-}
-
-/* Floating preview card that trails the cursor (positioned by GSAP) */
-.work-preview {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: var(--z-content);
-  display: none;
-  width: clamp(260px, 24vw, 400px);
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--color-letterbox) 78%, transparent),
+    color-mix(in srgb, var(--color-letterbox) 10%, transparent) 55%,
+    color-mix(in srgb, var(--color-letterbox) 25%, transparent)
+  );
   pointer-events: none;
 }
 
-.work-preview-card {
-  grid-area: 1 / 1;
-  padding: 8px;
-  border: 1px solid var(--color-line);
-  border-radius: 18px;
-  background: var(--color-bg-elev);
-  box-shadow: var(--shadow-card-hover);
-  clip-path: inset(100% 0 0 0 round 18px);
-  transition: clip-path var(--dur-base) var(--ease-reveal);
-}
-
-.work-preview-card.is-active {
+.slice-spine,
+.slice-body {
+  position: absolute;
+  inset: 0;
   z-index: 1;
-  clip-path: inset(0 0 0 0 round 18px);
 }
 
-.work-preview-bar {
+.slice-spine {
+  display: none;
+}
+
+.slice-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  padding: clamp(18px, 2.4vw, 32px);
+}
+
+.slice-top {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 2px 6px 8px;
+  justify-content: space-between;
+  gap: 12px;
 }
 
-.work-preview-url {
-  min-width: 0;
-  padding: 3px 10px;
+.slice-num {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+/* Address pill pinned to the slice's top-right corner */
+.slice-url {
+  position: absolute;
+  top: clamp(18px, 2.4vw, 32px);
+  right: clamp(18px, 2.4vw, 32px);
+  z-index: 2;
+  max-width: 60%;
+  padding: 5px 12px;
   overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-on-media) 25%, transparent);
   border-radius: 9999px;
-  background: var(--color-bg);
-  color: var(--color-fg-muted);
+  background: color-mix(in srgb, var(--color-letterbox) 35%, transparent);
+  backdrop-filter: blur(8px);
   font-family: var(--font-mono);
   font-size: var(--text-meta);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.work-preview-media {
-  position: relative;
-  display: block;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  border-radius: 12px;
-  background: var(--color-bg);
+.slice-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
 }
 
-/* With a mouse (and motion), the floating preview replaces the inline covers */
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .work-preview {
-    display: grid;
+.slice-meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  letter-spacing: var(--text-meta--letter-spacing);
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.slice-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 4.6vw, 4.5rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.slice-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.slice-stack span {
+  padding: 4px 11px;
+  border: 1px solid color-mix(in srgb, var(--color-on-media) 30%, transparent);
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+}
+
+.slice-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.slice-arrow {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-size: 1.125rem;
+  transition: rotate var(--dur-base) var(--ease-reveal);
+}
+
+.slice-link:is(:hover, :focus-visible) .slice-arrow {
+  rotate: -45deg;
+}
+
+/* The open slot: lime, no cover */
+.slice.is-open .slice-link {
+  aspect-ratio: auto;
+  min-height: 260px;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+.slice.is-open .slice-link::after {
+  display: none;
+}
+
+.slice.is-open .slice-arrow {
+  background: var(--color-accent-ink);
+  color: var(--color-accent);
+}
+
+/* Desktop: slices side by side; the active one opens, the rest are strips */
+@media (min-width: 64rem) {
+  .slices {
+    display: flex;
+    gap: 12px;
+    height: clamp(460px, 68svh, 660px);
   }
 
-  .work-thumb {
-    display: none;
+  .slice {
+    flex: 1 1 0;
+    min-width: 0;
+    transition: flex-grow var(--dur-slow) var(--ease-reveal);
+  }
+
+  .slice.is-active {
+    flex-grow: 6;
+  }
+
+  .slice-link,
+  .slice.is-open .slice-link {
+    height: 100%;
+    aspect-ratio: auto;
+    min-height: 0;
+  }
+
+  .slice:not(.is-active) .slice-media {
+    filter: brightness(0.6) saturate(0.7);
+    scale: 1.08;
+  }
+
+  /* Collapsed: number on top, title running up the strip */
+  .slice-spine {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0;
+    transition: opacity var(--dur-fast) var(--ease-ui);
+  }
+
+  .slice-spine-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 1.8vw, 1.75rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    writing-mode: vertical-rl;
+    rotate: 180deg;
+  }
+
+  .slice.is-active .slice-spine {
+    opacity: 0;
+  }
+
+  .slice-url {
+    opacity: 0;
+    transition: opacity var(--dur-fast) var(--ease-ui);
+  }
+
+  .slice.is-active .slice-url {
+    opacity: 1;
+    transition-delay: 0.18s;
+  }
+
+  /* Expanded content keeps a fixed width so it never reflows while opening */
+  .slice-body {
+    right: auto;
+    width: clamp(420px, 42vw, 680px);
+    opacity: 0;
+    translate: 0 16px;
+    transition:
+      opacity var(--dur-fast) var(--ease-ui),
+      translate var(--dur-base) var(--ease-reveal);
+  }
+
+  .slice.is-active .slice-body {
+    opacity: 1;
+    translate: 0 0;
+    transition-delay: 0.18s;
+  }
+
+  .slice:not(.is-active) .slice-body {
+    pointer-events: none;
   }
 }
 
-@media (max-width: 47.99rem) {
-  .work-row {
-    grid-template-areas:
-      "thumb thumb thumb"
-      "index title arrow"
-      ". meta meta";
-    grid-template-columns: 2.25rem minmax(0, 1fr) 2.75rem;
-    column-gap: 12px;
-    row-gap: 6px;
-  }
-
-  .work-year {
-    display: none;
-  }
-
-  .work-arrow {
-    width: 40px;
-    height: 40px;
+@media (prefers-reduced-motion: reduce) {
+  .slice,
+  .slice-media,
+  .slice-spine,
+  .slice-body {
+    transition: none;
   }
 }
 
