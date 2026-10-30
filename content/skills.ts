@@ -10,6 +10,7 @@ export const skills: Skill[] = [
   { name: "React", category: "Programming", level: 4, projects: ["project-one", "project-two", "project-four"] },
   { name: "Tailwind CSS", category: "Programming", level: 4, projects: ["project-two"] },
   { name: "PHP", category: "Programming", level: 3 },
+  { name: "Laravel", category: "Programming", level: 3 },
   { name: "Python", category: "Programming", level: 3 },
   { name: "Java", category: "Programming", level: 3 },
   { name: "C", category: "Programming", level: 3 },
