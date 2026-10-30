@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import { about, certificates, projects, site, skillCategories, skills } from "@/content";
 import { PageTransition } from "@/components/system/PageTransition";
 import { TransitionLink } from "@/components/system/TransitionLink";
+import { WorkTogether } from "@/components/system/WorkTogether";
 import { CountUp } from "@/components/ui/CountUp";
 import { PhotoStack } from "@/components/ui/PhotoStack";
 import { Reveal } from "@/components/ui/Reveal";
@@ -134,14 +135,35 @@ export default function AboutPage() {
       {/* Next steps */}
       <section className="container-grid gap-y-6 pt-12 pb-32">
         <p className="meta col-span-12">(06) — Keep going</p>
-        <NextCard href="/#work" kicker="Selected work" title="See what I've built" className="col-span-12 md:col-span-6" />
-        <NextCard href="/resume" kicker="Resume" title="The whole story, one page" className="col-span-12 md:col-span-6" />
+        <NextCard
+          href="/#work"
+          kicker="Selected work"
+          title="See what I've built"
+          className="col-span-12 md:col-span-6"
+        />
+        <NextCard
+          href="/resume"
+          kicker="Resume"
+          title="The whole story, one page"
+          className="col-span-12 md:col-span-6"
+        />
       </section>
+      <WorkTogether />
     </PageTransition>
   );
 }
 
-function NextCard({ href, kicker, title, className }: { href: string; kicker: string; title: string; className: string }) {
+function NextCard({
+  href,
+  kicker,
+  title,
+  className,
+}: {
+  href: string;
+  kicker: string;
+  title: string;
+  className: string;
+}) {
   return (
     <TransitionLink href={href} className={`next-card group ${className}`} data-cursor="link">
       <span className="meta">{kicker}</span>

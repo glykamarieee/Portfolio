@@ -1770,6 +1770,43 @@
   position: relative;
 }
 
+/* Footer sign-off: name, line, status */
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* "Let's work together" (components/system/WorkTogether.tsx): closes the
+   sub-pages; it reuses the footer card and tape styles below */
+.work-together {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 5vw, 64px);
+  padding: 0 var(--page-margin) clamp(48px, 6vw, 96px);
+  overflow: hidden;
+}
+
+/* The CTA card is inverted (dark on light, light on dark) so it stands apart
+   from the footer card right below it */
+.work-together-card {
+  border-color: transparent;
+}
+
+@media (min-width: 64rem) {
+  .work-together-card {
+    grid-template-columns: minmax(0, 1fr);
+    padding-right: calc(clamp(150px, 13vw, 200px) + 12%);
+  }
+
+  .work-together-card .footer-badge {
+    top: 50%;
+    right: 7%;
+    width: clamp(150px, 13vw, 200px);
+    translate: 0 -50%;
+  }
+}
+
 /* "Let's work together": two tapes crossing, running opposite ways */
 .footer-tapes {
   position: relative;

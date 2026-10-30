@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { about, certificates, education, experience, projects, site, skillCategories, skills } from "@/content";
 import { PageTransition } from "@/components/system/PageTransition";
+import { WorkTogether } from "@/components/system/WorkTogether";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { MediaImage } from "@/components/ui/MediaImage";
 import { PrintButton } from "@/components/ui/PrintButton";
@@ -166,6 +167,7 @@ export default function ResumePage() {
           </Section>
         </div>
       </div>
+      <WorkTogether />
     </PageTransition>
   );
 }

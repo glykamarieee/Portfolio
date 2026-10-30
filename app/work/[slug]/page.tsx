@@ -5,6 +5,7 @@ import { projects } from "@/content";
 import { CaseProcess } from "@/components/case/CaseProcess";
 import { PageTransition } from "@/components/system/PageTransition";
 import { TransitionLink } from "@/components/system/TransitionLink";
+import { WorkTogether } from "@/components/system/WorkTogether";
 import { CountUp } from "@/components/ui/CountUp";
 import { MediaImage } from "@/components/ui/MediaImage";
 import { Parallax } from "@/components/ui/Parallax";
@@ -35,6 +36,7 @@ export default function WorkPage({ params }: PageProps<"/work/[slug]">) {
       <Suspense fallback={<div className="min-h-svh" />}>
         <CaseStudy params={params} />
       </Suspense>
+      <WorkTogether />
     </PageTransition>
   );
 }
@@ -74,12 +76,24 @@ async function CaseStudy({ params }: Pick<PageProps<"/work/[slug]">, "params">) 
             <dt>Links</dt>
             <dd className="mt-2 flex gap-4">
               {project.url && (
-                <a href={project.url} target="_blank" rel="noreferrer" className="link-underline text-accent-fg" data-cursor="link">
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="link-underline text-accent-fg"
+                  data-cursor="link"
+                >
                   Live ↗
                 </a>
               )}
               {project.repo && (
-                <a href={project.repo} target="_blank" rel="noreferrer" className="link-underline text-accent-fg" data-cursor="link">
+                <a
+                  href={project.repo}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="link-underline text-accent-fg"
+                  data-cursor="link"
+                >
                   Code ↗
                 </a>
               )}
