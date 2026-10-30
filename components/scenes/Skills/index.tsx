@@ -23,113 +23,110 @@ const STACK_STEP = 14; // px each later card sits lower, so earlier headers peek
 export function Skills() {
   const section = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(mq.motion, () => {
-        const el = section.current!;
-        const cards = gsap.utils.toArray<HTMLElement>("[data-craft]", el);
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add(mq.motion, () => {
+      const el = section.current!;
+      const cards = gsap.utils.toArray<HTMLElement>("[data-craft]", el);
 
-        // Stack: the card underneath eases back as the next one slides over it
-        if (window.matchMedia(mq.desktop).matches) {
-          cards.slice(0, -1).forEach((card, i) => {
-            gsap.to(card.querySelector("[data-craft-inner]"), {
-              scale: 0.94,
-              ease: ease.scrub,
-              scrollTrigger: {
-                trigger: cards[i + 1],
-                start: "top bottom",
-                end: `top ${STACK_TOP + (i + 1) * STACK_STEP}px`, // where the next card sticks
-                scrub: true,
-              },
-            });
-          });
-        }
-
-        // Code: lines type in when the editor arrives
-        gsap.from("[data-code-line]", {
-          autoAlpha: 0,
-          x: -10,
-          duration: dur.fast,
-          ease: ease.ui,
-          stagger: stagger.chars * 3,
-          scrollTrigger: { trigger: "[data-code]", start: "top 75%", once: true },
-        });
-
-        // Timeline: the playhead scrubs with scroll; clips under it light up
-        const track = el.querySelector<HTMLElement>("[data-tracks]")!;
-        const head = el.querySelector<HTMLElement>("[data-playhead]")!;
-        const clock = el.querySelector<HTMLElement>("[data-tl-clock]")!;
-        const clips = gsap.utils.toArray<HTMLElement>("[data-clip]", el);
-        gsap.fromTo(
-          head,
-          { x: 0 },
-          {
-            x: () => track.offsetWidth,
+      // Stack: the card underneath eases back as the next one slides over it
+      if (window.matchMedia(mq.desktop).matches) {
+        cards.slice(0, -1).forEach((card, i) => {
+          gsap.to(card.querySelector("[data-craft-inner]"), {
+            scale: 0.94,
             ease: ease.scrub,
             scrollTrigger: {
-              trigger: track,
-              start: "top 85%",
-              end: "bottom 15%",
+              trigger: cards[i + 1],
+              start: "top bottom",
+              end: `top ${STACK_TOP + (i + 1) * STACK_STEP}px`, // where the next card sticks
               scrub: true,
-              invalidateOnRefresh: true,
-              onUpdate: (self) => {
-                const p = self.progress;
-                clock.textContent = timecode(p * TIMELINE_SECONDS);
-                for (const clip of clips) {
-                  clip.classList.toggle("is-live", p >= Number(clip.dataset.start) && p <= Number(clip.dataset.end));
-                }
-              },
+            },
+          });
+        });
+      }
+
+      // Code: lines type in when the editor arrives
+      gsap.from(gsap.utils.toArray("[data-code-line]", el), {
+        autoAlpha: 0,
+        x: -10,
+        duration: dur.fast,
+        ease: ease.ui,
+        stagger: stagger.chars * 3,
+        scrollTrigger: { trigger: el.querySelector("[data-code]"), start: "top 75%", once: true },
+      });
+
+      // Timeline: the playhead scrubs with scroll; clips under it light up
+      const track = el.querySelector<HTMLElement>("[data-tracks]")!;
+      const head = el.querySelector<HTMLElement>("[data-playhead]")!;
+      const clock = el.querySelector<HTMLElement>("[data-tl-clock]")!;
+      const clips = gsap.utils.toArray<HTMLElement>("[data-clip]", el);
+      gsap.fromTo(
+        head,
+        { x: 0 },
+        {
+          x: () => track.offsetWidth,
+          ease: ease.scrub,
+          scrollTrigger: {
+            trigger: track,
+            start: "top 85%",
+            end: "bottom 15%",
+            scrub: true,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              const p = self.progress;
+              clock.textContent = timecode(p * TIMELINE_SECONDS);
+              for (const clip of clips) {
+                clip.classList.toggle("is-live", p >= Number(clip.dataset.start) && p <= Number(clip.dataset.end));
+              }
             },
           },
-        );
+        },
+      );
 
-        // Viewfinder: rack focus from skill to skill; hovering pulls focus by hand.
-        // Only the .is-focus class moves; CSS does the blur, so nothing tweens late.
-        const shots = gsap.utils.toArray<HTMLElement>("[data-shot]", el);
-        const finder = el.querySelector<HTMLElement>("[data-finder]")!;
-        finder.dataset.racking = "on";
-        const focus = (index: number) => shots.forEach((shot, i) => shot.classList.toggle("is-focus", i === index));
-        let at = 0;
-        const loop = gsap
-          .timeline({ repeat: -1, paused: true })
-          .call(() => {
-            focus(at);
-            at = (at + 1) % shots.length;
-          })
-          .to({}, { duration: FOCUS_HOLD });
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: finder,
-            start: "top bottom",
-            end: "bottom top",
-            onToggle: (self) => (self.isActive ? loop.play() : loop.pause()),
-          },
-        });
-        const offs = shots.map((shot, i) => {
-          const enter = () => {
-            loop.pause();
-            focus(i);
-            at = (i + 1) % shots.length;
-          };
-          const leave = () => loop.play();
-          shot.addEventListener("pointerenter", enter);
-          shot.addEventListener("pointerleave", leave);
-          return () => {
-            shot.removeEventListener("pointerenter", enter);
-            shot.removeEventListener("pointerleave", leave);
-          };
-        });
-
+      // Viewfinder: rack focus from skill to skill; hovering pulls focus by hand.
+      // Only the .is-focus class moves; CSS does the blur, so nothing tweens late.
+      const shots = gsap.utils.toArray<HTMLElement>("[data-shot]", el);
+      const finder = el.querySelector<HTMLElement>("[data-finder]")!;
+      finder.dataset.racking = "on";
+      const focus = (index: number) => shots.forEach((shot, i) => shot.classList.toggle("is-focus", i === index));
+      let at = 0;
+      const loop = gsap
+        .timeline({ repeat: -1, paused: true })
+        .call(() => {
+          focus(at);
+          at = (at + 1) % shots.length;
+        })
+        .to({}, { duration: FOCUS_HOLD });
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: finder,
+          start: "top bottom",
+          end: "bottom top",
+          onToggle: (self) => (self.isActive ? loop.play() : loop.pause()),
+        },
+      });
+      const offs = shots.map((shot, i) => {
+        const enter = () => {
+          loop.pause();
+          focus(i);
+          at = (i + 1) % shots.length;
+        };
+        const leave = () => loop.play();
+        shot.addEventListener("pointerenter", enter);
+        shot.addEventListener("pointerleave", leave);
         return () => {
-          offs.forEach((off) => off());
-          delete finder.dataset.racking;
-          shots.forEach((shot) => shot.classList.remove("is-focus"));
+          shot.removeEventListener("pointerenter", enter);
+          shot.removeEventListener("pointerleave", leave);
         };
       });
-    },
-    { scope: section },
-  );
+
+      return () => {
+        offs.forEach((off) => off());
+        delete finder.dataset.racking;
+        shots.forEach((shot) => shot.classList.remove("is-focus"));
+      };
+    });
+  });
 
   return (
     <section ref={section} id="skills" data-scene="Skills" className="skills relative isolate py-24">

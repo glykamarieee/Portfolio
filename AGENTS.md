@@ -47,7 +47,7 @@ Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind CSS v4 · G
 9. **Accessibility:** semantic HTML, a visible focus state, keyboard-operable overlays, alt text, and content must not be hidden behind animation.
 10. **Content:** never hard-code personal data in components. Read it from `content/`.
 11. **Pages & links:** wrap every `page.tsx` body in `<PageTransition>`; use `<TransitionLink>` (not bare `next/link`) for internal links so navigations get the lens wipe.
-12. **Late GSAP tweens:** tweens created after the `useGSAP` callback returns (in promises, timers, event handlers) must be wrapped in `contextSafe` so cleanup kills them. Only pass `scope` to `useGSAP` when using selector strings.
+12. **Late GSAP tweens:** tweens created after the `useGSAP` callback returns (in promises, timers, event handlers) must be wrapped in `contextSafe` so cleanup kills them. Don't pass a ref as `scope` (in production it can resolve before the ref is set and warn "Invalid scope"); resolve elements from the real node instead: `gsap.utils.toArray("[data-x]", el)` / `el.querySelector(...)`.
 13. **Intro animations:** start them with `onReady()` from `lib/motion` (fired when the preloader opens), not on mount.
 14. **Themes:** light (default) and dark. Only use color tokens — never hard-code colors — so both themes work. Accent-colored text uses `text-accent-fg`, not `text-accent`. Check every change in both themes. Exception: hero cover-card colors in `content/hero.ts` are content (cover art), not theme.
 

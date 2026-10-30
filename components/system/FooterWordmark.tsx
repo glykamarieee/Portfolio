@@ -8,21 +8,18 @@ import { dur, ease, gsap, mq, stagger, useGSAP } from "@/lib/motion";
 export function FooterWordmark({ text }: { text: string }) {
   const ref = useRef<HTMLParagraphElement>(null);
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(mq.motion, () => {
-        gsap.from("[data-letter]", {
-          yPercent: 105,
-          duration: dur.slow,
-          ease: ease.reveal,
-          stagger: stagger.chars * 1.5,
-          scrollTrigger: { trigger: ref.current, start: "top 95%", once: true },
-        });
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add(mq.motion, () => {
+      gsap.from(gsap.utils.toArray("[data-letter]", ref.current), {
+        yPercent: 105,
+        duration: dur.slow,
+        ease: ease.reveal,
+        stagger: stagger.chars * 1.5,
+        scrollTrigger: { trigger: ref.current, start: "top 95%", once: true },
       });
-    },
-    { scope: ref },
-  );
+    });
+  });
 
   return (
     <p ref={ref} className="footer-wordmark" style={{ "--chars": text.length } as CSSProperties} aria-label={text}>

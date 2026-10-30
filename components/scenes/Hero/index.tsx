@@ -18,116 +18,123 @@ export function Hero() {
   const root = useRef<HTMLElement>(null);
   const [before, after = ""] = site.headline.split("[img]");
 
-  useGSAP(
-    (_, contextSafe) => {
-      const el = root.current!;
-      const mm = gsap.matchMedia();
-      mm.add(mq.motion, () => {
-        // Resting geometry from offsets (unaffected by scroll or transforms), relative
-        // to the section center. Hidden cards (this breakpoint) are skipped.
-        const geometry = () => {
-          const w = el.offsetWidth;
-          const h = el.offsetHeight;
-          return gsap.utils
-            .toArray<HTMLElement>("[data-hero-card]", el)
-            .filter((slot) => slot.offsetParent !== null)
-            .map((slot) => ({
-              slot,
-              x: slot.offsetLeft + slot.offsetWidth / 2 - w / 2,
-              y: slot.offsetTop + slot.offsetHeight / 2 - h / 2,
-              w: slot.offsetWidth,
-              h,
-              depth: Number(slot.dataset.depth),
-            }))
-            .sort((p, q) => p.x - q.x); // fan out left to right
-        };
-        const cards = geometry();
-        const mid = (cards.length - 1) / 2;
+  useGSAP((_, contextSafe) => {
+    const el = root.current!;
+    const mm = gsap.matchMedia();
+    mm.add(mq.motion, () => {
+      // Resting geometry from offsets (unaffected by scroll or transforms), relative
+      // to the section center. Hidden cards (this breakpoint) are skipped.
+      const geometry = () => {
+        const w = el.offsetWidth;
+        const h = el.offsetHeight;
+        return gsap.utils
+          .toArray<HTMLElement>("[data-hero-card]", el)
+          .filter((slot) => slot.offsetParent !== null)
+          .map((slot) => ({
+            slot,
+            x: slot.offsetLeft + slot.offsetWidth / 2 - w / 2,
+            y: slot.offsetTop + slot.offsetHeight / 2 - h / 2,
+            w: slot.offsetWidth,
+            h,
+            depth: Number(slot.dataset.depth),
+          }))
+          .sort((p, q) => p.x - q.x); // fan out left to right
+      };
+      const cards = geometry();
+      const mid = (cards.length - 1) / 2;
 
-        const intro = gsap.timeline({ paused: !isReady() });
-        intro
-          .from("[data-word]", { yPercent: 70, autoAlpha: 0, duration: dur.slow, ease: ease.reveal, stagger: stagger.words })
-          .from("[data-fade]", { y: 16, autoAlpha: 0, duration: dur.base, ease: ease.reveal, stagger: stagger.items }, 0.35);
-        cards.forEach((c, i) => {
-          intro.from(
-            c.slot.querySelector("[data-card-intro]"),
-            {
-              // Stacked, fanned deck peeking up from the bottom edge (then out to rest)
-              x: -c.x + (i - mid) * c.w * 0.42,
-              y: c.h * 0.47 - c.y,
-              rotation: (i - mid) * 7 - Number(c.slot.dataset.rotate),
-              duration: dur.slow * 1.4,
-              ease: ease.reveal,
+      const intro = gsap.timeline({ paused: !isReady() });
+      intro
+        .from(gsap.utils.toArray("[data-word]", el), {
+          yPercent: 70,
+          autoAlpha: 0,
+          duration: dur.slow,
+          ease: ease.reveal,
+          stagger: stagger.words,
+        })
+        .from(
+          gsap.utils.toArray("[data-fade]", el),
+          { y: 16, autoAlpha: 0, duration: dur.base, ease: ease.reveal, stagger: stagger.items },
+          0.35,
+        );
+      cards.forEach((c, i) => {
+        intro.from(
+          c.slot.querySelector("[data-card-intro]"),
+          {
+            // Stacked, fanned deck peeking up from the bottom edge (then out to rest)
+            x: -c.x + (i - mid) * c.w * 0.42,
+            y: c.h * 0.47 - c.y,
+            rotation: (i - mid) * 7 - Number(c.slot.dataset.rotate),
+            duration: dur.slow * 1.4,
+            ease: ease.reveal,
+          },
+          0.2 + i * 0.05,
+        );
+      });
+
+      // Scroll drift + cursor parallax aren't needed for first paint: set them
+      // up after the intro starts, when the main thread is idle.
+      let offMove = () => {};
+      const setup = contextSafe!(() => {
+        // Scroll: cards drift outward and up, nearer cards faster; the copy lags behind
+        let live = cards; // re-measured on every refresh (resize)
+        const out = gsap.timeline({
+          scrollTrigger: {
+            trigger: el,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+            invalidateOnRefresh: true,
+            onRefreshInit: () => {
+              live = geometry();
             },
-            0.2 + i * 0.05,
+          },
+        });
+        cards.forEach((c, i) => {
+          out.to(
+            c.slot,
+            {
+              x: () => live[i].x * 0.35 * c.depth,
+              y: () => live[i].y * 0.35 * c.depth - 160 * c.depth,
+              rotation: () => Math.sign(live[i].x) * 8 * c.depth,
+              ease: ease.scrub,
+            },
+            0,
           );
         });
+        out.to(el.querySelector("[data-hero-copy]"), { y: 120, autoAlpha: 0, ease: ease.scrub }, 0);
 
-        // Scroll drift + cursor parallax aren't needed for first paint: set them
-        // up after the intro starts, when the main thread is idle.
-        let offMove = () => {};
-        const setup = contextSafe!(() => {
-          // Scroll: cards drift outward and up, nearer cards faster; the copy lags behind
-          let live = cards; // re-measured on every refresh (resize)
-          const out = gsap.timeline({
-            scrollTrigger: {
-              trigger: el,
-              start: "top top",
-              end: "bottom top",
-              scrub: true,
-              invalidateOnRefresh: true,
-              onRefreshInit: () => {
-                live = geometry();
-              },
-            },
-          });
-          cards.forEach((c, i) => {
-            out.to(
-              c.slot,
-              {
-                x: () => live[i].x * 0.35 * c.depth,
-                y: () => live[i].y * 0.35 * c.depth - 160 * c.depth,
-                rotation: () => Math.sign(live[i].x) * 8 * c.depth,
-                ease: ease.scrub,
-              },
-              0,
-            );
-          });
-          out.to("[data-hero-copy]", { y: 120, autoAlpha: 0, ease: ease.scrub }, 0);
-
-          // Cursor parallax by depth (fine pointers only)
-          if (!window.matchMedia(mq.finePointer).matches) return;
-          const movers = cards.map((c) => ({
-            depth: c.depth,
-            x: gsap.quickTo(c.slot.querySelector("[data-card-float]"), "x", { duration: dur.slow, ease: ease.ui }),
-            y: gsap.quickTo(c.slot.querySelector("[data-card-float]"), "y", { duration: dur.slow, ease: ease.ui }),
-          }));
-          const onMove = (e: PointerEvent) => {
-            const dx = e.clientX / window.innerWidth - 0.5;
-            const dy = e.clientY / window.innerHeight - 0.5;
-            for (const m of movers) {
-              m.x(dx * -36 * m.depth);
-              m.y(dy * -36 * m.depth);
-            }
-          };
-          window.addEventListener("pointermove", onMove, { passive: true });
-          offMove = () => window.removeEventListener("pointermove", onMove);
-        });
-
-        let cancelIdle = () => {};
-        const offReady = onReady(() => {
-          intro.play();
-          cancelIdle = whenIdle(setup);
-        });
-        return () => {
-          offReady();
-          cancelIdle();
-          offMove();
+        // Cursor parallax by depth (fine pointers only)
+        if (!window.matchMedia(mq.finePointer).matches) return;
+        const movers = cards.map((c) => ({
+          depth: c.depth,
+          x: gsap.quickTo(c.slot.querySelector("[data-card-float]"), "x", { duration: dur.slow, ease: ease.ui }),
+          y: gsap.quickTo(c.slot.querySelector("[data-card-float]"), "y", { duration: dur.slow, ease: ease.ui }),
+        }));
+        const onMove = (e: PointerEvent) => {
+          const dx = e.clientX / window.innerWidth - 0.5;
+          const dy = e.clientY / window.innerHeight - 0.5;
+          for (const m of movers) {
+            m.x(dx * -36 * m.depth);
+            m.y(dy * -36 * m.depth);
+          }
         };
+        window.addEventListener("pointermove", onMove, { passive: true });
+        offMove = () => window.removeEventListener("pointermove", onMove);
       });
-    },
-    { scope: root },
-  );
+
+      let cancelIdle = () => {};
+      const offReady = onReady(() => {
+        intro.play();
+        cancelIdle = whenIdle(setup);
+      });
+      return () => {
+        offReady();
+        cancelIdle();
+        offMove();
+      };
+    });
+  });
 
   return (
     <section ref={root} data-scene="Intro" className="hero relative isolate h-svh min-h-[600px] overflow-hidden">
