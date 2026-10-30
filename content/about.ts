@@ -23,7 +23,7 @@ export const about: About = {
     { title: "Story", body: "Every scroll, cut and frame should say something." },
     { title: "Curiosity", body: "Always learning, always exploring." },
   ],
-  currentlyLearning: ["After Effects", "Blender", "Motion graphics", "Color grading"],
+  currentlyLearning: ["After Effects", "Blender", "Motion graphics"],
   funFacts: ["Placeholder fun fact.", "Another placeholder fun fact.", "One more placeholder fun fact."],
   yearsCreating: 3,
 };
