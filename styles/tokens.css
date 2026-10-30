@@ -87,6 +87,16 @@
   --color-on-media: #ffffff;
   --color-rec: #ff3b30;
 
+  /* Resume desk (home Resume scene): paper is paper in both themes */
+  --color-paper: #fbfaf6;
+  --color-paper-ink: #151515;
+  --color-paper-muted: #5c5c5c;
+  --color-paper-line: rgb(0 0 0 / 0.09);
+  --color-stamp: #2f6b00;
+  --color-tape: rgb(236 226 190 / 0.82);
+  --color-polaroid: #ffffff;
+  --color-metal: #9a9a9a;
+
   /* Cover swatches (about value cards, timeline clips), fixed in both themes */
   --color-swatch-green: #3ddc4a;
   --color-swatch-pink: #f04fa0;

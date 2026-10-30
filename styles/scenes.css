@@ -1289,42 +1289,253 @@
   font-size: 0.9375rem;
 }
 
-/* Resume moment — blocks fly in and stack into a paper sheet */
-.resume-sheet {
+/* Resume moment — a resume put together on a desk */
+.resume-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.resume-facts > div {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: clamp(14px, 1.6vw, 18px);
+  gap: 4px;
+  padding: 14px 16px;
   border: 1px solid var(--color-line);
-  border-radius: 28px;
-  background: var(--color-bg-elev);
-  box-shadow: var(--shadow-card);
-}
-
-.resume-block {
-  padding: clamp(16px, 1.8vw, 22px);
-  border: 1px solid var(--color-line);
-  border-radius: 18px;
-  background: var(--color-bg);
-}
-
-.resume-block .meta:first-child {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 9999px;
+  border-radius: 16px;
   background: var(--color-bg-elev);
 }
 
-.resume-block:first-child {
-  border-color: transparent;
-  background: var(--color-fg);
-  color: var(--color-bg);
+.resume-desk {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 72px 16px 48px; /* the polaroid and clip overhang the top edge */
 }
 
-.resume-block:first-child .meta {
-  padding: 0;
-  background: none;
-  color: color-mix(in srgb, var(--color-bg) 70%, transparent);
+/* The sheet: fixed paper colors, a slight resting tilt, a soft drop shadow */
+.paper {
+  position: relative;
+  width: min(100%, 540px);
+  padding: clamp(24px, 3.4vw, 40px) clamp(22px, 3.2vw, 38px) clamp(26px, 3vw, 34px);
+  border-radius: 6px;
+  background: var(--color-paper);
+  color: var(--color-paper-ink);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.08),
+    0 24px 60px -18px rgb(0 0 0 / 0.38);
+  rotate: -2deg;
+}
+
+.paper [data-line] {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.paper-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 120px; /* room for the polaroid */
+  padding-bottom: 18px;
+  border-bottom: 1.5px solid var(--color-paper-ink);
+}
+
+.paper-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.paper-meta {
+  color: var(--color-paper-muted);
+  font-size: 0.75rem;
+}
+
+.paper-strong {
+  font-weight: 600;
+}
+
+.paper-label {
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-paper-muted);
+}
+
+.paper-cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 28px;
+  padding-top: 4px;
+}
+
+.paper-entry + .paper-entry {
+  margin-top: 8px;
+}
+
+/* Highlighter: a lime swipe behind the text (scrubbed in by background-size) */
+.paper-hl {
+  padding-inline: 3px;
+  border-radius: 2px;
+  background: linear-gradient(var(--color-accent), var(--color-accent)) no-repeat left 60% / 100% 100%;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.paper-rules {
+  display: grid;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.paper-rules span {
+  height: 1px;
+  background: var(--color-paper-line);
+}
+
+.paper-rules span:nth-child(2) {
+  width: 82%;
+}
+
+.paper-rules span:nth-child(3) {
+  width: 64%;
+}
+
+/* Paper clip on the top edge */
+.paper-clip {
+  position: absolute;
+  top: -18px;
+  left: 34px;
+  width: 22px;
+  height: 58px;
+  border: 3px solid var(--color-metal);
+  border-radius: 11px;
+  rotate: 8deg;
+}
+
+.paper-clip::after {
+  content: "";
+  position: absolute;
+  inset: 8px 3px 14px;
+  border: 3px solid var(--color-metal);
+  border-bottom: 0;
+  border-radius: 7px 7px 0 0;
+}
+
+/* Taped polaroid of the portrait, top-right */
+.polaroid {
+  position: absolute;
+  top: -26px;
+  right: -22px;
+  display: flex;
+  width: clamp(104px, 13vw, 132px);
+  flex-direction: column;
+  padding: 7px 7px 6px;
+  background: var(--color-polaroid);
+  box-shadow: 0 10px 24px -8px rgb(0 0 0 / 0.4);
+  rotate: 7deg;
+}
+
+.polaroid-photo {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--color-paper-line);
+}
+
+.polaroid-caption {
+  padding-top: 5px;
+  color: var(--color-paper-ink);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-align: center;
+}
+
+.polaroid-tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  z-index: 1;
+  width: 58px;
+  height: 18px;
+  margin-left: -29px;
+  background: var(--color-tape);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+  rotate: -4deg;
+  transform-origin: left center;
+}
+
+/* Rubber stamp, bottom-right of the sheet */
+.stamp {
+  position: absolute;
+  right: 18px;
+  bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 14px 7px;
+  border: 3px double var(--color-stamp);
+  border-radius: 8px;
+  color: var(--color-stamp);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  mix-blend-mode: multiply;
+  opacity: 0.88;
+  rotate: -12deg;
+}
+
+.stamp-sub {
+  font-size: 0.5625rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+}
+
+/* Sticky note peeking out from under the sheet, bottom-left */
+.sticky-note {
+  position: absolute;
+  bottom: 6px;
+  left: clamp(0px, 4vw, 40px);
+  z-index: 1;
+  padding: 16px 18px 22px;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  box-shadow: 0 10px 22px -10px rgb(0 0 0 / 0.4);
+  rotate: -6deg;
+}
+
+@media (max-width: 47.99rem) {
+  .paper-head {
+    padding-right: 92px;
+  }
+
+  .paper-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .polaroid {
+    right: -8px;
+  }
+
+  .stamp {
+    font-size: 0.6875rem;
+  }
 }
 
 /* Black pill — primary CTA (View work, Download, Send) */
