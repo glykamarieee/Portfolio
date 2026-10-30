@@ -186,7 +186,7 @@ The lens motif also shows up in:
 | 7 | Certificates — The Archive | camera flies forward through paper certificate cards with issuer seals; frosted HUD with progress; two-column lightbox | swipeable card deck | grid |
 | 8 | Resume | blocks fly in and stack into a paper sheet | static sheet | static |
 | 9 | Contact | magnetic "Let's get in touch", contact cards (email copy, Cebu time, availability), social pills, form in a card | stacked | static |
-| 10 | Footer | sign-off card (positioning line, status, link columns, live time), name set edge to edge (letters rise), fine print + back-to-top. No CTA here: home ends on Contact; sub-pages end on `<WorkTogether />` (crossed tapes + dark CTA card) above the footer | 2-col links | static name |
+| 10 | Footer | end slate: a clapperboard whose striped arm snaps shut on enter (claps again on hover), cells for production line, status, scene/roll/take, location + LIVE time, links, name set edge to edge (letters rise), fine print + back-to-top. No CTA here: home ends on Contact; sub-pages end on `<WorkTogether />` (crossed tapes + dark CTA card) above the footer | 2-col links | static name |
 
 ### Certificates — The Archive (detail)
 - Pinned scene, `+=350%`. Cards sit on z-planes −200 / −800 / −1400 / −2000px under `perspective: 1200px`.

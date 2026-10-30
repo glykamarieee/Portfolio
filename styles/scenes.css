@@ -1770,13 +1770,6 @@
   position: relative;
 }
 
-/* Footer sign-off: name, line, status */
-.footer-brand {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
 /* "Let's work together" (components/system/WorkTogether.tsx): closes the
    sub-pages; it reuses the footer card and tape styles below */
 .work-together {
@@ -1975,15 +1968,163 @@
   font-size: 0.9375rem;
 }
 
-.footer-cols {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 32px;
+/* Footer end slate: a clapperboard — striped arm + bar, then chalk-label cells */
+.slate {
+  --slate-rule: color-mix(in srgb, var(--color-fg) 14%, transparent);
+  position: relative;
+  margin-top: clamp(24px, 4vw, 48px);
 }
 
-@media (min-width: 48rem) {
-  .footer-cols {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+.slate-clapper {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+/* Black-and-lime stripes in both themes; the arm leans the other way, like a
+   real clapper. A faint rim keeps the edge on the dark theme. */
+.slate-arm,
+.slate-bar {
+  height: clamp(30px, 3.4vw, 46px);
+  box-shadow: 0 0 0 1px var(--slate-rule);
+  background: repeating-linear-gradient(
+    115deg,
+    var(--color-swatch-ink) 0 clamp(22px, 2.4vw, 34px),
+    var(--color-accent) clamp(22px, 2.4vw, 34px) clamp(44px, 4.8vw, 68px)
+  );
+}
+
+.slate-arm {
+  border-radius: 14px 14px 4px 4px;
+  transform-origin: 12px 100%;
+  cursor: pointer;
+}
+
+.slate-bar {
+  border-radius: 4px;
+  background: repeating-linear-gradient(
+    65deg,
+    var(--color-swatch-ink) 0 clamp(22px, 2.4vw, 34px),
+    var(--color-accent) clamp(22px, 2.4vw, 34px) clamp(44px, 4.8vw, 68px)
+  );
+}
+
+/* Hinge pin on the left end */
+.slate-clapper::after {
+  content: "";
+  position: absolute;
+  bottom: calc(clamp(30px, 3.4vw, 46px) - 4px);
+  left: 6px;
+  width: 14px;
+  height: 14px;
+  border: 3px solid var(--color-bg);
+  border-radius: 9999px;
+  background: var(--color-fg-muted);
+}
+
+.slate-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid var(--slate-rule);
+  border-radius: 6px 6px 24px 24px;
+  background: var(--color-bg-elev);
+}
+
+.slate-cell {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  padding: clamp(16px, 2vw, 26px);
+  border-right: 1px solid var(--slate-rule);
+  border-bottom: 1px solid var(--slate-rule);
+  margin: 0 -1px -1px 0; /* hide the outer edge's double rule */
+}
+
+.slate-label {
+  color: var(--color-fg-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.slate-title {
+  max-width: 18ch;
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+.slate-value {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 1.8vw, 1.625rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.slate-prod {
+  grid-column: span 8;
+  justify-content: space-between;
+  min-height: clamp(150px, 15vw, 210px);
+}
+
+.slate-status {
+  grid-column: span 4;
+  justify-content: space-between;
+}
+
+.slate-small {
+  grid-column: span 2;
+}
+
+.slate-location {
+  grid-column: span 6;
+}
+
+.slate-links {
+  grid-column: span 6;
+}
+
+.slate-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+}
+
+/* Red "LIVE" tag next to the local time */
+.slate-live {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--color-rec);
+  color: var(--color-on-media);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 63.99rem) {
+  .slate-prod,
+  .slate-status,
+  .slate-location,
+  .slate-links {
+    grid-column: span 12;
+  }
+
+  .slate-small {
+    grid-column: span 4;
+  }
+
+  .slate-prod {
+    min-height: 0;
+    gap: 16px;
   }
 }
 
