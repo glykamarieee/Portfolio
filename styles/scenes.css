@@ -104,55 +104,307 @@
   letter-spacing: -0.045em;
 }
 
-/* Cover art: a line drawing of what the card opens, between kicker and title */
+/* Cover art (components/scenes/Hero/CardArt.tsx): quiet interface pieces in the
+   card's ink, sized in cqi so they scale with the card */
 .hero-card-art {
+  --soft: color-mix(in srgb, currentColor 13%, transparent);
+  --mid: color-mix(in srgb, currentColor 34%, transparent);
   position: relative;
   z-index: 1;
-  display: grid;
+  display: flex;
   flex: 1;
   min-height: 0;
-  place-items: center;
-  padding-block: 7%;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: 6cqi;
   pointer-events: none;
 }
 
-.hero-card-svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 4.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.hero-card-svg .svg-fill {
-  fill: currentColor;
-  stroke: none;
-}
-
-.hero-card-svg .svg-card {
-  fill: var(--card-bg);
-}
-
-.hero-card-svg .svg-hole {
-  fill: var(--card-bg);
-  stroke: none;
-}
-
-.hero-card-svg .svg-dash {
-  stroke-dasharray: 0.1 9;
-  stroke-width: 5.5;
-}
-
-.hero-card-svg .svg-label {
-  fill: var(--card-bg);
-  stroke: none;
+.ca-label {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: max(6px, 3.6cqi);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+/* Journey: a thin timeline of real years, ending on a glowing "Now" */
+.ca-timeline {
+  position: relative;
+  display: grid;
+  gap: 4.5cqi;
+}
+
+.ca-timeline::before {
+  content: "";
+  position: absolute;
+  top: 3cqi;
+  bottom: 3cqi;
+  left: 2.2cqi;
+  width: 1px;
+  background: var(--mid);
+}
+
+.ca-stop {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4.4cqi auto 1fr;
+  align-items: center;
+  gap: 3cqi;
+}
+
+.ca-dot {
+  justify-self: center;
+  width: 2.6cqi;
+  height: 2.6cqi;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: var(--card-bg);
+}
+
+.ca-year {
+  font-family: var(--font-display);
+  font-size: 6.5cqi;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.ca-stop.is-now .ca-dot {
+  background: currentColor;
+  box-shadow: 0 0 0 1.8cqi var(--soft);
+}
+
+.ca-stop.is-now .ca-year {
   font-weight: 700;
-  letter-spacing: 0.06em;
+}
+
+/* Work: a wireframe of a site */
+.ca-browser {
+  overflow: hidden;
+  border: 1px solid var(--mid);
+  border-radius: 3cqi;
+  background: color-mix(in srgb, currentColor 5%, transparent);
+}
+
+.ca-browser-bar {
+  display: flex;
+  gap: 1.4cqi;
+  padding: 2.4cqi 3cqi;
+  border-bottom: 1px solid var(--soft);
+}
+
+.ca-browser-bar i,
+.ca-bubble.is-typing i {
+  width: 1.8cqi;
+  height: 1.8cqi;
+  border-radius: 50%;
+  background: var(--mid);
+}
+
+.ca-browser-body {
+  display: grid;
+  gap: 2.6cqi;
+  padding: 4cqi;
+}
+
+.ca-line {
+  display: block;
+  height: 1.3cqi;
+  border-radius: 9999px;
+  background: var(--mid);
+}
+
+.ca-line.is-head {
+  width: 70%;
+  height: 3cqi;
+  background: currentColor;
+}
+
+.ca-line.is-sub {
+  width: 45%;
+}
+
+.ca-line.is-short {
+  width: 55%;
+}
+
+.ca-blocks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2cqi;
+  margin-top: 1cqi;
+}
+
+.ca-blocks span {
+  aspect-ratio: 4 / 3;
+  border-radius: 1.6cqi;
+  background: var(--soft);
+}
+
+.ca-blocks .is-solid {
+  background: currentColor;
+}
+
+/* Archive: the certificate count, set big */
+.ca-count {
+  display: flex;
+  flex-direction: column;
+  gap: 3cqi;
+  padding-top: 3cqi;
+  border-top: 1px solid var(--mid);
+}
+
+.ca-count-num {
+  font-family: var(--font-display);
+  font-size: 34cqi;
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.85;
+}
+
+/* Skills: the three crafts as ruled rows */
+.ca-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4cqi;
+  padding-block: 3cqi;
+  border-top: 1px solid var(--mid);
+}
+
+.ca-row:last-child {
+  border-bottom: 1px solid var(--mid);
+}
+
+.ca-row-name {
+  font-family: var(--font-display);
+  font-size: 8cqi;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+/* Say hi: a mini chat */
+.ca-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4cqi;
+}
+
+.ca-bubble {
+  align-self: flex-start;
+  max-width: 84%;
+  padding: 2.6cqi 3.6cqi;
+  border-radius: 4cqi 4cqi 4cqi 1cqi;
+  background: var(--soft);
+  font-size: max(7px, 4.6cqi);
+  line-height: 1.25;
+}
+
+.ca-bubble.is-me {
+  align-self: flex-end;
+  border-radius: 4cqi 4cqi 1cqi 4cqi;
+  background: var(--card-fg); /* not currentColor: color is the card bg here */
+  color: var(--card-bg);
+  font-weight: 600;
+}
+
+.ca-bubble.is-typing {
+  display: flex;
+  gap: 1.2cqi;
+  padding: 3cqi 3.6cqi;
+}
+
+.ca-bubble.is-typing i {
+  animation: ca-typing 1.2s var(--ease-ui) infinite;
+}
+
+.ca-bubble.is-typing i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.ca-bubble.is-typing i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes ca-typing {
+  30% {
+    opacity: 0.3;
+    translate: 0 -0.8cqi;
+  }
+}
+
+/* Resume: a miniature of the page */
+.ca-sheet {
+  position: relative;
+  display: grid;
+  gap: 4cqi;
+  padding: 5cqi;
+  border-radius: 2cqi;
+  background: color-mix(in srgb, var(--color-on-media) 55%, transparent);
+  box-shadow: 0 2cqi 6cqi -2cqi rgb(0 0 0 / 0.22);
+}
+
+.ca-sheet-head {
+  display: flex;
+  align-items: center;
+  gap: 3cqi;
+  padding-bottom: 3cqi;
+  border-bottom: 1px solid var(--mid);
+}
+
+.ca-sheet-mark {
+  display: grid;
+  flex-shrink: 0;
+  width: 8cqi;
+  height: 8cqi;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--card-fg); /* not currentColor: color is the card bg here */
+  color: var(--card-bg);
+  font-family: var(--font-mono);
+  font-size: 3cqi;
+  font-weight: 700;
+}
+
+.ca-sheet-lines {
+  display: grid;
+  flex: 1;
+  gap: 1.8cqi;
+}
+
+.ca-sheet .ca-line {
+  height: 1cqi;
+}
+
+.ca-sheet .ca-line.is-head {
+  width: 75%;
+  height: 2cqi;
+}
+
+.ca-sheet-cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4cqi;
+}
+
+.ca-tag {
+  position: absolute;
+  right: -3cqi;
+  bottom: -3cqi;
+  padding: 1.4cqi 2.6cqi;
+  border-radius: 9999px;
+  background: var(--card-fg); /* not currentColor: color is the card bg here */
+  color: var(--card-bg);
+  font-family: var(--font-mono);
+  font-size: 3.6cqi;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ca-bubble.is-typing i {
+    animation: none;
+  }
 }
 
 /* Photo covers: a shade top and bottom so the white kicker and title read */

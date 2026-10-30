@@ -1,87 +1,118 @@
-import type { HeroCard } from "@/content";
+import { certificates, education, experience, skillCategories, site, type HeroCard } from "@/content";
+import { initials, pad } from "@/lib/format";
 
-// Line drawings for the hero cover cards, one per destination, in the card's
-// own ink (currentColor). Cards with a photo cover (`about`) draw nothing.
+// Journey stops: when each school and job began, oldest first (the last three)
+const stops = [
+  ...education.map((e) => ({ year: e.start, label: "School" })),
+  ...experience.map((e) => ({ year: Number(e.start.slice(0, 4)), label: "Work" })),
+]
+  .sort((a, b) => a.year - b.year)
+  .slice(-3);
+
+// Cover art for the hero cards: small, quiet interface pieces built from the
+// real content, in the card's own ink (currentColor) — a timeline for
+// Journey, a wireframe for Work, the certificate count for the Archive, and
+// so on. Cards with a photo cover (`about`) draw nothing.
 export function CardArt({ art }: { art: HeroCard["art"] }) {
-  if (art === "about") return null;
+  switch (art) {
+    case "journey":
+      return (
+        <span className="ca-timeline">
+          {stops.map((stop, i) => (
+            <span key={i} className="ca-stop">
+              <span className="ca-dot" />
+              <span className="ca-year">{stop.year}</span>
+              <span className="ca-label">{stop.label}</span>
+            </span>
+          ))}
+          <span className="ca-stop is-now">
+            <span className="ca-dot" />
+            <span className="ca-year">Now</span>
+          </span>
+        </span>
+      );
 
-  return (
-    <svg viewBox="0 0 100 100" className="hero-card-svg" aria-hidden="true">
-      {art === "journey" && (
-        // A winding path past milestones to a graduation cap
-        <>
-          <path d="M10 88 C 34 88, 26 58, 48 58 S 66 36, 78 34" className="svg-dash" />
-          <circle cx="10" cy="88" r="5" className="svg-fill" />
-          <circle cx="48" cy="58" r="5" className="svg-fill" />
-          <path d="M80 6 L98 15 L80 24 L62 15 Z" className="svg-fill" />
-          <path d="M70 19 v8 c0 5 20 5 20 0 v-8" />
-          <path d="M95 16 v12" />
-          <circle cx="95" cy="30" r="2.6" className="svg-fill" />
-        </>
-      )}
+    case "work":
+      return (
+        <span className="ca-browser">
+          <span className="ca-browser-bar">
+            <i />
+            <i />
+            <i />
+          </span>
+          <span className="ca-browser-body">
+            <span className="ca-line is-head" />
+            <span className="ca-line is-sub" />
+            <span className="ca-blocks">
+              <span className="is-solid" />
+              <span />
+              <span />
+              <span />
+            </span>
+          </span>
+        </span>
+      );
 
-      {art === "work" && (
-        // A browser window with a code mark
-        <>
-          <rect x="6" y="14" width="88" height="70" rx="8" />
-          <path d="M6 30 H94" />
-          <circle cx="15" cy="22" r="2.4" className="svg-fill" />
-          <circle cx="23" cy="22" r="2.4" className="svg-fill" />
-          <circle cx="31" cy="22" r="2.4" className="svg-fill" />
-          <path d="M36 46 l-11 11 l11 11" />
-          <path d="M64 46 l11 11 l-11 11" />
-          <path d="M55 42 l-10 30" />
-        </>
-      )}
+    case "archive":
+      return (
+        <span className="ca-count">
+          <span className="ca-count-num">{pad(certificates.length)}</span>
+          <span className="ca-label">Credentials · verified</span>
+        </span>
+      );
 
-      {art === "archive" && (
-        // Stacked certificates with an award seal
-        <>
-          <rect x="24" y="8" width="62" height="72" rx="4" />
-          <rect x="12" y="18" width="62" height="72" rx="4" className="svg-card" />
-          <path d="M22 34 H58 M22 44 H64 M22 54 H50" />
-          <path d="M52 78 l-5 18 l8 -5 l5 7 l3 -18" className="svg-fill" />
-          <circle cx="58" cy="74" r="11" className="svg-fill" />
-          <circle cx="58" cy="74" r="5.5" className="svg-hole" />
-        </>
-      )}
+    case "skills":
+      return (
+        <span className="ca-rows">
+          {skillCategories.map((craft, i) => (
+            <span key={craft.name} className="ca-row">
+              <span className="ca-label">{pad(i + 1)}</span>
+              <span className="ca-row-name">{craft.name}</span>
+            </span>
+          ))}
+        </span>
+      );
 
-      {art === "skills" && (
-        // The three crafts: code, cut (scissors), capture (camera)
-        <>
-          <path d="M16 14 l-10 9 l10 9 M34 14 l10 9 l-10 9 M28 10 l-6 26" />
-          <circle cx="63" cy="36" r="6.5" />
-          <circle cx="85" cy="36" r="6.5" />
-          <path d="M67 31 L92 6 M81 31 L56 6" />
-          <rect x="22" y="56" width="56" height="38" rx="6" />
-          <path d="M36 56 l4 -8 h20 l4 8" />
-          <circle cx="50" cy="75" r="10" />
-          <circle cx="69" cy="64" r="2.4" className="svg-fill" />
-        </>
-      )}
+    case "hello":
+      return (
+        <span className="ca-chat">
+          <span className="ca-bubble">Got a project in mind?</span>
+          <span className="ca-bubble is-me">Let&apos;s talk →</span>
+          <span className="ca-bubble is-typing">
+            <i />
+            <i />
+            <i />
+          </span>
+        </span>
+      );
 
-      {art === "hello" && (
-        // A speech bubble, someone typing
-        <>
-          <path d="M16 12 H84 a10 10 0 0 1 10 10 V60 a10 10 0 0 1 -10 10 H44 L26 88 V70 H16 a10 10 0 0 1 -10 -10 V22 a10 10 0 0 1 10 -10 Z" />
-          <circle cx="32" cy="41" r="5" className="svg-fill" />
-          <circle cx="50" cy="41" r="5" className="svg-fill" />
-          <circle cx="68" cy="41" r="5" className="svg-fill" />
-        </>
-      )}
+    case "resume":
+      return (
+        <span className="ca-sheet">
+          <span className="ca-sheet-head">
+            <span className="ca-sheet-mark">{initials(site.name)}</span>
+            <span className="ca-sheet-lines">
+              <span className="ca-line is-head" />
+              <span className="ca-line is-sub" />
+            </span>
+          </span>
+          <span className="ca-sheet-cols">
+            <span className="ca-sheet-lines">
+              <span className="ca-line" />
+              <span className="ca-line" />
+              <span className="ca-line is-short" />
+            </span>
+            <span className="ca-sheet-lines">
+              <span className="ca-line" />
+              <span className="ca-line is-short" />
+              <span className="ca-line" />
+            </span>
+          </span>
+          <span className="ca-tag">PDF ↓</span>
+        </span>
+      );
 
-      {art === "resume" && (
-        // A page with a folded corner and a PDF badge
-        <>
-          <path d="M22 6 H62 L82 26 V94 H22 Z" />
-          <path d="M62 6 V26 H82" />
-          <path d="M34 42 H70 M34 52 H70 M34 62 H58" />
-          <rect x="10" y="68" width="46" height="22" rx="5" className="svg-fill" />
-          <text x="33" y="83.5" textAnchor="middle" className="svg-label">
-            PDF
-          </text>
-        </>
-      )}
-    </svg>
-  );
+    default:
+      return null;
+  }
 }
