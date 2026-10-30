@@ -467,12 +467,21 @@
   --lens-r: 120px;
 }
 
-/* Selected Work — browser-window cards on a horizontal track */
-.work-track {
+/* Selected Work — browser-window cards as frames on a 35mm film strip */
+.filmstrip {
+  --hole: var(--color-bg);
+  --pitch: 26px; /* sprocket hole + gap */
   display: flex;
   flex-direction: column;
-  gap: 48px;
-  padding-inline: var(--page-margin);
+  gap: 28px;
+  margin-inline: var(--page-margin);
+  padding: 24px 40px;
+  border-radius: 10px;
+  /* Vertical strip: sprocket holes down both sides */
+  background:
+    linear-gradient(var(--hole) 0 15px, transparent 15px) 13px 0 / 11px var(--pitch) repeat-y,
+    linear-gradient(var(--hole) 0 15px, transparent 15px) calc(100% - 13px) 0 / 11px var(--pitch) repeat-y,
+    var(--color-film);
 }
 
 .work[data-mode="track"] {
@@ -487,17 +496,122 @@
   overflow: hidden;
 }
 
+/* Horizontal strip: sprocket holes along the top and bottom */
 .work[data-mode="track"] .work-track {
   flex-direction: row;
+  align-items: stretch;
   gap: clamp(20px, 2.4vw, 40px);
   width: max-content;
+  margin-inline: 0;
+  padding: 34px var(--page-margin);
+  border-radius: 0;
+  background:
+    linear-gradient(90deg, var(--hole) 0 15px, transparent 15px) 0 11px / var(--pitch) 11px repeat-x,
+    linear-gradient(90deg, var(--hole) 0 15px, transparent 15px) 0 calc(100% - 11px) / var(--pitch) 11px repeat-x,
+    var(--color-film);
   will-change: transform;
 }
 
+.work-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 /* Panel width follows viewport height so the whole card always fits in the pin
-   (header ~190px + card chrome ~190px around a 16:10 image) */
+   (header ~190px + strip and card chrome ~280px around a 16:10 image) */
 .work[data-mode="track"] .work-panel {
-  width: min(50vw, calc((100svh - 390px) * 1.6));
+  width: min(50vw, calc((100svh - 470px) * 1.6));
+}
+
+.work[data-mode="track"] .work-panel.is-wrap {
+  width: min(34vw, calc((100svh - 470px) * 1.1));
+}
+
+/* Film edge markings above each frame */
+.frame-edge {
+  display: flex;
+  gap: 24px;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.work-frame {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.work-frame > * {
+  flex: 1;
+}
+
+/* Last frame: "That's a wrap" */
+.work-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: clamp(22px, 2.6vw, 36px);
+  border-radius: 22px;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  transition: translate var(--dur-base) var(--ease-reveal);
+}
+
+.work-wrap .meta {
+  color: inherit;
+  opacity: 0.7;
+}
+
+.work-wrap .text-display {
+  font-size: clamp(2rem, 3.4vw, 3.5rem);
+}
+
+.work-wrap-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.work-wrap .work-arrow {
+  background: var(--color-accent-ink);
+  color: var(--color-accent);
+}
+
+.work-wrap:hover,
+.work-wrap:focus-visible {
+  translate: 0 -8px;
+}
+
+.work-wrap:hover .work-arrow {
+  rotate: -45deg;
+}
+
+/* Header: a recording dot and a running timecode */
+.work-rec {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: var(--color-rec);
+  animation: rec-pulse 1.4s var(--ease-ui) infinite;
+}
+
+.work-tc {
+  color: var(--color-fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-rec {
+    animation: none;
+  }
 }
 
 .work[data-mode="track"] header {

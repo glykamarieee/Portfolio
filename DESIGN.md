@@ -180,7 +180,7 @@ The lens motif also shows up in:
 | 1 | Hero | centered headline with inline image; cover cards fan out from a stack, drift outward on scroll | 4 cards | static cards |
 | 2 | Manifesto | centered statement over three giant outlined rows (Code/Cut/Capture) drifting opposite ways; lime quote mark; words light up as you scroll, key phrases get a lime highlighter swipe and an animated craft chip (code tag, splitting film strip, REC viewfinder); first name drawn as a signature + Code/Cut/Capture | same | all lit + highlighted |
 | 3 | About teaser | tilted photo stack (lens reveals the alternate shot, hover fans the cards), "Hi, I'm Glyka", value cards | same | static |
-| 4 | Selected Work | header with count + progress rail; pinned horizontal track of browser-window project cards (URL bar, stack pills, arrow) | vertical stack | vertical stack |
+| 4 | Selected Work | header with REC dot, frame count, running timecode + progress rail; pinned horizontal 35mm film strip (sprocket holes, edge markings) of browser-window project cards that rack into focus at center; ends on a lime "That's a wrap" frame linking to contact | vertical film strip | vertical film strip |
 | 5 | Skills | three stacking cards — code editor, edit timeline with scrubbing playhead, viewfinder with rack focus | cards in a column | cards, no playhead/rack focus |
 | 6 | Journey | two-lane timeline of cards (monogram, Work/School pill, Now badge, highlights); spine draws, dots light, year badge rides the spine | single lane | all dots lit |
 | 7 | Certificates — The Archive | camera flies forward through paper certificate cards with issuer seals; frosted HUD with progress; two-column lightbox | swipeable card deck | grid |
