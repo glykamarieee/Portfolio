@@ -43,7 +43,6 @@ export type About = {
   shortBio: string;
   longBio: string[];
   manifesto: string; // home scene 2: 2–3 sentences. Wrap key phrases in *stars*.
-  manifestoMedia: Media[]; // one small image per *key phrase*, in order
   portrait: Media;
   portraitAlt: Media; // revealed by the lens (e.g. behind the camera)
   values: { title: string; body: string }[];
@@ -123,4 +122,3 @@ export type Skill = {
   level?: 1 | 2 | 3 | 4 | 5;
   projects?: string[]; // project slugs that used the skill
 };
-

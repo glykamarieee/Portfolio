@@ -159,7 +159,47 @@
   rotate: -8deg;
 }
 
-/* Manifesto — centered statement, highlighter keys, tilted photo chips */
+/* Manifesto — statement over outlined craft rows, craft chips, a drawn signature */
+.manifesto-ghost {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: grid;
+  align-content: center;
+  gap: 0.04em;
+  overflow: hidden;
+  pointer-events: none;
+  font-family: var(--font-display);
+  font-size: clamp(5.5rem, 17vw, 16rem);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+
+.manifesto-ghost-row {
+  width: max-content;
+  color: transparent;
+  white-space: nowrap;
+  -webkit-text-stroke: 1px var(--color-fg-faint);
+  opacity: 0.55;
+}
+
+.manifesto-ghost-row:nth-child(2) {
+  margin-left: -0.6em;
+}
+
+/* Lime opening quote mark */
+.manifesto-quote {
+  height: 0.36em;
+  margin-bottom: -0.16em;
+  color: var(--color-accent-fg);
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 8vw, 7.5rem);
+  font-weight: 500;
+  line-height: 0.8;
+  text-align: center;
+}
+
 .manifesto-text {
   max-width: 17em;
   margin-inline: auto;
@@ -175,38 +215,162 @@
   -webkit-box-decoration-break: clone;
 }
 
-.manifesto-chip {
+/* Craft chips: inline, sized in em so they scale with the statement */
+.mchip {
   position: relative;
   display: inline-block;
-  width: 0.82em;
-  height: 1em;
+  width: 1.3em;
+  height: 0.86em;
   margin-inline: 0.08em 0.16em;
-  overflow: hidden;
-  vertical-align: -0.14em;
-  border: 0.05em solid var(--color-bg);
-  border-radius: 0.12em;
+  vertical-align: -0.08em;
+  border-radius: 0.14em;
   box-shadow: var(--shadow-card);
   transform: rotate(var(--tilt, 0deg));
 }
 
+/* The dark chips keep a faint light rim so they read on the dark theme too */
+.mchip:is(.is-code, .is-capture) {
+  box-shadow:
+    inset 0 0 0 0.025em color-mix(in srgb, var(--color-on-media) 24%, transparent),
+    var(--shadow-card);
+}
+
+/* Code: a dark tag with a blinking caret */
+.mchip.is-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.03em;
+  background: var(--color-swatch-ink);
+  color: var(--color-accent);
+}
+
+.mchip-code {
+  font-family: var(--font-mono);
+  font-size: 0.4em;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.mchip-caret {
+  width: 0.05em;
+  height: 0.38em;
+  background: currentColor;
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+/* Cut: a film strip split diagonally into two halves */
+.mchip.is-cut {
+  box-shadow: none;
+}
+
+.mchip-half {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    repeating-linear-gradient(90deg, var(--color-on-media) 0 0.06em, transparent 0.06em 0.14em) left 0.06em top 0.05em /
+      100% 0.07em no-repeat,
+    repeating-linear-gradient(90deg, var(--color-on-media) 0 0.06em, transparent 0.06em 0.14em) left 0.06em bottom
+      0.05em / 100% 0.07em no-repeat,
+    var(--color-clip-video);
+  filter: drop-shadow(0 0.04em 0.08em rgb(0 0 0 / 0.3));
+}
+
+.mchip-half.is-left {
+  clip-path: polygon(0 0, 58% 0, 44% 100%, 0 100%);
+}
+
+.mchip-half.is-right {
+  clip-path: polygon(58% 0, 100% 0, 100% 100%, 44% 100%);
+}
+
+/* Capture: a viewfinder with corner brackets and a pulsing REC dot */
+.mchip.is-capture {
+  background: var(--color-swatch-ink);
+}
+
+.mchip-corners {
+  position: absolute;
+  inset: 0.12em;
+  --c: var(--color-on-media);
+  --l: 0.16em;
+  --w: 0.035em;
+  background:
+    linear-gradient(var(--c), var(--c)) top left / var(--l) var(--w),
+    linear-gradient(var(--c), var(--c)) top left / var(--w) var(--l),
+    linear-gradient(var(--c), var(--c)) top right / var(--l) var(--w),
+    linear-gradient(var(--c), var(--c)) top right / var(--w) var(--l),
+    linear-gradient(var(--c), var(--c)) bottom left / var(--l) var(--w),
+    linear-gradient(var(--c), var(--c)) bottom left / var(--w) var(--l),
+    linear-gradient(var(--c), var(--c)) bottom right / var(--l) var(--w),
+    linear-gradient(var(--c), var(--c)) bottom right / var(--w) var(--l);
+  background-repeat: no-repeat;
+}
+
+.mchip-rec {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.16em;
+  height: 0.16em;
+  margin: -0.08em 0 0 -0.08em;
+  border-radius: 9999px;
+  background: var(--color-rec);
+  animation: rec-pulse 1.4s var(--ease-ui) infinite;
+}
+
+@keyframes rec-pulse {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mchip-caret,
+  .mchip-rec {
+    animation: none;
+  }
+}
+
+/* Sign-off: first name drawn as a signature, with a lime swoosh */
 .manifesto-sign {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 8px;
   text-align: center;
 }
 
-.manifesto-sign-line {
-  width: 48px;
-  height: 1px;
-  background: var(--color-fg-faint);
+.manifesto-signature {
+  width: clamp(150px, 15vw, 220px);
+  overflow: visible;
+}
+
+.manifesto-signature text {
+  fill: var(--color-fg);
+  stroke: var(--color-fg);
+  stroke-width: 1.2;
+  font-family: var(--font-display);
+  font-size: 68px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.manifesto-swoosh {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
 }
 
 .manifesto-craft {
   padding: 5px 12px;
   border: 1px solid var(--color-line);
   border-radius: 9999px;
+  background: var(--color-bg);
   font-family: var(--font-mono);
   font-size: var(--text-meta);
   letter-spacing: var(--text-meta--letter-spacing);
