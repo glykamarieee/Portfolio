@@ -37,3 +37,6 @@ export function initials(name: string) {
   const words = name.trim().split(/\s+/);
   return (words[0][0] + (words.length > 1 ? words[words.length - 1][0] : "")).toUpperCase();
 }
+
+/** "+63 995 035 6689" → "tel:+639950356689" */
+export const telHref = (phone: string) => `tel:${phone.replace(/[^+\d]/g, "")}`;

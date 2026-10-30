@@ -1,6 +1,7 @@
 import type { Site } from "./types";
 
-// TODO: replace placeholders with your real details.
+// Contact details match the GitHub profile README. `url` is still a placeholder
+// until the site is deployed.
 export const site: Site = {
   name: "Glyka Marie Amahan",
   role: "Creative Developer",
@@ -10,12 +11,15 @@ export const site: Site = {
   location: "Cebu, PH",
   timeZone: "Asia/Manila",
   available: true,
-  email: "hello@example.com",
+  email: "glykamarie05@gmail.com",
+  phone: "+63 995 035 6689",
   resumePdf: "/resume/resume.pdf",
+  // Most important first
   socials: [
-    { label: "GitHub", href: "https://github.com/" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/" },
-    { label: "Instagram", href: "https://www.instagram.com/" },
+    { label: "Instagram", href: "https://www.instagram.com/glykamarieee/" },
+    { label: "@gloxonaquest", href: "https://www.instagram.com/gloxonaquest/" },
+    { label: "Facebook", href: "https://www.facebook.com/glykamarieee" },
+    { label: "GitHub", href: "https://github.com/glykamarieee" },
   ],
   nav: [
     { label: "Work", href: "/#work" },

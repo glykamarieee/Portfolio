@@ -6,7 +6,7 @@ import { Magnetic } from "@/components/ui/Magnetic";
 import { MediaImage } from "@/components/ui/MediaImage";
 import { PrintButton } from "@/components/ui/PrintButton";
 import { Reveal } from "@/components/ui/Reveal";
-import { formatMonth } from "@/lib/format";
+import { formatMonth, telHref } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Resume",
@@ -43,6 +43,12 @@ export default function ResumePage() {
               <span className="meta">Email</span>
               <a href={`mailto:${site.email}`} className="link-underline" data-cursor="link">
                 {site.email}
+              </a>
+            </li>
+            <li>
+              <span className="meta">Phone</span>
+              <a href={telHref(site.phone)} className="link-underline" data-cursor="link">
+                {site.phone}
               </a>
             </li>
             {site.socials.map((social) => (

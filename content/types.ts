@@ -32,6 +32,7 @@ export type Site = {
   timeZone: string; // IANA, e.g. "Asia/Manila" — drives the live clock in the nav
   available: boolean;
   email: string;
+  phone: string; // as displayed, e.g. "+63 995 035 6689" — see telHref() for the link
   resumePdf: string;
   socials: Link[];
   nav: Link[];

@@ -6,6 +6,7 @@ import { CopyEmail } from "@/components/ui/CopyEmail";
 import { Decor } from "@/components/ui/Decor";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { SceneHeader } from "@/components/ui/SceneHeader";
+import { telHref } from "@/lib/format";
 import { sceneIndex } from "../registry";
 
 const HEADLINE = "Let's get in touch";
@@ -52,6 +53,10 @@ export function Contact() {
             <Magnetic className="self-start">
               <CopyEmail email={site.email} className="contact-email" />
             </Magnetic>
+            <span className="meta mt-2">Phone</span>
+            <a href={telHref(site.phone)} className="text-lead link-underline self-start" data-cursor="link">
+              {site.phone}
+            </a>
           </div>
           <div className="contact-card">
             <span className="meta">Based in</span>

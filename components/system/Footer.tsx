@@ -3,6 +3,7 @@ import { site } from "@/content";
 import { CopyEmail } from "@/components/ui/CopyEmail";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { RollText } from "@/components/ui/RollText";
+import { telHref } from "@/lib/format";
 import { BackToTop } from "./BackToTop";
 import { CurrentYear, FooterWordmark } from "./FooterWordmark";
 import { LocalTime } from "./LocalTime";
@@ -26,6 +27,9 @@ export function Footer() {
             <Magnetic>
               <CopyEmail email={site.email} className="footer-email" />
             </Magnetic>
+            <a href={telHref(site.phone)} className="footer-email" data-cursor="link">
+              {site.phone}
+            </a>
           </div>
         </div>
 
