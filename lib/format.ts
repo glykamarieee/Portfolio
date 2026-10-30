@@ -31,3 +31,9 @@ export function parseEmphasis(text: string) {
       part.startsWith("*") ? { text: part.slice(1, -1), em: true } : { text: part, em: false },
     );
 }
+
+/** "Glyka Marie Amahan" → "GA" (first and last word) */
+export function initials(name: string) {
+  const words = name.trim().split(/\s+/);
+  return (words[0][0] + (words.length > 1 ? words[words.length - 1][0] : "")).toUpperCase();
+}

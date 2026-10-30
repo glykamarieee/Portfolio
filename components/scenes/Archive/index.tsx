@@ -5,7 +5,7 @@ import { certificates } from "@/content";
 import { MediaImage } from "@/components/ui/MediaImage";
 import { SceneHeader } from "@/components/ui/SceneHeader";
 import { dur, ease, gsap, getLenis, mq, useGSAP } from "@/lib/motion";
-import { formatMonth, pad, yearOf } from "@/lib/format";
+import { formatMonth, initials, pad, yearOf } from "@/lib/format";
 import { sceneIndex } from "../registry";
 import { Decor } from "@/components/ui/Decor";
 
@@ -54,7 +54,9 @@ export function Archive() {
         cards.forEach((card, i) => {
           const z = START_Z - i * GAP + cameraZ; // distance from the screen plane
           const passed = z > 0;
-          const opacity = passed ? gsap.utils.clamp(0, 1, 1 - z / 300) : gsap.utils.clamp(0.15, 1, 1 + (z + 600) / 2400);
+          const opacity = passed
+            ? gsap.utils.clamp(0, 1, 1 - z / 300)
+            : gsap.utils.clamp(0.15, 1, 1 + (z + 600) / 2400);
           const blur = passed ? z / 60 : Math.max(0, (-z - 400) / 350);
           card.style.opacity = String(opacity);
           card.style.filter = `blur(${Math.min(blur, 8).toFixed(2)}px)`;
@@ -118,9 +120,16 @@ export function Archive() {
       <div className="archive-inner">
         <header className="container-grid items-end gap-y-4">
           <SceneHeader index={sceneIndex("The Archive")} title="The Archive" className="col-span-12" />
-          <h2 className="font-display text-display col-span-12 font-semibold md:col-span-8">The Archive</h2>
-          <p className="meta col-span-12 md:col-span-4 md:text-right">
-            {pad(certificates.length)} certificates · tap to inspect
+          <div className="col-span-12 flex flex-col gap-3 md:col-span-8">
+            <h2 className="font-display text-display">The Archive</h2>
+            <p className="text-lead archive-lead text-fg-muted">
+              Certificates and credentials, collected along the way.
+            </p>
+          </div>
+          <p className="col-span-12 flex md:col-span-4 md:justify-end">
+            <span className="archive-count meta">
+              <span className="text-fg">{pad(certificates.length)}</span> certificates · tap to inspect
+            </span>
           </p>
         </header>
 
@@ -131,29 +140,41 @@ export function Archive() {
                 <button
                   type="button"
                   onClick={() => show(i)}
-                  className="flex w-full flex-col gap-3 text-left"
+                  className="cert-card"
                   data-cursor="view"
                   data-cursor-label="Inspect"
                 >
-                  <span className="relative block aspect-[4/3] overflow-hidden rounded-sm border border-line bg-bg-elev">
+                  <span className="cert-media">
                     <MediaImage media={cert.image} sizes="(min-width: 1024px) 28vw, 75vw" />
                   </span>
-                  <span className="meta">
-                    {cert.issuer} · {yearOf(cert.date)}
+                  <span className="cert-seal" aria-hidden="true">
+                    {initials(cert.issuer)}
                   </span>
-                  <span className="font-display text-lead font-semibold">{cert.title}</span>
+                  <span className="flex items-center justify-between gap-3">
+                    <span className="meta">{cert.issuer}</span>
+                    <span className="meta">{yearOf(cert.date)}</span>
+                  </span>
+                  <span className="font-display text-lead">{cert.title}</span>
                 </button>
               </li>
             ))}
           </ul>
         </div>
 
-        <aside className="archive-hud meta" aria-hidden="true">
-          <span className="text-fg">
-            {pad(current + 1)} / {pad(certificates.length)}
+        <aside className="archive-hud" aria-hidden="true">
+          <span className="flex items-baseline justify-between gap-6">
+            <span className="meta">Now passing</span>
+            <span className="meta text-fg">
+              {pad(current + 1)} / {pad(certificates.length)}
+            </span>
           </span>
-          <span>{active?.issuer}</span>
-          <span>{active && yearOf(active.date)}</span>
+          <span className="font-medium">{active?.title}</span>
+          <span className="meta">
+            {active?.issuer} · {active && yearOf(active.date)}
+          </span>
+          <span className="archive-hud-rail">
+            <span style={{ width: `${((current + 1) / certificates.length) * 100}%` }} />
+          </span>
         </aside>
       </div>
 
@@ -172,44 +193,52 @@ export function Archive() {
         }}
       >
         {selected && (
-          <div className="flex flex-col gap-6">
-            <div className="relative h-[min(55svh,520px)] w-full overflow-hidden rounded-sm bg-bg">
-              <MediaImage media={selected.image} sizes="(min-width: 1024px) 50vw, 90vw" className="!object-contain" eager />
+          <div className="archive-dialog-body">
+            <div className="archive-dialog-media">
+              <MediaImage
+                media={selected.image}
+                sizes="(min-width: 1024px) 50vw, 90vw"
+                className="!object-contain"
+                eager
+              />
             </div>
-            <div className="flex flex-wrap items-end justify-between gap-6">
+            <div className="flex flex-col gap-6">
+              <span className="cert-seal is-static" aria-hidden="true">
+                {initials(selected.issuer)}
+              </span>
               <div>
                 <p className="meta">
                   {selected.issuer} · {formatMonth(selected.date)}
                 </p>
-                <h3 className="font-display text-h2 mt-2 font-semibold">{selected.title}</h3>
+                <h3 className="font-display text-h2 mt-2">{selected.title}</h3>
               </div>
               {selected.credentialUrl && (
                 <a
                   href={selected.credentialUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="meta link-underline text-accent-fg"
+                  className="btn-pill self-start"
                   data-cursor="link"
                 >
                   Verify credential ↗
                 </a>
               )}
-            </div>
-            <div className="meta flex justify-between border-t border-line pt-4">
-              <button type="button" onClick={() => step(-1)} className="link-underline text-fg" data-cursor="link">
-                ← Prev
-              </button>
-              <span>
-                {pad((open ?? 0) + 1)} / {pad(certificates.length)}
-              </span>
-              <button type="button" onClick={() => step(1)} className="link-underline text-fg" data-cursor="link">
-                Next →
-              </button>
+              <div className="mt-auto flex items-center justify-between gap-3 border-t border-line pt-4">
+                <button type="button" onClick={() => step(-1)} className="archive-step" data-cursor="link">
+                  ← Prev
+                </button>
+                <span className="meta">
+                  {pad((open ?? 0) + 1)} / {pad(certificates.length)}
+                </span>
+                <button type="button" onClick={() => step(1)} className="archive-step" data-cursor="link">
+                  Next →
+                </button>
+              </div>
             </div>
             <button
               type="button"
               onClick={() => dialog.current?.close()}
-              className="meta absolute top-4 right-4 text-fg"
+              className="archive-close"
               data-cursor="link"
               aria-label="Close"
             >

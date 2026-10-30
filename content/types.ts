@@ -44,7 +44,7 @@ export type About = {
   manifesto: string; // home scene 2: 2–3 sentences. Wrap key phrases in *stars*.
   manifestoMedia: Media[]; // one small image per *key phrase*, in order
   portrait: Media;
-  portraitAlt: Media; // revealed by the lens ("travel me")
+  portraitAlt: Media; // revealed by the lens (e.g. behind the camera)
   values: { title: string; body: string }[];
   currentlyLearning: string[];
   funFacts: string[];

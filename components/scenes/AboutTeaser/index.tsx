@@ -1,50 +1,53 @@
-import { about } from "@/content";
+import { about, site } from "@/content";
 import { TransitionLink } from "@/components/system/TransitionLink";
-import { LensImage } from "@/components/ui/LensImage";
+import { Magnetic } from "@/components/ui/Magnetic";
 import { Parallax } from "@/components/ui/Parallax";
+import { PhotoStack } from "@/components/ui/PhotoStack";
+import { Reveal } from "@/components/ui/Reveal";
 import { RollText } from "@/components/ui/RollText";
 import { SceneHeader } from "@/components/ui/SceneHeader";
 import { SplitHeading } from "@/components/ui/SplitHeading";
+import { pad } from "@/lib/format";
 import { sceneIndex } from "../registry";
 import { Decor } from "@/components/ui/Decor";
 
-// Scene 2 — portrait in three parallax layers (bloom / photo / outline type);
-// the lens over the photo reveals the alternate "travel me" shot.
+const firstName = site.name.split(" ")[0];
+
+// Scene 2 — hello. A stack of tilted photo cards (lens reveals the alternate
+// shot, hover fans them) beside a greeting, the short bio and three value cards.
 export function AboutTeaser() {
   return (
-    <section data-scene="About" className="container-grid items-center gap-y-16 overflow-x-clip py-32 relative isolate">
+    <section data-scene="About" className="container-grid relative isolate items-center gap-y-16 overflow-x-clip py-32">
       <Decor set="about" />
-      <div className="relative col-span-12 md:col-span-6 lg:col-span-4 lg:col-start-2">
-        <Parallax speed={-0.1} className="about-bloom absolute -inset-[15%]" />
-        <Parallax speed={0.06} className="relative">
-          <LensImage
-            base={about.portrait}
-            reveal={about.portraitAlt}
-            sizes="(min-width: 1024px) 40vw, (min-width: 768px) 50vw, 100vw"
-            className="aspect-[4/5] overflow-hidden rounded-sm"
-          />
-        </Parallax>
-        <Parallax speed={0.25} className="pointer-events-none absolute right-0 bottom-[8%] md:-right-[10%]">
-          <span className="font-display text-display outline-type font-semibold" aria-hidden="true">
-            Hello
-          </span>
+      <div className="col-span-12 md:col-span-6 lg:col-span-5">
+        <Parallax speed={0.06}>
+          <PhotoStack sizes="(min-width: 1024px) 34vw, (min-width: 768px) 46vw, 80vw" />
         </Parallax>
       </div>
 
-      <div className="col-span-12 flex flex-col gap-8 md:col-span-6 md:col-start-7 lg:col-span-6 lg:col-start-7">
+      <div className="col-span-12 flex flex-col gap-8 md:col-span-6 lg:col-span-6 lg:col-start-7">
         <SceneHeader index={sceneIndex("About")} title="About" />
-        <SplitHeading className="font-display text-h2 font-semibold">{about.shortBio}</SplitHeading>
-        <ul className="grid gap-6 border-t border-line pt-8 sm:grid-cols-3">
-          {about.values.map((value) => (
-            <li key={value.title}>
-              <p className="meta text-fg">{value.title}</p>
-              <p className="mt-2 text-fg-muted">{value.body}</p>
-            </li>
+        <SplitHeading className="font-display text-display">{`Hi, I'm ${firstName}.`}</SplitHeading>
+        <p className="text-lead text-fg-muted">{about.shortBio}</p>
+        <Reveal className="grid gap-3 sm:grid-cols-3" staggerChildren>
+          {about.values.map((value, i) => (
+            <div key={value.title} className="value-card">
+              <span className="meta">{pad(i + 1)}</span>
+              <p className="font-medium">{value.title}</p>
+              <p className="text-sm text-fg-muted">{value.body}</p>
+            </div>
           ))}
-        </ul>
-        <TransitionLink href="/about" className="meta self-start text-fg" data-cursor="link">
-          <RollText text="More about me →" />
-        </TransitionLink>
+        </Reveal>
+        <div className="flex flex-wrap items-center gap-6">
+          <Magnetic>
+            <TransitionLink href="/about" className="btn-pill" data-magnetic-inner>
+              More about me →
+            </TransitionLink>
+          </Magnetic>
+          <TransitionLink href="/resume" className="meta text-fg" data-cursor="link">
+            <RollText text="Read the resume" />
+          </TransitionLink>
+        </div>
       </div>
     </section>
   );

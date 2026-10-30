@@ -5,7 +5,8 @@ import { gsap, ScrollTrigger, useGSAP } from "@/lib/motion";
 import { pad } from "@/lib/format";
 
 // Fixed "03 / 10 — Selected Work" indicator for pages built from [data-scene]
-// sections. Hidden during the first scene so it never sits on the hero.
+// sections. Hidden during the first scene so it never sits on the hero, and
+// once the last scene has passed so it never sits on the footer.
 // Render it after the scenes so their pins are measured first.
 export function SceneCounter() {
   const root = useRef<HTMLParagraphElement>(null);
@@ -29,6 +30,8 @@ export function SceneCounter() {
           index.current!.textContent = pad(i + 1);
           title.current!.textContent = scene.dataset.scene ?? "";
         },
+        // Past the last scene (the footer): get out of the way
+        onLeave: i === scenes.length - 1 ? () => root.current!.removeAttribute("data-visible") : undefined,
       });
     });
   });

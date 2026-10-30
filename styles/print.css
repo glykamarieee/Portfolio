@@ -34,10 +34,34 @@
     filter: none !important;
   }
 
+  /* Flatten the cards and stack the columns */
   .resume-page {
+    display: block;
     max-width: none;
     padding: 0;
-    gap: 24px;
+  }
+
+  .resume-profile {
+    position: static;
+    margin-bottom: 16px;
+  }
+
+  .resume-profile,
+  .resume-section,
+  .resume-project {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .resume-section {
+    margin-bottom: 16px;
+  }
+
+  .resume-photo {
+    display: none;
   }
 
   .resume-section,

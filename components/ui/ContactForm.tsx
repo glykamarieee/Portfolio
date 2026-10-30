@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { cn } from "@/lib/cn";
 
-const TOPICS = ["Website", "Design", "Motion", "Something else"];
+const TOPICS = ["Website", "Video edit", "Videography", "Something else"];
 
 // Contact form without a backend: on submit it opens the visitor's email app
 // with everything filled in (mailto). Swap `onSubmit` for a form service or a

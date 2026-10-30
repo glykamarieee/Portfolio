@@ -180,15 +180,15 @@ The lens motif also shows up in:
 |---|---|---|---|---|
 | 0 | Preloader | counter 0→100, lens opens | same | instant fade |
 | 1 | Hero | centered headline with inline image; cover cards fan out from a stack, drift outward on scroll | 4 cards | static cards |
-| 2 | Manifesto | words light up as you scroll; key words become images | shorter text | all words lit |
-| 3 | About teaser | 3-layer portrait parallax; lens reveals an alternate photo | tap to swap | static |
-| 4 | Selected Work | glass folder header; pinned horizontal track of project panels | vertical stack + swipe | vertical stack |
+| 2 | Manifesto | centered statement; words light up as you scroll, key phrases get a lime highlighter swipe and a tilted photo chip; signature line + Code/Cut/Capture | same | all lit + highlighted |
+| 3 | About teaser | tilted photo stack (lens reveals the alternate shot, hover fans the cards), "Hi, I'm Glyka", value cards | same | static |
+| 4 | Selected Work | glass folder header + progress rail; pinned horizontal track of browser-window project cards (URL bar, stack pills, arrow) | vertical stack | vertical stack |
 | 5 | Skills | three stacking cards — code editor, edit timeline with scrubbing playhead, viewfinder with rack focus | cards in a column | cards, no playhead/rack focus |
-| 6 | Journey | two-lane timeline (work / school), path draws on scroll | single lane | static list |
-| 7 | Certificates — The Archive | camera flies forward through 3–4 depth layers | swipeable card deck | grid |
-| 8 | Resume | sections fly in and stack into a document | static sheet | static |
-| 9 | Contact | magnetic "Let's talk", lens fills the screen | big tap target | static |
-| 10 | Footer | marquee, local time, back-to-top | same | no marquee |
+| 6 | Journey | two-lane timeline of cards (monogram, Work/School pill, Now badge, highlights); spine draws, dots light, year badge rides the spine | single lane | all dots lit |
+| 7 | Certificates — The Archive | camera flies forward through paper certificate cards with issuer seals; frosted HUD with progress; two-column lightbox | swipeable card deck | grid |
+| 8 | Resume | blocks fly in and stack into a paper sheet | static sheet | static |
+| 9 | Contact | magnetic "Let's get in touch", contact cards (email copy, Cebu time, availability), social pills, form in a card | stacked | static |
+| 10 | Footer | closing card (CTA, email, link columns, live time), name set edge to edge (letters rise), fine print + back-to-top | 2-col links | static name |
 
 ### Certificates — The Archive (detail)
 - Pinned scene, `+=350%`. Cards sit on z-planes −200 / −800 / −1400 / −2000px under `perspective: 1200px`.
@@ -209,8 +209,8 @@ The lens motif also shows up in:
 
 ## 10. Pages
 - **`/work/[slug]`:** hero media → overview (role, stack, year) → challenge → process (pinned image sequence) → outcome/metrics → next project (lens transition).
-- **`/about`:** portrait with lens reveal → long bio word-reveal → by-the-numbers counters → values cards → currently learning / fun facts → CTA.
-- **`/resume`:** calm and print-friendly, generated from `/content` data, with a print stylesheet and a PDF download.
+- **`/about`:** greeting + photo stack → long bio word-reveal → numbers as cards → values as tilted swatch covers (hover straightens) → learning pills / fun-fact cards → two next-step cards (work, resume).
+- **`/resume`:** sticky profile card (photo, contacts, PDF/print, skills by craft) beside section cards; experience/education on a thin rail. Print flattens it to plain black on white.
 
 ---
 

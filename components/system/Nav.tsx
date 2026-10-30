@@ -1,43 +1,56 @@
 import { site } from "@/content";
 import { RollText } from "@/components/ui/RollText";
+import { initials } from "@/lib/format";
 import { LocalTime } from "./LocalTime";
 import { MobileMenu } from "./MobileMenu";
 import { ScrollProgress } from "./ScrollProgress";
 import { ThemeToggle } from "./ThemeToggle";
 import { TransitionLink } from "./TransitionLink";
 
-// Fixed top bar. Anchored during page transitions (view-transition-name)
-// and inverted over content with mix-blend-mode.
+// Fixed top bar of frosted-glass pills: monogram + name, the links, and
+// status/time/theme/CTA. Anchored during page transitions (view-transition-name).
 export function Nav() {
   return (
     <>
-      <header className="site-nav container-grid items-center py-6">
-        <TransitionLink href="/" className="meta col-span-6 text-fg md:col-span-3" data-cursor="link">
-          <RollText text={site.name} />
+      <header className="site-nav">
+        <TransitionLink href="/" className="nav-pill nav-brand" data-cursor="link" aria-label={`${site.name} — home`}>
+          <span className="nav-mark" aria-hidden="true">
+            {initials(site.name)}
+          </span>
+          <span className="nav-name">
+            <RollText text={site.name} />
+          </span>
         </TransitionLink>
 
-        <p className="meta col-span-4 hidden items-center gap-3 md:flex">
-          {site.available && <span className="status-dot" aria-hidden="true" />}
-          <span>{site.available ? "Available" : "Booked"}</span>
-          <span aria-hidden="true">·</span>
-          <span>
-            {site.location} <LocalTime timeZone={site.timeZone} />
-          </span>
-        </p>
-
-        <nav aria-label="Primary" className="col-span-6 flex items-center justify-end gap-4 md:col-span-5 md:gap-6">
-          <ul className="hidden justify-end gap-6 md:flex">
+        <nav aria-label="Primary" className="nav-pill nav-links">
+          <ul className="flex items-center">
             {site.nav.map((item) => (
               <li key={item.href}>
-                <TransitionLink href={item.href} className="meta text-fg" data-cursor="link">
+                <TransitionLink href={item.href} className="nav-link" data-cursor="link">
                   <RollText text={item.label} />
                 </TransitionLink>
               </li>
             ))}
           </ul>
-          <ThemeToggle />
-          <MobileMenu />
         </nav>
+
+        <div className="flex items-center justify-end gap-2">
+          <p className="nav-pill nav-status meta">
+            {site.available && <span className="status-dot" aria-hidden="true" />}
+            <span>
+              {site.location} <LocalTime timeZone={site.timeZone} />
+            </span>
+          </p>
+          <span className="nav-pill nav-icon">
+            <ThemeToggle />
+          </span>
+          <TransitionLink href="/#contact" className="btn-pill nav-cta" data-cursor="link">
+            Let&apos;s talk
+          </TransitionLink>
+          <span className="nav-pill nav-icon nav-menu">
+            <MobileMenu />
+          </span>
+        </div>
       </header>
       <ScrollProgress />
     </>

@@ -87,6 +87,12 @@
   --color-on-media: #ffffff;
   --color-rec: #ff3b30;
 
+  /* Cover swatches (about value cards, timeline clips), fixed in both themes */
+  --color-swatch-green: #3ddc4a;
+  --color-swatch-pink: #f04fa0;
+  --color-swatch-yellow: #f3e92c;
+  --color-swatch-ink: #121214;
+
   /* Edit timeline clips (Skills — Editing), fixed in both themes */
   --color-clip-video: #6d5efc;
   --color-clip-audio: #3ddc4a;

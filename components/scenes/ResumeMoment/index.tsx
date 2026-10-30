@@ -54,7 +54,7 @@ export function ResumeMoment() {
       {/* Two columns on desktop so the pinned scene fits short laptop screens */}
       <div className="col-span-12 flex flex-col gap-6 lg:col-span-4">
         <SceneHeader index={sceneIndex("Resume")} title="Resume" />
-        <h2 className="font-display text-display font-semibold">Resume</h2>
+        <h2 className="font-display text-display">Resume</h2>
         <p className="text-lead text-fg-muted">The whole story above, on one page.</p>
         <div data-actions className="flex flex-wrap items-center gap-8">
           <Magnetic>
@@ -70,7 +70,7 @@ export function ResumeMoment() {
 
       <div className="resume-sheet col-span-12 md:col-span-10 md:col-start-2 lg:col-span-7 lg:col-start-6">
         <div data-block className="resume-block">
-          <p className="font-display text-h2 font-semibold">{site.name}</p>
+          <p className="font-display text-h2">{site.name}</p>
           <p className="meta mt-1">{site.role} · {site.location}</p>
         </div>
         {latestJob && (

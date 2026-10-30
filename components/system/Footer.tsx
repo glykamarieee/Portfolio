@@ -1,40 +1,89 @@
+import type { ReactNode } from "react";
 import { site } from "@/content";
+import { CopyEmail } from "@/components/ui/CopyEmail";
+import { Magnetic } from "@/components/ui/Magnetic";
+import { RollText } from "@/components/ui/RollText";
 import { BackToTop } from "./BackToTop";
+import { CurrentYear, FooterWordmark } from "./FooterWordmark";
 import { LocalTime } from "./LocalTime";
+import { TransitionLink } from "./TransitionLink";
 
-const MARQUEE = "Let's build something that moves — ";
-
-// Site footer: endless marquee, local time, socials, back to top.
+// Site footer: a closing card (CTA, email, link columns, live Cebu time),
+// then the name set edge to edge, then the fine print and back-to-top.
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-bg">
-      <div className="marquee py-12" aria-hidden="true">
-        <div className="marquee-track font-display text-display font-semibold">
-          {/* Two identical halves so translating -50% loops seamlessly */}
-          {[0, 1].map((half) => (
-            <span key={half} className="outline-type pr-[0.5em]">
-              {MARQUEE.repeat(3)}
-            </span>
-          ))}
+    <footer className="site-footer">
+      <div className="footer-card">
+        <div className="footer-cta">
+          <p className="meta">(Next) — Let&apos;s work together</p>
+          <h2 className="font-display text-display">Have an idea? Let&apos;s make it move.</h2>
+          <div className="flex flex-wrap items-center gap-4">
+            <Magnetic>
+              <TransitionLink href="/#contact" className="btn-pill" data-magnetic-inner>
+                Start a project →
+              </TransitionLink>
+            </Magnetic>
+            <Magnetic>
+              <CopyEmail email={site.email} className="footer-email" />
+            </Magnetic>
+          </div>
+        </div>
+
+        <div className="footer-cols">
+          <FooterCol title="Navigate">
+            <li>
+              <TransitionLink href="/" className="footer-link" data-cursor="link">
+                <RollText text="Home" />
+              </TransitionLink>
+            </li>
+            {site.nav.map((item) => (
+              <li key={item.href}>
+                <TransitionLink href={item.href} className="footer-link" data-cursor="link">
+                  <RollText text={item.label} />
+                </TransitionLink>
+              </li>
+            ))}
+          </FooterCol>
+          <FooterCol title="Elsewhere">
+            {site.socials.map((social) => (
+              <li key={social.href}>
+                <a href={social.href} target="_blank" rel="noreferrer" className="footer-link" data-cursor="link">
+                  <RollText text={`${social.label} ↗`} />
+                </a>
+              </li>
+            ))}
+          </FooterCol>
+          <FooterCol title="Based in">
+            <li>{site.location}</li>
+            <li className="text-fg-muted">
+              <LocalTime timeZone={site.timeZone} /> local time
+            </li>
+            <li className="flex items-center gap-2 text-fg-muted">
+              {site.available && <span className="status-dot" aria-hidden="true" />}
+              {site.available ? "Open to projects" : "Currently booked"}
+            </li>
+          </FooterCol>
         </div>
       </div>
-      <div className="container-grid gap-y-6 py-10">
-        <p className="meta col-span-12 md:col-span-4">
-          © {site.name} · {site.location} <LocalTime timeZone={site.timeZone} />
+
+      <FooterWordmark text={site.name} />
+
+      <div className="footer-bar meta">
+        <p>
+          © <CurrentYear /> {site.name}
         </p>
-        <ul className="col-span-12 flex flex-wrap gap-6 md:col-span-5">
-          {site.socials.map((social) => (
-            <li key={social.href}>
-              <a href={social.href} target="_blank" rel="noreferrer" className="meta link-underline text-fg" data-cursor="link">
-                {social.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <div className="col-span-12 md:col-span-3 md:text-right">
-          <BackToTop />
-        </div>
+        <p className="max-md:hidden">Designed, coded &amp; cut in {site.location.split(",")[0]}</p>
+        <BackToTop />
       </div>
     </footer>
+  );
+}
+
+function FooterCol({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="meta">{title}</p>
+      <ul className="flex flex-col gap-2">{children}</ul>
+    </div>
   );
 }

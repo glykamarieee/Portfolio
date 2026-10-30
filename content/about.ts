@@ -4,26 +4,26 @@ import type { About } from "./types";
 const PLACEHOLDER = "/media/placeholder.svg";
 
 export const about: About = {
-  shortBio: "Developer and designer crafting immersive, motion-rich web experiences.",
+  shortBio: "Developer, editor and videographer from Cebu — I build interfaces and films that feel alive.",
   longBio: [
     "Placeholder paragraph about who you are, what you do, and why you do it.",
     "Placeholder paragraph about how you work and what you care about.",
   ],
   manifesto:
-    "I design and build *digital experiences* that move — interfaces where every *scroll* tells a story and every *detail* is felt.",
+    "I *write the code*, *cut the film* and *frame the shot* — so every scroll, every edit and every moment feels like a story worth staying for.",
   manifestoMedia: [
     { src: PLACEHOLDER, alt: "" },
     { src: PLACEHOLDER, alt: "" },
     { src: PLACEHOLDER, alt: "" },
   ],
-  portrait: { src: PLACEHOLDER, alt: "Portrait of Your Name" },
-  portraitAlt: { src: PLACEHOLDER, alt: "Your Name behind the camera" },
+  portrait: { src: PLACEHOLDER, alt: "Portrait of Glyka Marie Amahan" },
+  portraitAlt: { src: PLACEHOLDER, alt: "Glyka behind the camera" },
   values: [
     { title: "Craft", body: "Details are the design." },
-    { title: "Motion", body: "Animation should explain, not decorate." },
+    { title: "Story", body: "Every scroll, cut and frame should say something." },
     { title: "Curiosity", body: "Always learning, always exploring." },
   ],
-  currentlyLearning: ["WebGL shaders", "Three.js", "Motion design"],
+  currentlyLearning: ["Three.js & WebGL", "Color grading in DaVinci", "Drone cinematography"],
   funFacts: ["Placeholder fun fact.", "Another placeholder fun fact.", "One more placeholder fun fact."],
   yearsCreating: 3,
 };

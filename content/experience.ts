@@ -15,7 +15,7 @@ export const experience: Experience[] = [
     role: "Freelance Web Designer",
     start: "2023-03",
     end: "present",
-    location: "Manila",
+    location: "Cebu",
     achievements: ["Placeholder achievement.", "Placeholder achievement."],
   },
 ];
