@@ -266,7 +266,7 @@
   font-weight: 600;
 }
 
-/* Postage stamp: lime with perforated edges, my portrait inside */
+/* Postage stamp: lime with perforated edges, my portrait (natural color) inside */
 .postage {
   position: absolute;
   top: -6px;
@@ -289,8 +289,7 @@
   display: block;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  filter: grayscale(1) contrast(1.1);
-  mix-blend-mode: multiply;
+  background: var(--color-paper);
 }
 
 .postage-value {
