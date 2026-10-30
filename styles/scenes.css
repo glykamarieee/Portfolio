@@ -467,196 +467,201 @@
   --lens-r: 120px;
 }
 
-/* Selected Work — browser-window cards as frames on a 35mm film strip */
-.filmstrip {
-  --hole: var(--color-bg);
-  --pitch: 26px; /* sprocket hole + gap */
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  margin-inline: var(--page-margin);
-  padding: 24px 40px;
-  border-radius: 10px;
-  /* Vertical strip: sprocket holes down both sides */
-  background:
-    linear-gradient(var(--hole) 0 15px, transparent 15px) 13px 0 / 11px var(--pitch) repeat-y,
-    linear-gradient(var(--hole) 0 15px, transparent 15px) calc(100% - 13px) 0 / 11px var(--pitch) repeat-y,
-    var(--color-film);
-}
-
-.work[data-mode="track"] {
-  padding-block: 0;
-}
-
-.work[data-mode="track"] .work-inner {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100svh;
-  overflow: hidden;
-}
-
-/* Horizontal strip: sprocket holes along the top and bottom */
-.work[data-mode="track"] .work-track {
-  flex-direction: row;
-  align-items: stretch;
-  gap: clamp(20px, 2.4vw, 40px);
-  width: max-content;
-  margin-inline: 0;
-  padding: 34px var(--page-margin);
-  border-radius: 0;
-  background:
-    linear-gradient(90deg, var(--hole) 0 15px, transparent 15px) 0 11px / var(--pitch) 11px repeat-x,
-    linear-gradient(90deg, var(--hole) 0 15px, transparent 15px) 0 calc(100% - 11px) / var(--pitch) 11px repeat-x,
-    var(--color-film);
-  will-change: transform;
-}
-
-.work-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-/* Panel width follows viewport height so the whole card always fits in the pin
-   (header ~190px + strip and card chrome ~280px around a 16:10 image) */
-.work[data-mode="track"] .work-panel {
-  width: min(50vw, calc((100svh - 470px) * 1.6));
-}
-
-.work[data-mode="track"] .work-panel.is-wrap {
-  width: min(34vw, calc((100svh - 470px) * 1.1));
-}
-
-/* Film edge markings above each frame */
-.frame-edge {
-  display: flex;
-  gap: 24px;
-  color: var(--color-accent);
+/* Selected Work — an interactive index: big rows, lime sweep, floating preview */
+.work-count {
+  margin-left: 0.12em;
+  color: var(--color-accent-fg);
   font-family: var(--font-mono);
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-size: 0.26em;
+  letter-spacing: 0.04em;
+  vertical-align: super;
 }
 
-.work-frame {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
+.work-list {
+  padding-inline: var(--page-margin);
 }
 
-.work-frame > * {
-  flex: 1;
+.work-row {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-areas:
+    "thumb thumb thumb thumb thumb"
+    "index title meta year arrow";
+  grid-template-columns: 3.5rem minmax(0, 1fr) minmax(0, 17rem) 4rem 3rem;
+  align-items: center;
+  column-gap: 24px;
+  padding: clamp(18px, 2.4vw, 30px) clamp(12px, 1.4vw, 20px);
+  transition:
+    color var(--dur-fast) var(--ease-ui),
+    opacity var(--dur-fast) var(--ease-ui);
 }
 
-/* Last frame: "That's a wrap" */
-.work-wrap {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 32px;
-  padding: clamp(22px, 2.6vw, 36px);
-  border-radius: 22px;
+/* Lime fill that sweeps in from the left on hover / focus */
+.work-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 18px;
   background: var(--color-accent);
+  clip-path: inset(0 100% 0 0 round 18px);
+  transition: clip-path var(--dur-base) var(--ease-reveal);
+}
+
+.work-row:is(:hover, :focus-visible)::before {
+  clip-path: inset(0 0 0 0 round 18px);
+}
+
+.work-row:is(:hover, :focus-visible) {
   color: var(--color-accent-ink);
+}
+
+.work-row:is(:hover, :focus-visible) :is(.meta, .work-stack) {
+  color: inherit;
+}
+
+/* The rows you're not on step back */
+.work-list:has(.work-row:is(:hover, :focus-visible)) .work-row:not(:hover, :focus-visible) {
+  opacity: 0.35;
+}
+
+.work-rule {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: var(--color-line);
+  transform-origin: left center;
+}
+
+.work-rule.is-end {
+  position: relative;
+  display: block;
+}
+
+.work-thumb {
+  grid-area: thumb;
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 18px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--color-bg-elev);
+}
+
+.work-index {
+  grid-area: index;
+}
+
+.work-title {
+  grid-area: title;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 4.75rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
   transition: translate var(--dur-base) var(--ease-reveal);
 }
 
-.work-wrap .meta {
-  color: inherit;
-  opacity: 0.7;
+.work-row:is(:hover, :focus-visible) .work-title {
+  translate: 14px 0;
 }
 
-.work-wrap .text-display {
-  font-size: clamp(2rem, 3.4vw, 3.5rem);
+/* The open slot: outlined until you hover it */
+.work-row.is-open .work-title {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-fg);
 }
 
-.work-wrap-cta {
+.work-row.is-open:is(:hover, :focus-visible) .work-title {
+  color: var(--color-accent-ink);
+  -webkit-text-stroke: 0;
+}
+
+.work-meta {
+  grid-area: meta;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-weight: 600;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.9375rem;
+  font-weight: 500;
 }
 
-.work-wrap .work-arrow {
+.work-stack {
+  color: var(--color-fg-muted);
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.work-year {
+  grid-area: year;
+  justify-self: end;
+}
+
+.work-arrow {
+  grid-area: arrow;
+  display: grid;
+  justify-self: end;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 9999px;
+  background: var(--color-fg);
+  color: var(--color-bg);
+  font-size: 1.125rem;
+  transition:
+    rotate var(--dur-base) var(--ease-reveal),
+    background-color var(--dur-fast) var(--ease-ui),
+    color var(--dur-fast) var(--ease-ui);
+}
+
+.work-row:is(:hover, :focus-visible) .work-arrow {
+  rotate: -45deg;
   background: var(--color-accent-ink);
   color: var(--color-accent);
 }
 
-.work-wrap:hover,
-.work-wrap:focus-visible {
-  translate: 0 -8px;
-}
-
-.work-wrap:hover .work-arrow {
-  rotate: -45deg;
-}
-
-/* Header: a recording dot and a running timecode */
-.work-rec {
-  width: 8px;
-  height: 8px;
-  flex-shrink: 0;
-  border-radius: 9999px;
-  background: var(--color-rec);
-  animation: rec-pulse 1.4s var(--ease-ui) infinite;
-}
-
-.work-tc {
-  color: var(--color-fg-muted);
-  font-variant-numeric: tabular-nums;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .work-rec {
-    animation: none;
-  }
-}
-
-.work[data-mode="track"] header {
-  margin-bottom: 24px;
-  padding-top: 84px;
-}
-
-.work[data-mode="track"] header h2 {
-  font-size: var(--text-h2);
-}
-
-.work[data-mode="track"] header .text-lead {
+/* Floating preview card that trails the cursor (positioned by GSAP) */
+.work-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: var(--z-content);
   display: none;
+  width: clamp(260px, 24vw, 400px);
+  pointer-events: none;
 }
 
-.work-card {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
+.work-preview-card {
+  grid-area: 1 / 1;
+  padding: 8px;
   border: 1px solid var(--color-line);
-  border-radius: 22px;
+  border-radius: 18px;
   background: var(--color-bg-elev);
-  transition:
-    translate var(--dur-base) var(--ease-reveal),
-    box-shadow var(--dur-base) var(--ease-reveal);
-}
-
-.work-card:hover,
-.work-card:focus-visible {
-  translate: 0 -8px;
   box-shadow: var(--shadow-card-hover);
+  clip-path: inset(100% 0 0 0 round 18px);
+  transition: clip-path var(--dur-base) var(--ease-reveal);
 }
 
-.work-bar {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+.work-preview-card.is-active {
+  z-index: 1;
+  clip-path: inset(0 0 0 0 round 18px);
+}
+
+.work-preview-bar {
+  display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 4px 8px 12px;
+  gap: 10px;
+  padding: 2px 6px 8px;
 }
 
-.work-url {
-  justify-self: center;
-  max-width: 100%;
-  padding: 4px 14px;
+.work-preview-url {
+  min-width: 0;
+  padding: 3px 10px;
   overflow: hidden;
   border-radius: 9999px;
   background: var(--color-bg);
@@ -667,80 +672,45 @@
   white-space: nowrap;
 }
 
-.work-media {
+.work-preview-media {
   position: relative;
   display: block;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: 12px;
   background: var(--color-bg);
 }
 
-.work-info {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 18px 10px 8px;
+/* With a mouse (and motion), the floating preview replaces the inline covers */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .work-preview {
+    display: grid;
+  }
+
+  .work-thumb {
+    display: none;
+  }
 }
 
-.work-stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 4px;
-}
+@media (max-width: 47.99rem) {
+  .work-row {
+    grid-template-areas:
+      "thumb thumb thumb"
+      "index title arrow"
+      ". meta meta";
+    grid-template-columns: 2.25rem minmax(0, 1fr) 2.75rem;
+    column-gap: 12px;
+    row-gap: 6px;
+  }
 
-.work-stack span {
-  padding: 4px 10px;
-  border: 1px solid var(--color-line);
-  border-radius: 9999px;
-  background: var(--color-bg);
-  font-size: 0.8125rem;
-}
+  .work-year {
+    display: none;
+  }
 
-.work-arrow {
-  display: grid;
-  flex-shrink: 0;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 9999px;
-  background: var(--color-fg);
-  color: var(--color-bg);
-  font-size: 1.125rem;
-  transition: rotate var(--dur-base) var(--ease-reveal);
-}
-
-.work-card:hover .work-arrow {
-  rotate: -45deg;
-}
-
-.work-progress {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-width: 120px;
-}
-
-.work-rail {
-  position: relative;
-  display: none;
-  height: 2px;
-  overflow: hidden;
-  border-radius: 2px;
-  background: var(--color-line);
-}
-
-.work[data-mode="track"] .work-rail {
-  display: block;
-}
-
-.work-rail-fill {
-  position: absolute;
-  inset: 0;
-  background: var(--color-fg);
-  transform-origin: left center;
+  .work-arrow {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 /* Skills — three crafts as three tools, stacking cards */

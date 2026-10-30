@@ -97,9 +97,6 @@
   --color-polaroid: #ffffff;
   --color-metal: #9a9a9a;
 
-  /* Film strip (home Selected Work): dark base in both themes */
-  --color-film: #141416;
-
   /* Cover swatches (about value cards, timeline clips), fixed in both themes */
   --color-swatch-green: #3ddc4a;
   --color-swatch-pink: #f04fa0;
@@ -132,7 +129,6 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --color-film: #232327; /* a step lighter, so the dark cards still separate */
 }
 
 /*
