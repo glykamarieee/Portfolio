@@ -458,6 +458,7 @@
   padding: 8px 0;
   border: 0;
   border-bottom: 1.5px solid rgb(0 0 0 / 0.18);
+  border-radius: 0; /* the global focus style would round it into a pill */
   background: transparent;
   color: var(--color-paper-ink);
   font-size: 1rem;
@@ -476,16 +477,21 @@
   border-color: var(--color-paper-muted);
 }
 
+/* Focused line: ink rule with a straight lime marker stroke under it */
 .postcard-field:focus-visible {
   outline: none;
+  border-radius: 0;
   border-color: var(--color-paper-ink);
-  box-shadow: 0 2px 0 var(--color-accent);
+  box-shadow: 0 3px 0 var(--color-accent);
 }
 
 /* The message area is lined paper */
 .postcard-lines {
-  padding: 0;
+  width: calc(100% + 16px);
+  margin-inline: -8px;
+  padding: 0 8px;
   border-bottom: 0;
+  border-radius: 6px;
   background: repeating-linear-gradient(
       to bottom,
       transparent 0 calc(2em - 1px),
@@ -494,10 +500,14 @@
     local;
   line-height: 2em;
   resize: vertical;
+  transition: background-color var(--dur-fast) var(--ease-ui);
 }
 
+/* Focused message: the lined area gets a soft lime wash, no ring */
 .postcard-lines:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 60%, transparent);
+  border-radius: 6px;
+  background-color: color-mix(in srgb, var(--color-accent) 16%, transparent);
+  box-shadow: none;
 }
 
 .postcard-foot {
