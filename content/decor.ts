@@ -32,7 +32,7 @@ export type DecorObject = {
 // M = "clamp(72px, 8vw, 140px)", L = "clamp(96px, 11vw, 190px)"
 
 // Placements per section, keyed by the `set` passed to <Decor />. Empty for the
-// current gallery look (hero cards + glass folder carry the depth instead) —
+// current gallery look (hero cards and card shadows carry the depth instead) —
 // add entries here to bring floating objects back to any section.
 export const decor: Record<string, DecorObject[]> = {
   hero: [],

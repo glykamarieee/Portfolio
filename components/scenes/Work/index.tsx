@@ -9,7 +9,6 @@ import { dur, ease, gsap, mq, useGSAP } from "@/lib/motion";
 import { pad } from "@/lib/format";
 import { sceneIndex } from "../registry";
 import { Decor } from "@/components/ui/Decor";
-import { GlassFolder } from "@/components/ui/GlassFolder";
 
 const featured = projects.filter((p) => p.featured);
 
@@ -103,8 +102,7 @@ export function Work() {
             <h2 className="font-display text-display">Selected work</h2>
             <p className="text-lead text-fg-muted">Things I&apos;ve designed, coded and shipped.</p>
           </div>
-          <div className="col-span-12 flex items-end gap-6 md:col-span-4 md:justify-end">
-            <GlassFolder />
+          <div className="col-span-12 flex md:col-span-4 md:justify-end">
             <div className="work-progress">
               <p className="meta">
                 <span data-count className="text-fg">

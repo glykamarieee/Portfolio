@@ -165,8 +165,6 @@ The lens motif also shows up in:
   section. Typographic covers by default (`art`: type / ring / stripes / grid / mark), or a photo via
   `image`. They rise from a fanned stack, lean away from the cursor by `depth`, and drift outward on
   scroll. Content and placement: `content/hero.ts`. Phones show four.
-- **Glass folder:** a frosted-glass folder with pages (`components/ui/GlassFolder.tsx`) marks Selected
-  work. Real `backdrop-filter` glass; pages slide in on view and lift on hover.
 - **Soft shadows:** objects use `--shadow-card` / `--shadow-card-hover` (layered, low-contrast).
 - **Black pill:** primary CTAs (`.btn-pill`) are a solid `--color-fg` pill with `--color-bg` text.
 - **Floating objects (dormant):** `components/ui/Decor.tsx` + `content/decor.ts` can still place
@@ -182,7 +180,7 @@ The lens motif also shows up in:
 | 1 | Hero | centered headline with inline image; cover cards fan out from a stack, drift outward on scroll | 4 cards | static cards |
 | 2 | Manifesto | centered statement; words light up as you scroll, key phrases get a lime highlighter swipe and a tilted photo chip; signature line + Code/Cut/Capture | same | all lit + highlighted |
 | 3 | About teaser | tilted photo stack (lens reveals the alternate shot, hover fans the cards), "Hi, I'm Glyka", value cards | same | static |
-| 4 | Selected Work | glass folder header + progress rail; pinned horizontal track of browser-window project cards (URL bar, stack pills, arrow) | vertical stack | vertical stack |
+| 4 | Selected Work | header with count + progress rail; pinned horizontal track of browser-window project cards (URL bar, stack pills, arrow) | vertical stack | vertical stack |
 | 5 | Skills | three stacking cards — code editor, edit timeline with scrubbing playhead, viewfinder with rack focus | cards in a column | cards, no playhead/rack focus |
 | 6 | Journey | two-lane timeline of cards (monogram, Work/School pill, Now badge, highlights); spine draws, dots light, year badge rides the spine | single lane | all dots lit |
 | 7 | Certificates — The Archive | camera flies forward through paper certificate cards with issuer seals; frosted HUD with progress; two-column lightbox | swipeable card deck | grid |

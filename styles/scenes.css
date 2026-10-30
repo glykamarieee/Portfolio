@@ -324,9 +324,9 @@
 }
 
 /* Panel width follows viewport height so the whole card always fits in the pin
-   (header with folder ~240px + card chrome ~190px around a 16:10 image) */
+   (header ~190px + card chrome ~190px around a 16:10 image) */
 .work[data-mode="track"] .work-panel {
-  width: min(50vw, calc((100svh - 430px) * 1.6));
+  width: min(50vw, calc((100svh - 390px) * 1.6));
 }
 
 .work[data-mode="track"] header {
@@ -340,10 +340,6 @@
 
 .work[data-mode="track"] header .text-lead {
   display: none;
-}
-
-.work[data-mode="track"] .glass-folder {
-  width: 92px;
 }
 
 .work-card {
@@ -1455,80 +1451,3 @@
   }
 }
 
-/* Glass folder (components/ui/GlassFolder.tsx) — a fixed object, same in both themes */
-.glass-folder {
-  position: relative;
-  width: clamp(110px, 10vw, 160px);
-  aspect-ratio: 5 / 4;
-}
-
-.glass-folder > span {
-  position: absolute;
-}
-
-.glass-folder-shadow {
-  inset: auto 6% -6%;
-  height: 14%;
-  border-radius: 50%;
-  background: rgb(0 0 0 / 0.28);
-  filter: blur(14px);
-}
-
-.glass-folder-back {
-  inset: 0 5% 6%;
-  border-radius: 9% / 11%;
-  background: linear-gradient(180deg, #3a3a3d, #161618);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14);
-}
-
-.glass-folder-page {
-  top: 5%;
-  width: 46%;
-  height: 62%;
-  border-radius: 8% / 6%;
-  background:
-    linear-gradient(#c9c9ce, #c9c9ce) 16% 14% / 66% 5% no-repeat,
-    linear-gradient(#dcdce0, #dcdce0) 16% 26% / 48% 4% no-repeat,
-    linear-gradient(180deg, #ffffff, #ececf0);
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.25);
-  transition: translate var(--dur-base) var(--ease-reveal);
-}
-
-.glass-folder-page:nth-of-type(3) {
-  left: 13%;
-  rotate: -4deg;
-}
-
-.glass-folder-page:nth-of-type(4) {
-  left: 32%;
-  top: 9%;
-  rotate: 2deg;
-}
-
-.glass-folder-page:nth-of-type(5) {
-  left: 46%;
-  top: 13%;
-  rotate: 5deg;
-}
-
-.glass-folder:hover .glass-folder-page {
-  translate: 0 -14%;
-}
-
-.glass-folder:hover .glass-folder-page:nth-of-type(4) {
-  translate: 0 -22%;
-}
-
-/* Front panel: frosted glass with a raised tab on the left */
-.glass-folder-front {
-  inset: 22% -2% 0;
-  border-radius: 7% / 10%;
-  background:
-    radial-gradient(70% 60% at 50% 40%, rgb(255 255 255 / 0.22), transparent 70%),
-    linear-gradient(180deg, rgb(140 140 146 / 0.32), rgb(28 28 30 / 0.5));
-  backdrop-filter: blur(7px) saturate(1.1);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.35),
-    inset 0 0 0 1px rgb(255 255 255 / 0.12);
-  clip-path: polygon(0 0, 48% 0, 54% 12%, 100% 12%, 100% 100%, 0 100%);
-}

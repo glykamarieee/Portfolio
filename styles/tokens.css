@@ -78,7 +78,7 @@
 :root {
   color-scheme: light;
 
-  /* Soft, layered card shadow (hero cards, glass folder) */
+  /* Soft, layered card shadow (hero cards and other cards) */
   --shadow-card: 0 2px 4px rgb(0 0 0 / 0.06), 0 18px 40px -12px rgb(0 0 0 / 0.28);
   --shadow-card-hover: 0 4px 8px rgb(0 0 0 / 0.08), 0 32px 60px -16px rgb(0 0 0 / 0.36);
 
