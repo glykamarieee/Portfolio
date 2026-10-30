@@ -109,13 +109,13 @@
 
 .hero-card-slot {
   position: absolute;
-  width: clamp(104px, min(15vw, 28svh), 260px);
+  width: clamp(124px, min(18vw, 33svh), 320px);
   container-type: inline-size;
 }
 
 @media (max-width: 47.99rem) {
   .hero-card-slot {
-    width: min(34vw, 22svh);
+    width: min(40vw, 26svh);
   }
 }
 
