@@ -255,75 +255,96 @@
   font-weight: 700;
 }
 
-/* Work: project titles running past in alternating rows */
-.ca-reel {
+/* Work: a bento of covers + count, with a cursor hovering to open */
+.ca-bento {
+  position: relative;
   display: grid;
-  gap: 1.5cqi;
-  margin-inline: -9cqi; /* run edge to edge across the card */
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1.2fr 1fr;
+  gap: 2.4cqi;
+  height: 62cqi;
 }
 
-.ca-reel-row {
+.ca-bento-tile {
+  position: relative;
   overflow: hidden;
-  font-family: var(--font-display);
-  font-size: 13cqi;
+  border-radius: 3.2cqi;
+  background: var(--soft);
+  box-shadow: 0 1.2cqi 3.6cqi -1.6cqi rgb(0 0 0 / 0.3);
+}
+
+.ca-bento-tile.is-tall {
+  grid-row: span 2;
+}
+
+.ca-bento-tag {
+  position: absolute;
+  bottom: 2.4cqi;
+  left: 2.4cqi;
+  z-index: 1;
+  padding: 1.2cqi 2.4cqi;
+  border-radius: 9999px;
+  background: var(--color-on-media);
+  color: var(--color-letterbox);
+  font-size: max(6px, 3.4cqi);
   font-weight: 600;
-  letter-spacing: -0.045em;
-  line-height: 1.05;
   white-space: nowrap;
 }
 
-.ca-reel-row.is-1 {
-  color: transparent;
-  -webkit-text-stroke: 1px var(--card-fg);
-}
-
-.ca-reel-track {
+.ca-bento-tile.is-count {
   display: flex;
-  width: max-content;
-  animation: ca-reel 16s linear infinite;
-}
-
-.ca-reel-row.is-1 .ca-reel-track {
-  animation-direction: reverse;
-  animation-duration: 20s;
-}
-
-.ca-reel-row.is-2 .ca-reel-track {
-  animation-duration: 13s;
-}
-
-.ca-reel-track span {
-  padding-right: 0.3em;
-}
-
-@keyframes ca-reel {
-  to {
-    translate: -50% 0;
-  }
-}
-
-.ca-reel-meta {
-  display: inline-flex;
-  align-items: center;
-  justify-self: start;
-  gap: 2cqi;
-  margin: 5cqi 0 0 9cqi;
-  padding: 1.6cqi 3.2cqi;
-  border-radius: 9999px;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.6cqi;
+  padding: 3cqi;
   background: var(--card-fg);
   color: var(--card-bg);
-  font-family: var(--font-mono);
-  font-size: max(6px, 3.4cqi);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
-.ca-reel-dot {
-  width: 1.8cqi;
-  height: 1.8cqi;
-  border-radius: 50%;
-  background: currentColor;
-  animation: hero-dot 1.6s var(--ease-ui) infinite;
+.ca-bento-num {
+  font-family: var(--font-display);
+  font-size: 15cqi;
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.85;
+}
+
+/* A cursor drifting over the grid, about to click */
+.ca-cursor {
+  position: absolute;
+  top: 38%;
+  left: 46%;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  animation: ca-hover 3.2s var(--ease-scrub) infinite;
+}
+
+.ca-cursor-arrow {
+  width: 7cqi;
+  fill: var(--color-letterbox);
+  stroke: var(--color-on-media);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0.6cqi 1cqi rgb(0 0 0 / 0.3));
+}
+
+.ca-cursor-label {
+  margin: 4.5cqi 0 0 -0.6cqi;
+  padding: 1cqi 2.4cqi;
+  border-radius: 9999px;
+  background: var(--color-letterbox);
+  color: var(--color-on-media);
+  font-family: var(--font-mono);
+  font-size: max(6px, 3.2cqi);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+@keyframes ca-hover {
+  50% {
+    translate: -3cqi 2.4cqi;
+  }
 }
 
 .ca-bubble.is-typing i {
@@ -334,8 +355,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ca-reel-track,
-  .ca-reel-dot {
+  .ca-cursor {
     animation: none;
   }
 }
