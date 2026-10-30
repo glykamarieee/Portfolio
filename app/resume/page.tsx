@@ -22,7 +22,7 @@ export default function ResumePage() {
       <div className="resume-page">
         <aside className="resume-profile">
           <div className="resume-photo">
-            <MediaImage media={about.portrait} sizes="96px" />
+            <MediaImage media={about.portrait} sizes="96px" quality={90} />
           </div>
           <div className="flex flex-col gap-2">
             <p className="meta">(Resume)</p>

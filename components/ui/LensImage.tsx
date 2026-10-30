@@ -10,11 +10,12 @@ type LensImageProps = {
   reveal: Media;
   sizes: string;
   className?: string;
+  quality?: 75 | 90;
 };
 
 // An image with a second image hidden underneath: the lens (a circle that
 // follows the pointer) shows it. Fine pointers only — touch sees the base image.
-export function LensImage({ base, reveal, sizes, className }: LensImageProps) {
+export function LensImage({ base, reveal, sizes, className, quality }: LensImageProps) {
   const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
@@ -23,9 +24,9 @@ export function LensImage({ base, reveal, sizes, className }: LensImageProps) {
 
   return (
     <div className={cn("lens-image relative", className)} data-cursor="hide" onPointerMove={onPointerMove}>
-      <MediaImage media={base} sizes={sizes} />
+      <MediaImage media={base} sizes={sizes} quality={quality} />
       <div className="lens-image-reveal" aria-hidden="true">
-        <MediaImage media={{ ...reveal, alt: "" }} sizes={sizes} />
+        <MediaImage media={{ ...reveal, alt: "" }} sizes={sizes} quality={quality} />
       </div>
     </div>
   );

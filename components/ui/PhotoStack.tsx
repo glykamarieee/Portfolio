@@ -10,10 +10,10 @@ export function PhotoStack({ sizes, className }: { sizes: string; className?: st
   return (
     <div className={cn("photo-stack", className)}>
       <div className="photo-card photo-card-back" aria-hidden="true">
-        <MediaImage media={about.portraitAlt} sizes={sizes} />
+        <MediaImage media={about.portraitAlt} sizes={sizes} quality={90} />
       </div>
       <div className="photo-card photo-card-front">
-        <LensImage base={about.portrait} reveal={about.portraitAlt} sizes={sizes} className="h-full w-full" />
+        <LensImage base={about.portrait} reveal={about.portraitAlt} sizes={sizes} quality={90} className="h-full w-full" />
       </div>
       <p className="photo-sticker meta">
         {site.available && <span className="status-dot" aria-hidden="true" />}
