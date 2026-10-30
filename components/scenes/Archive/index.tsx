@@ -85,8 +85,8 @@ export function Archive() {
       });
       render(0);
 
-      const tiltX = gsap.quickTo(stage.current, "rotateX", { duration: dur.base, ease: ease.ui });
-      const tiltY = gsap.quickTo(stage.current, "rotateY", { duration: dur.base, ease: ease.ui });
+      const tiltX = gsap.quickTo(stage.current, "rotationX", { duration: dur.base, ease: ease.ui });
+      const tiltY = gsap.quickTo(stage.current, "rotationY", { duration: dur.base, ease: ease.ui });
       const onMove = (e: PointerEvent) => {
         tiltY((e.clientX / window.innerWidth - 0.5) * 2 * TILT);
         tiltX(-(e.clientY / window.innerHeight - 0.5) * 2 * TILT);

@@ -103,7 +103,8 @@ export type HeroCard = {
   href: string;
   title: string; // big cover type
   kicker: string; // small cover line
-  art: "type" | "ring" | "stripes" | "grid" | "mark";
+  // Cover art that says what the card opens (drawn in components/scenes/Hero/CardArt.tsx)
+  art: "journey" | "work" | "about" | "archive" | "skills" | "hello" | "resume";
   bg: string;
   fg: string;
   image?: Media; // a photo cover replaces the art

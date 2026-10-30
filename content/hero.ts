@@ -1,14 +1,16 @@
+import { about } from "./about";
 import type { HeroCard } from "./types";
 
 // The tilted cover cards around the home hero. They start stacked at the bottom
-// and fan out to these spots. Each one links somewhere; give one an `image`
-// to replace its typographic cover with a photo.
+// and fan out to these spots. Each one links somewhere, and its art shows what
+// it opens (a path to a graduation cap for Journey, a browser for Work, ...).
+// Give one an `image` to use a photo as its cover instead.
 export const heroCards: HeroCard[] = [
   {
     href: "/#journey",
     title: "Journey",
     kicker: "Experience & school",
-    art: "ring",
+    art: "journey",
     bg: "#c9ccd1",
     fg: "#111113",
     place: { top: "-7%", left: "15%" },
@@ -20,7 +22,7 @@ export const heroCards: HeroCard[] = [
     href: "/#work",
     title: "Work",
     kicker: "Selected projects",
-    art: "mark",
+    art: "work",
     bg: "#3ddc4a",
     fg: "#0a0a0b",
     place: { top: "-9%", right: "15%" },
@@ -32,7 +34,8 @@ export const heroCards: HeroCard[] = [
     href: "/about",
     title: "Me",
     kicker: "About",
-    art: "type",
+    art: "about",
+    image: about.portrait,
     bg: "#121214",
     fg: "#ffffff",
     place: { top: "30%", left: "4%" },
@@ -43,7 +46,7 @@ export const heroCards: HeroCard[] = [
     href: "/#archive",
     title: "The Archive",
     kicker: "Certificates",
-    art: "grid",
+    art: "archive",
     bg: "#2a2a2d",
     fg: "#f2f2f2",
     place: { top: "30%", right: "4%" },
@@ -54,7 +57,7 @@ export const heroCards: HeroCard[] = [
     href: "/#skills",
     title: "Skills",
     kicker: "Tools & craft",
-    art: "stripes",
+    art: "skills",
     bg: "#f04fa0",
     fg: "#ffffff",
     place: { bottom: "-14%", left: "13%" },
@@ -66,7 +69,7 @@ export const heroCards: HeroCard[] = [
     href: "/#contact",
     title: "Say hi",
     kicker: "Let's talk",
-    art: "type",
+    art: "hello",
     bg: "#ffffff",
     fg: "#0a0a0b",
     place: { bottom: "-20%", left: "43%" },
@@ -77,7 +80,7 @@ export const heroCards: HeroCard[] = [
     href: "/resume",
     title: "Resume",
     kicker: "CV · PDF",
-    art: "grid",
+    art: "resume",
     bg: "#f3e92c",
     fg: "#0a0a0b",
     place: { bottom: "-16%", right: "15%" },

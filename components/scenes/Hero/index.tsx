@@ -8,6 +8,7 @@ import { Magnetic } from "@/components/ui/Magnetic";
 import { MediaImage } from "@/components/ui/MediaImage";
 import { dur, ease, gsap, isReady, mq, onReady, stagger, useGSAP, whenIdle } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import { CardArt } from "./CardArt";
 
 const words = (text: string) => text.trim().split(/\s+/).filter(Boolean);
 
@@ -78,6 +79,8 @@ export function Hero() {
       const setup = contextSafe!(() => {
         // Scroll: cards drift outward and up, nearer cards faster; the copy lags behind
         let live = cards; // re-measured on every refresh (resize)
+        // Look a card up by its slot: after a resize the visible set (and order) can change
+        const at = (c: (typeof cards)[number]) => live.find((l) => l.slot === c.slot) ?? c;
         const out = gsap.timeline({
           scrollTrigger: {
             trigger: el,
@@ -90,13 +93,13 @@ export function Hero() {
             },
           },
         });
-        cards.forEach((c, i) => {
+        cards.forEach((c) => {
           out.to(
             c.slot,
             {
-              x: () => live[i].x * 0.35 * c.depth,
-              y: () => live[i].y * 0.35 * c.depth - 160 * c.depth,
-              rotation: () => Math.sign(live[i].x) * 8 * c.depth,
+              x: () => at(c).x * 0.35 * c.depth,
+              y: () => at(c).y * 0.35 * c.depth - 160 * c.depth,
+              rotation: () => Math.sign(at(c).x) * 8 * c.depth,
               ease: ease.scrub,
             },
             0,
@@ -203,10 +206,17 @@ function Cover({ card }: { card: HeroCard }) {
   const style = { "--card-bg": card.bg, "--card-fg": card.fg, "--card-rotate": `${card.rotate}deg` } as CSSProperties;
 
   return (
-    <TransitionLink href={card.href} className={`hero-card art-${card.art}`} style={style} data-cursor="view">
-      {card.image && <MediaImage media={card.image} sizes="(min-width: 768px) 18vw, 30vw" />}
+    <TransitionLink
+      href={card.href}
+      className={cn("hero-card", `art-${card.art}`, card.image && "has-image")}
+      style={style}
+      data-cursor="view"
+    >
+      {card.image && <MediaImage media={card.image} sizes="(min-width: 768px) 18vw, 30vw" quality={90} eager />}
       <span className="hero-card-kicker">{card.kicker}</span>
-      <span className="hero-card-art" aria-hidden="true" />
+      <span className="hero-card-art">
+        <CardArt art={card.art} />
+      </span>
       <span className="hero-card-title">{card.title}</span>
     </TransitionLink>
   );
