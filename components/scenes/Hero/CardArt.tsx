@@ -1,6 +1,4 @@
-import { about, certificates, education, experience, skillCategories, site, type HeroCard } from "@/content";
-import { LocalTime } from "@/components/system/LocalTime";
-import { CRAFTS, CraftChip } from "@/components/ui/CraftChip";
+import { certificates, education, experience, skillCategories, site, type HeroCard } from "@/content";
 import { initials, pad } from "@/lib/format";
 
 // Journey stops: when each school and job began, oldest first (the last three)
@@ -13,8 +11,8 @@ const stops = [
 
 // Cover art for the hero cards: small, quiet interface pieces built from the
 // real content, in the card's own ink (currentColor) — a timeline for
-// Journey, a wireframe for Work, the certificate count for the Archive, a
-// live clock for Cebu, and so on. Cards with a photo cover (`about`) draw nothing.
+// Journey, a wireframe for Work, the certificate count for the Archive, and
+// so on. Cards with a photo cover (`about`) draw nothing.
 export function CardArt({ art }: { art: HeroCard["art"] }) {
   switch (art) {
     case "journey":
@@ -111,55 +109,6 @@ export function CardArt({ art }: { art: HeroCard["art"] }) {
             </span>
           </span>
           <span className="ca-tag">PDF ↓</span>
-        </span>
-      );
-
-    case "learning":
-      return (
-        <span className="ca-learn">
-          {about.currentlyLearning.map((topic) => (
-            <span key={topic} className="ca-learn-row">
-              <span className="ca-learn-name">{topic}</span>
-              <span className="ca-bar" />
-            </span>
-          ))}
-        </span>
-      );
-
-    case "manifesto":
-      return (
-        <span className="ca-crafts">
-          {CRAFTS.map((craft) => (
-            <span key={craft} className="ca-craft">
-              <CraftChip craft={craft} />
-              <span className="ca-row-name">{craft}</span>
-            </span>
-          ))}
-        </span>
-      );
-
-    case "time":
-      return (
-        <span className="ca-clock">
-          <span className="ca-clock-time">
-            <LocalTime timeZone={site.timeZone} />
-          </span>
-          <span className="ca-label">GMT+8 · {site.timeZone}</span>
-        </span>
-      );
-
-    case "status":
-      return (
-        <span className="ca-status">
-          <span className="ca-status-line">
-            <span className="ca-status-dot" />
-            {site.available ? "Available" : "Booked"}
-          </span>
-          <span className="ca-tags">
-            <span>Freelance</span>
-            <span>Collabs</span>
-            <span>Full-time</span>
-          </span>
         </span>
       );
 
