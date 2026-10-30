@@ -809,6 +809,15 @@
 .finder-shot {
   position: relative;
   padding: 6px 10px;
+  transition:
+    filter var(--dur-fast) var(--ease-ui),
+    opacity var(--dur-fast) var(--ease-ui);
+}
+
+/* Rack focus (set by Skills while motion is on): only the shot in focus is sharp */
+.finder[data-racking] .finder-shot:not(.is-focus) {
+  filter: blur(3px);
+  opacity: 0.55;
 }
 
 /* Focus box snaps around the shot in focus */

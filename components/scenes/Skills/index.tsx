@@ -24,7 +24,7 @@ export function Skills() {
   const section = useRef<HTMLElement>(null);
 
   useGSAP(
-    (_, contextSafe) => {
+    () => {
       const mm = gsap.matchMedia();
       mm.add(mq.motion, () => {
         const el = section.current!;
@@ -84,20 +84,12 @@ export function Skills() {
           },
         );
 
-        // Viewfinder: rack focus from skill to skill; hovering pulls focus by hand
+        // Viewfinder: rack focus from skill to skill; hovering pulls focus by hand.
+        // Only the .is-focus class moves; CSS does the blur, so nothing tweens late.
         const shots = gsap.utils.toArray<HTMLElement>("[data-shot]", el);
-        const focus = contextSafe!((index: number) => {
-          shots.forEach((shot, i) => {
-            shot.classList.toggle("is-focus", i === index);
-            gsap.to(shot, {
-              filter: i === index ? "blur(0px)" : "blur(3px)",
-              opacity: i === index ? 1 : 0.55,
-              duration: dur.fast,
-              ease: ease.ui,
-              overwrite: true,
-            });
-          });
-        });
+        const finder = el.querySelector<HTMLElement>("[data-finder]")!;
+        finder.dataset.racking = "on";
+        const focus = (index: number) => shots.forEach((shot, i) => shot.classList.toggle("is-focus", i === index));
         let at = 0;
         const loop = gsap
           .timeline({ repeat: -1, paused: true })
@@ -106,7 +98,6 @@ export function Skills() {
             at = (at + 1) % shots.length;
           })
           .to({}, { duration: FOCUS_HOLD });
-        const finder = el.querySelector<HTMLElement>("[data-finder]")!;
         gsap.timeline({
           scrollTrigger: {
             trigger: finder,
@@ -132,7 +123,7 @@ export function Skills() {
 
         return () => {
           offs.forEach((off) => off());
-          gsap.set(shots, { clearProps: "filter,opacity" });
+          delete finder.dataset.racking;
           shots.forEach((shot) => shot.classList.remove("is-focus"));
         };
       });

@@ -303,7 +303,7 @@
 
 .resume-contacts li {
   display: grid;
-  grid-template-columns: 6rem minmax(0, 1fr);
+  grid-template-columns: 7.75rem minmax(0, 1fr); /* fits the longest label, "@gloxonaquest" */
   gap: 12px;
   align-items: baseline;
 }
