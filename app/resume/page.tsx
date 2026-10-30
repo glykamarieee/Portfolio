@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: `${site.name} — ${site.role}. Experience, education, skills and certificates.`,
 };
 
-const CATEGORIES: SkillCategory[] = ["Design", "Frontend", "Motion", "Tools"];
+const CATEGORIES: SkillCategory[] = ["Programming", "Editing", "Videography"];
 
 // /resume — calm, recruiter-friendly and print-ready, generated from /content.
 // styles/print.css strips the site chrome when printing.

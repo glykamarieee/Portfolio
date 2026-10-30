@@ -17,7 +17,7 @@ export const about: About = {
     { src: PLACEHOLDER, alt: "" },
   ],
   portrait: { src: PLACEHOLDER, alt: "Portrait of Your Name" },
-  portraitAlt: { src: PLACEHOLDER, alt: "Your Name on an adventure" },
+  portraitAlt: { src: PLACEHOLDER, alt: "Your Name behind the camera" },
   values: [
     { title: "Craft", body: "Details are the design." },
     { title: "Motion", body: "Animation should explain, not decorate." },

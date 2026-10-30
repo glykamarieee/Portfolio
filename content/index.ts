@@ -6,5 +6,4 @@ export { certificates } from "./certificates";
 export { education } from "./education";
 export { experience } from "./experience";
 export { skills, skillCategories } from "./skills";
-export { adventures } from "./adventures";
 export { heroCards } from "./hero";

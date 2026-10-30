@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import { about, adventures, certificates, projects, site } from "@/content";
+import { about, certificates, projects, site, skills } from "@/content";
 import { PageTransition } from "@/components/system/PageTransition";
 import { TransitionLink } from "@/components/system/TransitionLink";
 import { CopyEmail } from "@/components/ui/CopyEmail";
 import { CountUp } from "@/components/ui/CountUp";
 import { LensImage } from "@/components/ui/LensImage";
 import { Magnetic } from "@/components/ui/Magnetic";
-import { MediaImage } from "@/components/ui/MediaImage";
-import { Parallax } from "@/components/ui/Parallax";
 import { Reveal } from "@/components/ui/Reveal";
 import { RollText } from "@/components/ui/RollText";
 import { ScrubText } from "@/components/ui/ScrubText";
@@ -24,7 +22,7 @@ export const metadata: Metadata = {
 const stats = [
   { label: "Years creating", value: about.yearsCreating },
   { label: "Projects shipped", value: projects.length },
-  { label: "Films edited", value: adventures.length },
+  { label: "Tools in the kit", value: skills.length },
   { label: "Certificates", value: certificates.length },
 ];
 
@@ -114,30 +112,6 @@ export default function AboutPage() {
             </p>
           ))}
         </Reveal>
-      </section>
-
-      {/* Travel strip */}
-      <section className="overflow-x-clip border-t border-line py-24">
-        <div className="container-grid mb-10 items-end gap-y-4">
-          <p className="meta col-span-12 md:col-span-6">(05) — Off screen</p>
-          <TransitionLink href="/adventures" className="meta col-span-12 text-fg md:col-span-6 md:text-right" data-cursor="link">
-            <RollText text="See the adventures →" />
-          </TransitionLink>
-        </div>
-        <ul className="flex gap-(--gutter) px-(--page-margin)">
-          {adventures.map((trip, i) => (
-            <li key={trip.slug} className="w-[70vw] shrink-0 md:w-[30vw]">
-              <Parallax speed={i % 2 ? 0.12 : -0.08}>
-                <div className="relative aspect-[3/4] overflow-hidden rounded-sm">
-                  <MediaImage media={trip.cover} sizes="(min-width: 768px) 30vw, 70vw" />
-                </div>
-                <p className="meta mt-3">
-                  {trip.place} · {trip.area}
-                </p>
-              </Parallax>
-            </li>
-          ))}
-        </ul>
       </section>
 
       {/* CTA */}

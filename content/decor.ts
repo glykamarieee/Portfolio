@@ -42,10 +42,8 @@ export const decor: Record<string, DecorObject[]> = {
   skills: [],
   journey: [],
   archive: [],
-  fieldNotes: [],
   resume: [],
   contact: [],
   aboutPage: [],
-  adventures: [],
   caseStudy: [],
 };

@@ -5,9 +5,9 @@ import type { HeroCard } from "./types";
 // to replace its typographic cover with a photo.
 export const heroCards: HeroCard[] = [
   {
-    href: "/adventures",
-    title: "Field notes",
-    kicker: "Travel films",
+    href: "/#journey",
+    title: "Journey",
+    kicker: "Experience & school",
     art: "ring",
     bg: "#c9ccd1",
     fg: "#111113",

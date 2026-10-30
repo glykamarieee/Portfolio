@@ -24,6 +24,10 @@
   --color-accent-ink: #0a0a0b;
   --color-bloom-1: #d9d0ff;
   --color-bloom-2: #c8eeff;
+  /* Code editor syntax (Skills — Programming) */
+  --color-code-kw: #7c3aed;
+  --color-code-str: #1d7a3a;
+  --color-code-com: #6b6b73;
 
   /* Fluid type scale (DESIGN.md §3) */
   --text-hero: clamp(2.75rem, 6.4vw, 7rem);
@@ -66,6 +70,9 @@
   --color-accent-fg: #c6ff3d;
   --color-bloom-1: rgb(91 61 245 / 0.25);
   --color-bloom-2: rgb(31 182 255 / 0.15);
+  --color-code-kw: #c4a7ff;
+  --color-code-str: #c6ff3d;
+  --color-code-com: #8a8a8f;
 }
 
 :root {
@@ -78,6 +85,12 @@
   /* Over photos/video the palette is fixed in both themes (film letterbox, HUD text) */
   --color-letterbox: #000000;
   --color-on-media: #ffffff;
+  --color-rec: #ff3b30;
+
+  /* Edit timeline clips (Skills — Editing), fixed in both themes */
+  --color-clip-video: #6d5efc;
+  --color-clip-audio: #3ddc4a;
+  --color-clip-ink: #0a0a0b;
 
   /* Layout (DESIGN.md §4) */
   --page-margin: clamp(16px, 4vw, 64px);

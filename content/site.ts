@@ -20,7 +20,6 @@ export const site: Site = {
   nav: [
     { label: "Work", href: "/#work" },
     { label: "About", href: "/about" },
-    { label: "Adventures", href: "/adventures" },
     { label: "Resume", href: "/resume" },
     { label: "Contact", href: "/#contact" },
   ],

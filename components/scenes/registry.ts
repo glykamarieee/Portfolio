@@ -8,7 +8,6 @@ export const SCENES = [
   "Skills",
   "Journey",
   "The Archive",
-  "Field Notes",
   "Resume",
   "Contact",
 ] as const;

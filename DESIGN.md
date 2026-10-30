@@ -78,7 +78,6 @@ in `app/globals.css`. Fonts load via `next/font` with `display: swap`.
 
 Rules:
 - Display type uses leading `1.02–1.1` and tracking `-0.03em` to `-0.045em`.
-- Big numbers (Skills dial) are Geist Mono bold.
 - Meta labels are always mono and uppercase, e.g. `(03) — SELECTED WORK`, `2025`, `14.5995° N`.
 - Body text width is ≤ 65ch.
 
@@ -129,7 +128,7 @@ Components opt in declaratively with `data-cursor`:
 | *(none)* | default dot + ring |
 | `link` | ring grows to 64px; text under it reveals its alternate layer through a clip-path mask |
 | `view` | lens grows to a 160px window showing the item's preview media, with RGB-shift by velocity; label "VIEW" |
-| `play` | like `view`, label "PLAY" (adventure videos) |
+| `play` | like `view`, label "PLAY" (videos) |
 | `drag` | label "DRAG", squashes in the drag direction |
 | `text` | thin caret bar |
 | `magnetic` | element + label pulled toward the pointer (strength 0.3–0.4), spring back on leave |
@@ -182,15 +181,14 @@ The lens motif also shows up in:
 | 0 | Preloader | counter 0→100, lens opens | same | instant fade |
 | 1 | Hero | centered headline with inline image; cover cards fan out from a stack, drift outward on scroll | 4 cards | static cards |
 | 2 | Manifesto | words light up as you scroll; key words become images | shorter text | all words lit |
-| 3 | About teaser | 3-layer portrait parallax; lens reveals "travel me" | tap to swap | static |
+| 3 | About teaser | 3-layer portrait parallax; lens reveals an alternate photo | tap to swap | static |
 | 4 | Selected Work | glass folder header; pinned horizontal track of project panels | vertical stack + swipe | vertical stack |
-| 5 | Skills | pinned dial: mono numbers on an arc turn with scroll, details beside the active one | same dial | numbered list |
+| 5 | Skills | three stacking cards — code editor, edit timeline with scrubbing playhead, viewfinder with rack focus | cards in a column | cards, no playhead/rack focus |
 | 6 | Journey | two-lane timeline (work / school), path draws on scroll | single lane | static list |
 | 7 | Certificates — The Archive | camera flies forward through 3–4 depth layers | swipeable card deck | grid |
-| 8 | Adventures — Field Notes | pinned letterboxed screen; scroll cuts film to film with a wipe, REC/timecode HUD, filmstrip | list of 2.39:1 frames | list with posters |
-| 9 | Resume | sections fly in and stack into a document | static sheet | static |
-| 10 | Contact | magnetic "Let's talk", lens fills the screen | big tap target | static |
-| 11 | Footer | marquee, local time, back-to-top | same | no marquee |
+| 8 | Resume | sections fly in and stack into a document | static sheet | static |
+| 9 | Contact | magnetic "Let's talk", lens fills the screen | big tap target | static |
+| 10 | Footer | marquee, local time, back-to-top | same | no marquee |
 
 ### Certificates — The Archive (detail)
 - Pinned scene, `+=350%`. Cards sit on z-planes −200 / −800 / −1400 / −2000px under `perspective: 1200px`.
@@ -199,18 +197,19 @@ The lens motif also shows up in:
 - Hover focuses a card (unblur, lift, `data-cursor="view"`). Click opens a lightbox (issuer, date, credential link).
 - The HUD at the right edge shows `07 / 12`, the issuer, and the year in mono.
 
-### Adventures — Field Notes (detail)
-- The films are days out around Cebu with friends, shot and edited by the owner (not travel abroad), so the scene is a screening, not a map.
-- A pinned 2.39:1 letterboxed screen. Each scroll step wipes the next film in from the right (clip-path) while the outgoing one pushes in; it snaps per film.
-- Only the film on screen plays (muted preview). The HUD shows REC + a scroll-driven timecode, scene number, the area ("Badian, Cebu") and date; below sit the place, one-line story, crew, and a clickable filmstrip with sprocket holes.
-- `/adventures` is a full-bleed snap reel with letterbox bars, a timecode, a sound toggle, filters, and a grid/mosaic toggle with hover-scrub previews.
+### Skills — three crafts (detail)
+- Categories: Programming, Editing, Videography (`skillCategories` in `content/skills.ts`).
+- One card per craft: copy (number, name, blurb, skill pills) beside a mock of the tool where that craft happens. The mock is decorative (`aria-hidden`); the pills are the real list.
+  - **Programming:** a code editor. The stack is a typed array with a ●●●●○ level comment per skill; lines type in on enter; a caret blinks.
+  - **Editing:** a sequence timeline. Skills are clips on V3/V2/V1 (length follows `level`) over a soundtrack bed on A1. The playhead and timecode scrub with scroll, and clips under the playhead light up.
+  - **Videography:** a camera viewfinder (fixed dark: thirds grid, corner brackets, REC, exposure HUD). Focus racks from skill to skill (blur + a focus box); hovering pulls focus by hand. Paused offscreen.
+- Desktop: cards are sticky and stack, each a little lower than the last; the one underneath scales back to 0.94 as the next slides over.
 
 ---
 
 ## 10. Pages
 - **`/work/[slug]`:** hero media → overview (role, stack, year) → challenge → process (pinned image sequence) → outcome/metrics → next project (lens transition).
-- **`/about`:** portrait with lens reveal → long bio word-reveal → by-the-numbers counters → values cards → currently learning / fun facts → adventure photo strip → CTA.
-- **`/adventures`:** see above.
+- **`/about`:** portrait with lens reveal → long bio word-reveal → by-the-numbers counters → values cards → currently learning / fun facts → CTA.
 - **`/resume`:** calm and print-friendly, generated from `/content` data, with a print stylesheet and a PDF download.
 
 ---
@@ -218,7 +217,7 @@ The lens motif also shows up in:
 ## 11. Media Standards
 - **Images:** `next/image`, AVIF/WebP, always set `sizes`, blur placeholders. Project covers are 16:10, certificates 4:3 or the original ratio.
 - **Videos:** 1080p H.264 MP4 plus a WebM version, plus a 3–6s muted loop preview (≤ 1.5MB) and a poster JPG. Use `muted playsinline preload="none"`. Never autoplay with sound.
-- **Raw footage:** goes in `public/media/adventures/_raw/` (git-ignored). Large finals go to a video host (Cloudinary, Mux, or Bunny).
+- **Raw footage:** goes in `public/media/_raw/` (git-ignored). Large finals go to a video host (Cloudinary, Mux, or Bunny).
 
 ---
 

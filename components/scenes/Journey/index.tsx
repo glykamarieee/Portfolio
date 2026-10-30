@@ -80,7 +80,7 @@ export function Journey() {
   });
 
   return (
-    <section ref={section} data-scene="Journey" className="container-grid gap-y-12 py-32 relative isolate">
+    <section ref={section} id="journey" data-scene="Journey" className="container-grid gap-y-12 py-32 relative isolate">
       <Decor set="journey" />
       <SceneHeader index={sceneIndex("Journey")} title="Journey" className="col-span-12" />
       <div className="col-span-12 flex items-end justify-between gap-6">

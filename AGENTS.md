@@ -24,16 +24,16 @@ Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind CSS v4 · G
 - `npm run lint`: ESLint
 
 ## Structure
-- `app/`: routes: `/`, `/about`, `/work/[slug]`, `/adventures`, `/resume`
+- `app/`: routes: `/`, `/about`, `/work/[slug]`, `/resume`
 - `components/scenes/`: one folder per home-page scene, each self-contained
 - `components/ui/`: reusable primitives (MagneticLink, SplitHeading, ScrambleText, Marquee, Tag)
 - `components/system/`: global systems (Cursor/Lens, SmoothScroll, Preloader, Grain, PageTransition)
 - `components/webgl/`: empty for now; any future R3F canvases go here (always dynamic-imported)
 - `lib/motion/`: the only place eases, durations, and timeline helpers are defined
 - `lib/hooks/`: `usePrefersReducedMotion`, `useMediaQuery`, `usePointer`, etc.
-- `content/`: typed data (projects, certificates, education, experience, skills, adventures, about, site). It's the single source of truth for every page, including `/resume`.
+- `content/`: typed data (projects, certificates, education, experience, skills, about, site). It's the single source of truth for every page, including `/resume`.
 - `styles/tokens.css`: design tokens that mirror DESIGN.md
-- `public/media/`: assets. `adventures/_raw/` is git-ignored raw footage.
+- `public/media/`: assets. `_raw/` is git-ignored raw footage.
 
 ## Rules
 1. **Server components by default.** Add `"use client"` only for interactive or animated components.

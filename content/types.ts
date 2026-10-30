@@ -114,25 +114,12 @@ export type HeroCard = {
   mobile?: boolean; // also show on phones (keep it to four)
 };
 
-export type SkillCategory = "Design" | "Frontend" | "Motion" | "Tools";
+export type SkillCategory = "Programming" | "Editing" | "Videography";
 
 export type Skill = {
   name: string;
   category: SkillCategory;
   level?: 1 | 2 | 3 | 4 | 5;
-  projects?: string[]; // project slugs — powers the "hover highlights projects" link
+  projects?: string[]; // project slugs that used the skill
 };
 
-// One edited film from a day out around Cebu.
-export type Adventure = {
-  slug: string;
-  place: string; // the spot, e.g. "Kawasan Falls"
-  area: string; // town or city in Cebu, e.g. "Badian"
-  date: string; // ISO "YYYY-MM"
-  story: string; // one line
-  crew?: string[]; // friends in the film (first names or handles)
-  tags?: string[]; // e.g. "Cinematic", "Drone", "Vlog"
-  cover: Media; // still shown in lists and as the video poster fallback
-  video?: Video;
-  photos?: Media[];
-};

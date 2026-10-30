@@ -1,7 +1,6 @@
 import { AboutTeaser } from "@/components/scenes/AboutTeaser";
 import { Archive } from "@/components/scenes/Archive";
 import { Contact } from "@/components/scenes/Contact";
-import { FieldNotes } from "@/components/scenes/FieldNotes";
 import { Hero } from "@/components/scenes/Hero";
 import { Journey } from "@/components/scenes/Journey";
 import { Manifesto } from "@/components/scenes/Manifesto";
@@ -23,7 +22,6 @@ export default function Home() {
       <Skills />
       <Journey />
       <Archive />
-      <FieldNotes />
       <ResumeMoment />
       <Contact />
       <SceneCounter />
