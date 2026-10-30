@@ -1,10 +1,10 @@
 "use client";
 
 import { useRef, type CSSProperties } from "react";
-import Image from "next/image";
 import { heroCards, site, type HeroCard } from "@/content";
 import { TransitionLink } from "@/components/system/TransitionLink";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { CRAFTS, CraftChip } from "@/components/ui/CraftChip";
 import { MediaImage } from "@/components/ui/MediaImage";
 import { dur, ease, gsap, isReady, mq, onReady, stagger, useGSAP, whenIdle } from "@/lib/motion";
 import { cn } from "@/lib/cn";
@@ -12,12 +12,14 @@ import { CardArt } from "./CardArt";
 
 const words = (text: string) => text.trim().split(/\s+/).filter(Boolean);
 
-// Scene 0 — centered headline with an inline image, ringed by tilted cover
-// cards. On load the cards rise from a stack at the bottom and fan out; on
-// scroll they drift outward by depth. Static layout under reduced motion.
+// Scene 0 — centered headline ringed by tilted cover cards. The first word
+// rotates through the crafts (Interfaces → Films → Frames) with a matching
+// chip; "alive" ripples, a lime swoosh draws under it and the full stop is a
+// pulsing REC dot. On load the cards rise from a stack at the bottom and fan
+// out; on scroll they drift outward by depth. Static under reduced motion.
 export function Hero() {
   const root = useRef<HTMLElement>(null);
-  const [before, after = ""] = site.headline.split("[img]");
+  const { words: rotate, lead, accent } = site.headline;
 
   useGSAP((_, contextSafe) => {
     const el = root.current!;
@@ -57,6 +59,12 @@ export function Hero() {
           gsap.utils.toArray("[data-fade]", el),
           { y: 16, autoAlpha: 0, duration: dur.base, ease: ease.reveal, stagger: stagger.items },
           0.35,
+        )
+        .fromTo(
+          el.querySelector("[data-swoosh]"),
+          { strokeDashoffset: 1 },
+          { strokeDashoffset: 0, duration: dur.slow, ease: ease.reveal },
+          0.7,
         );
       cards.forEach((c, i) => {
         intro.from(
@@ -76,6 +84,7 @@ export function Hero() {
       // Scroll drift + cursor parallax aren't needed for first paint: set them
       // up after the intro starts, when the main thread is idle.
       let offMove = () => {};
+      let offResize = () => {};
       const setup = contextSafe!(() => {
         // Scroll: cards drift outward and up, nearer cards faster; the copy lags behind
         let live = cards; // re-measured on every refresh (resize)
@@ -107,6 +116,54 @@ export function Hero() {
         });
         out.to(el.querySelector("[data-hero-copy]"), { y: 120, autoAlpha: 0, ease: ease.scrub }, 0);
 
+        // "alive" ripples, letter by letter
+        gsap.to(gsap.utils.toArray("[data-alive]", el), {
+          yPercent: -9,
+          duration: 0.7,
+          ease: ease.float,
+          stagger: { each: 0.09, repeat: -1, yoyo: true },
+        });
+
+        // The first word rotates through the crafts; its box eases to each word's width
+        const box = el.querySelector<HTMLElement>("[data-rot]")!;
+        const rotWords = gsap.utils.toArray<HTMLElement>("[data-rot-word]", el);
+        const rotChips = gsap.utils.toArray<HTMLElement>("[data-rot-chip]", el);
+        let current = 0;
+        gsap.set(box, { width: rotWords[0].offsetWidth });
+        gsap.set(rotWords.slice(1), { yPercent: 100, autoAlpha: 0 });
+        gsap.set(rotChips.slice(1), { scale: 0, rotation: -40, autoAlpha: 0 });
+        const loop = gsap.timeline({ repeat: -1 });
+        rotWords.forEach((word, i) => {
+          const next = (i + 1) % rotWords.length;
+          loop
+            .add(() => {
+              current = next;
+            }, "+=2.2")
+            .to(word, { yPercent: -100, autoAlpha: 0, duration: 0.5, ease: "power3.in" })
+            .to(rotChips[i], { scale: 0, rotation: 40, autoAlpha: 0, duration: 0.4, ease: "power3.in" }, "<")
+            .fromTo(
+              rotWords[next],
+              { yPercent: 100, autoAlpha: 0 },
+              // immediateRender off: the last step brings word 0 back, and must not hide it at the start
+              { yPercent: 0, autoAlpha: 1, duration: dur.base, ease: ease.reveal, immediateRender: false },
+              "-=0.15",
+            )
+            .to(box, { width: () => rotWords[next].offsetWidth, duration: dur.base, ease: ease.reveal }, "<")
+            .fromTo(
+              rotChips[next],
+              { scale: 0, rotation: -40, autoAlpha: 0 },
+              { scale: 1, rotation: 0, autoAlpha: 1, duration: dur.base, ease: ease.spring, immediateRender: false },
+              "<0.1",
+            );
+        });
+        // Type is fluid: re-measure the word widths on resize
+        const onResize = () => {
+          gsap.set(box, { width: rotWords[current].offsetWidth });
+          loop.invalidate();
+        };
+        window.addEventListener("resize", onResize);
+        offResize = () => window.removeEventListener("resize", onResize);
+
         // Cursor parallax by depth (fine pointers only)
         if (!window.matchMedia(mq.finePointer).matches) return;
         const movers = cards.map((c) => ({
@@ -135,6 +192,7 @@ export function Hero() {
         offReady();
         cancelIdle();
         offMove();
+        offResize();
       };
     });
   });
@@ -161,31 +219,43 @@ export function Hero() {
       </ul>
 
       <div data-hero-copy className="hero-copy">
-        <h1 className="font-display text-hero hero-title">
-          {words(before).map((word, i) => (
-            <span key={`b${i}`}>
-              <span data-word className="inline-block">
-                {word}
-              </span>{" "}
+        <h1 className="font-display text-hero hero-title" aria-label={`${rotate[0]} ${lead} ${accent}.`}>
+          <span className="hero-line" aria-hidden="true">
+            <span data-word data-rot className="hero-rot">
+              {rotate.map((word) => (
+                <span key={word} data-rot-word className="hero-rot-word">
+                  {word}
+                </span>
+              ))}
+            </span>{" "}
+            <span data-word className="hero-chips">
+              {rotate.map((word, i) => (
+                <span key={word} data-rot-chip className="hero-chip">
+                  <CraftChip craft={CRAFTS[i % CRAFTS.length]} tilt={7} />
+                </span>
+              ))}
             </span>
-          ))}
-          <Image
-            data-word
-            className="hero-pill"
-            src={site.headlineImage.src}
-            alt={site.headlineImage.alt}
-            width={120}
-            height={160}
-            priority
-            unoptimized={site.headlineImage.src.endsWith(".svg")}
-          />{" "}
-          {words(after).map((word, i) => (
-            <span key={`a${i}`}>
-              <span data-word className="inline-block">
-                {word}
-              </span>{" "}
+          </span>{" "}
+          <span aria-hidden="true">
+            {words(lead).map((word, i) => (
+              <span key={i}>
+                <span data-word className="inline-block">
+                  {word}
+                </span>{" "}
+              </span>
+            ))}
+            <span data-word className="hero-alive">
+              {Array.from(accent).map((char, i) => (
+                <span key={i} data-alive className="inline-block">
+                  {char}
+                </span>
+              ))}
+              <svg viewBox="0 0 200 20" preserveAspectRatio="none" className="hero-swoosh">
+                <path data-swoosh d="M4 14 C 50 4, 120 20, 196 6" pathLength={1} />
+              </svg>
             </span>
-          ))}
+            <span data-word className="hero-dot" />
+          </span>
         </h1>
         <p data-fade className="text-fg-muted">
           {site.name} — {site.role.toLowerCase()} based in {site.location}.

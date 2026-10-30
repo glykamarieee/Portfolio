@@ -1,7 +1,8 @@
 "use client";
 
-import { Fragment, useRef, type CSSProperties } from "react";
+import { Fragment, useRef } from "react";
 import { about, site } from "@/content";
+import { CRAFTS, CraftChip } from "@/components/ui/CraftChip";
 import { SceneHeader } from "@/components/ui/SceneHeader";
 import { ease, gsap, interaction, mq, useGSAP } from "@/lib/motion";
 import { parseEmphasis } from "@/lib/format";
@@ -9,9 +10,6 @@ import { sceneIndex } from "../registry";
 import { Decor } from "@/components/ui/Decor";
 
 const WORD_STEP = 0.1; // timeline time between words lighting up
-
-const CRAFTS = ["Code", "Cut", "Capture"] as const;
-type Craft = (typeof CRAFTS)[number];
 
 // Each *key phrase* is led by the next craft's chip, in order: code, cut, capture.
 let keys = 0;
@@ -171,37 +169,5 @@ export function Manifesto() {
         </ul>
       </div>
     </section>
-  );
-}
-
-// A small inline chip that names its craft visually
-function CraftChip({ craft, tilt }: { craft: Craft; tilt: number }) {
-  return (
-    <span
-      data-chip
-      data-tilt={tilt}
-      className={`mchip is-${craft.toLowerCase()}`}
-      style={{ "--tilt": `${tilt}deg` } as CSSProperties}
-      aria-hidden="true"
-    >
-      {craft === "Code" && (
-        <>
-          <span className="mchip-code">&lt;/&gt;</span>
-          <span className="mchip-caret" />
-        </>
-      )}
-      {craft === "Cut" && (
-        <>
-          <span data-half className="mchip-half is-left" />
-          <span data-half className="mchip-half is-right" />
-        </>
-      )}
-      {craft === "Capture" && (
-        <>
-          <span className="mchip-corners" />
-          <span className="mchip-rec" />
-        </>
-      )}
-    </span>
   );
 }

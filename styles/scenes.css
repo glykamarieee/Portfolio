@@ -26,17 +26,85 @@
   max-width: 9.5em;
 }
 
-/* Small image set inside the headline, sized to the type */
-.hero-pill {
+/* Headline: a rotating craft word + chip, a rippling "alive", a REC-dot full stop */
+.hero-line {
+  display: block;
+}
+
+.hero-rot {
+  display: inline-grid;
+  justify-items: start;
+  margin-bottom: -0.1em;
+  padding-bottom: 0.1em;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.hero-rot-word {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+}
+
+.hero-rot-word:not(:first-child),
+.hero-chip:not(:first-child) {
+  visibility: hidden; /* GSAP reveals them in turn */
+}
+
+.hero-chips {
+  display: inline-grid;
+  font-size: 0.78em;
+}
+
+.hero-chip {
+  grid-area: 1 / 1;
+}
+
+.hero-alive {
+  position: relative;
   display: inline-block;
-  width: 0.62em;
-  height: 0.8em;
-  margin-inline: 0.02em;
-  vertical-align: -0.1em;
-  object-fit: cover;
-  border-radius: 0.09em;
-  rotate: 7deg;
-  box-shadow: 0 0.06em 0.16em rgb(0 0 0 / 0.18);
+  white-space: nowrap;
+}
+
+.hero-swoosh {
+  position: absolute;
+  bottom: -0.2em;
+  left: -3%;
+  z-index: -1;
+  width: 106%;
+  height: 0.26em;
+  overflow: visible;
+}
+
+.hero-swoosh path {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 0.075em;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.hero-dot {
+  display: inline-block;
+  width: 0.15em;
+  height: 0.15em;
+  margin-left: 0.05em;
+  border-radius: 9999px;
+  background: var(--color-rec);
+  animation: hero-dot 1.6s var(--ease-ui) infinite;
+}
+
+@keyframes hero-dot {
+  50% {
+    opacity: 0.55;
+    scale: 0.8;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-dot {
+    animation: none;
+  }
 }
 
 .hero-card-slot {

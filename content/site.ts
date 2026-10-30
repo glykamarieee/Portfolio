@@ -6,8 +6,8 @@ export const site: Site = {
   name: "Glyka Marie Amahan",
   role: "Creative Developer",
   positioning: "I build interfaces that feel alive.",
-  headline: "Interfaces [img] that feel alive.",
-  headlineImage: { src: "/media/hero-pill.svg", alt: "" },
+  // Hero: the first word rotates (one per craft: code, cut, capture), then the line
+  headline: { words: ["Interfaces", "Films", "Frames"], lead: "that feel", accent: "alive" },
   location: "Cebu, PH",
   timeZone: "Asia/Manila",
   available: true,

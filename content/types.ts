@@ -25,9 +25,8 @@ export type Site = {
   name: string;
   role: string;
   positioning: string;
-  /** Home hero headline. `[img]` marks where the small inline image sits. */
-  headline: string;
-  headlineImage: Media;
+  /** Home hero headline: "<word> that feel <accent>." — `words` rotate, one per craft (Code, Cut, Capture) */
+  headline: { words: string[]; lead: string; accent: string };
   location: string;
   timeZone: string; // IANA, e.g. "Asia/Manila" — drives the live clock in the nav
   available: boolean;
