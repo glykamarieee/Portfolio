@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import { certificates, education, experience, projects, skillCategories, site, type HeroCard } from "@/content";
 import { initials, pad } from "@/lib/format";
 
@@ -10,15 +9,15 @@ const stops = [
   .sort((a, b) => a.year - b.year)
   .slice(-3);
 
-// Work: the first three featured projects, stacked back to front (newest on top)
-const shelf = projects
-  .filter((p) => p.featured)
-  .slice(0, 3)
-  .reverse();
+// Work: every featured title on one running line, and the years they span
+const featured = projects.filter((p) => p.featured);
+const reel = featured.map((p) => `${p.title} ✺ `).join("");
+const years = featured.map((p) => p.year);
+const span = `${Math.min(...years)}–${Math.max(...years)}`;
 
 // Cover art for the hero cards: small, quiet interface pieces built from the
 // real content, in the card's own ink (currentColor) — a timeline for
-// Journey, a stack of project tiles for Work, the certificate count for the Archive, and
+// Journey, running project titles for Work, the certificate count for the Archive, and
 // so on. Cards with a photo cover (`about`) draw nothing.
 export function CardArt({ art }: { art: HeroCard["art"] }) {
   switch (art) {
@@ -40,25 +39,21 @@ export function CardArt({ art }: { art: HeroCard["art"] }) {
       );
 
     case "work":
-      // A fanned stack of the featured projects, the newest in front
+      // Project titles running past in three rows (solid, outlined, solid), then the count
       return (
-        <span className="ca-stack">
-          {shelf.map((project, i) => (
-            <span key={project.slug} className="ca-tile" style={{ "--i": shelf.length - 1 - i } as CSSProperties}>
-              <span className="ca-tile-bar">
-                <i />
-                <i />
-                <i />
-              </span>
-              <span className="ca-tile-title">{project.title}</span>
-              <span className="ca-tile-meta">
-                <span className="ca-label">
-                  {pad(shelf.length - i)} · {project.year}
-                </span>
-                {i === shelf.length - 1 && <span className="ca-tile-arrow">→</span>}
+        <span className="ca-reel">
+          {[0, 1, 2].map((row) => (
+            <span key={row} className={`ca-reel-row is-${row}`}>
+              <span className="ca-reel-track">
+                <span>{reel}</span>
+                <span>{reel}</span>
               </span>
             </span>
           ))}
+          <span className="ca-reel-meta">
+            <span className="ca-reel-dot" />
+            Live · {pad(featured.length)} projects · {span}
+          </span>
         </span>
       );
 

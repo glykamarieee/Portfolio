@@ -255,64 +255,89 @@
   font-weight: 700;
 }
 
-/* Work: a fanned stack of project tiles (--i: 0 = front) */
-.ca-stack {
-  position: relative;
+/* Work: project titles running past in alternating rows */
+.ca-reel {
   display: grid;
-  margin-top: 16cqi;
+  gap: 1.5cqi;
+  margin-inline: -9cqi; /* run edge to edge across the card */
 }
 
-.ca-tile {
-  grid-area: 1 / 1;
+.ca-reel-row {
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: 13cqi;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  white-space: nowrap;
+}
+
+.ca-reel-row.is-1 {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--card-fg);
+}
+
+.ca-reel-track {
   display: flex;
-  flex-direction: column;
-  gap: 3cqi;
-  padding: 4.5cqi 5cqi 5cqi;
-  border-radius: 3.5cqi;
-  background: color-mix(in srgb, var(--color-on-media) calc(94% - var(--i) * 30%), var(--card-bg));
-  box-shadow: 0 1.6cqi 5cqi -1.6cqi rgb(0 0 0 / 0.28);
-  translate: calc(var(--i) * 3cqi) calc(var(--i) * -11cqi);
-  rotate: calc(var(--i) * -5deg);
-  scale: calc(1 - var(--i) * 0.07);
-  transform-origin: bottom center;
+  width: max-content;
+  animation: ca-reel 16s linear infinite;
 }
 
-.ca-tile-bar {
-  display: flex;
-  gap: 1.2cqi;
+.ca-reel-row.is-1 .ca-reel-track {
+  animation-direction: reverse;
+  animation-duration: 20s;
 }
 
-.ca-tile-bar i,
+.ca-reel-row.is-2 .ca-reel-track {
+  animation-duration: 13s;
+}
+
+.ca-reel-track span {
+  padding-right: 0.3em;
+}
+
+@keyframes ca-reel {
+  to {
+    translate: -50% 0;
+  }
+}
+
+.ca-reel-meta {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 2cqi;
+  margin: 5cqi 0 0 9cqi;
+  padding: 1.6cqi 3.2cqi;
+  border-radius: 9999px;
+  background: var(--card-fg);
+  color: var(--card-bg);
+  font-family: var(--font-mono);
+  font-size: max(6px, 3.4cqi);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ca-reel-dot {
+  width: 1.8cqi;
+  height: 1.8cqi;
+  border-radius: 50%;
+  background: currentColor;
+  animation: hero-dot 1.6s var(--ease-ui) infinite;
+}
+
 .ca-bubble.is-typing i {
-  width: 1.6cqi;
-  height: 1.6cqi;
+  width: 1.8cqi;
+  height: 1.8cqi;
   border-radius: 50%;
   background: var(--mid);
 }
 
-.ca-tile-title {
-  font-family: var(--font-display);
-  font-size: 11cqi;
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1;
-}
-
-.ca-tile-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.ca-tile-arrow {
-  display: grid;
-  width: 7cqi;
-  height: 7cqi;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--card-fg);
-  color: var(--card-bg);
-  font-size: 4cqi;
+@media (prefers-reduced-motion: reduce) {
+  .ca-reel-track,
+  .ca-reel-dot {
+    animation: none;
+  }
 }
 
 /* Thin rounded rule used by the Resume page preview */
