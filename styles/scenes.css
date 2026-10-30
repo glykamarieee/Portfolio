@@ -221,6 +221,13 @@
   aspect-ratio: 4 / 5;
 }
 
+/* Phones: leave room for the tilted back card and the sticker to stay on screen */
+@media (max-width: 47.99rem) {
+  .photo-stack {
+    width: min(78%, 420px, 52svh);
+  }
+}
+
 .photo-card {
   position: absolute;
   inset: 0;

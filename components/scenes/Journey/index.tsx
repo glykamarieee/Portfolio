@@ -127,7 +127,7 @@ export function Journey() {
             <li key={i} data-milestone data-year={m.year} className={cn("journey-item", `is-${m.lane}`)}>
               <span className="journey-dot" aria-hidden="true" />
               <article data-journey-card className="journey-card">
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                   <span className="journey-mark" aria-hidden="true">
                     {initials(m.org)}
                   </span>
