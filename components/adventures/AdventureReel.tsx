@@ -5,28 +5,21 @@ import Snap from "lenis/snap";
 import { adventures, type Adventure } from "@/content";
 import { MediaImage } from "@/components/ui/MediaImage";
 import { getLenis } from "@/lib/motion";
-import { formatCoords, formatMonth, pad, yearOf } from "@/lib/format";
+import { formatMonth, pad, timecode, yearOf } from "@/lib/format";
 import { cn } from "@/lib/cn";
 
 type View = "reel" | "grid";
 const ALL = "All";
 
-const countries = [ALL, ...new Set(adventures.map((a) => a.country))];
+const areas = [ALL, ...new Set(adventures.map((a) => a.area))];
 const years = [ALL, ...new Set(adventures.map((a) => yearOf(a.date)))];
 
-/** seconds → "00:01:12:05" (hh:mm:ss:ff at 24fps) */
-function timecode(seconds: number) {
-  const frames = Math.floor((seconds % 1) * 24);
-  const s = Math.floor(seconds);
-  return [Math.floor(s / 3600), Math.floor((s % 3600) / 60), s % 60, frames].map((n) => pad(n)).join(":");
-}
-
-// /adventures — the travel film reel. Reel view: one trip per screen, snapped,
+// /adventures — the film reel. Reel view: one film per screen, snapped,
 // letterboxed, with a timecode HUD; only the clip on screen plays. Grid view:
 // a mosaic with hover-scrub previews. Either opens a full-screen player.
 export function AdventureReel() {
   const [view, setView] = useState<View>("reel");
-  const [country, setCountry] = useState(ALL);
+  const [area, setArea] = useState(ALL);
   const [year, setYear] = useState(ALL);
   const [sound, setSound] = useState(false);
   const [active, setActive] = useState(0);
@@ -37,9 +30,9 @@ export function AdventureReel() {
   const trips = useMemo(
     () =>
       adventures.filter(
-        (trip) => (country === ALL || trip.country === country) && (year === ALL || yearOf(trip.date) === year),
+        (trip) => (area === ALL || trip.area === area) && (year === ALL || yearOf(trip.date) === year),
       ),
-    [country, year],
+    [area, year],
   );
 
   // Snap the reel to each trip (proximity, so the footer stays reachable)
@@ -82,7 +75,7 @@ export function AdventureReel() {
       {/* Controls */}
       <div className="reel-controls container-grid gap-y-4">
         <div className="col-span-12 flex flex-wrap items-center gap-2 md:col-span-9">
-          <FilterGroup label="Country" options={countries} value={country} onChange={setCountry} />
+          <FilterGroup label="Place" options={areas} value={area} onChange={setArea} />
           <FilterGroup label="Year" options={years} value={year} onChange={setYear} />
         </div>
         <div className="col-span-12 flex items-center gap-2 md:col-span-3 md:justify-end">
@@ -97,7 +90,7 @@ export function AdventureReel() {
         </div>
       </div>
 
-      {trips.length === 0 && <p className="container-grid meta py-32">No trips match these filters.</p>}
+      {trips.length === 0 && <p className="container-grid meta py-32">No films match these filters.</p>}
 
       {view === "reel" ? (
         <ol ref={list} className="reel">
@@ -125,7 +118,7 @@ export function AdventureReel() {
       <dialog
         ref={dialog}
         className="player"
-        aria-label={current ? `${current.place}, ${current.country}` : "Player"}
+        aria-label={current ? `${current.place}, ${current.area}` : "Player"}
         onClose={() => {
           setPlaying(null);
           getLenis()?.start();
@@ -151,7 +144,7 @@ export function AdventureReel() {
                 ← Prev
               </button>
               <span>
-                {current.place}, {current.country} · {formatMonth(current.date)} · {pad((playing ?? 0) + 1)} / {pad(trips.length)}
+                {current.place}, {current.area} · {formatMonth(current.date)} · {pad((playing ?? 0) + 1)} / {pad(trips.length)}
               </span>
               <button type="button" onClick={() => step(1)} data-cursor="link">
                 Next →
@@ -261,10 +254,13 @@ function ReelItem({
           </div>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p>{formatCoords(trip.coordinates)}</p>
+              <p>
+                {trip.area}, Cebu{trip.tags?.length ? ` · ${trip.tags.join(" · ")}` : ""}
+              </p>
               <h2 className="font-display text-display mt-2 font-semibold normal-case tracking-tight">{trip.place}</h2>
               <p className="mt-2">
-                {trip.country} · {formatMonth(trip.date)} — <span className="normal-case">{trip.story}</span>
+                {formatMonth(trip.date)}
+                {trip.crew?.length ? ` · with ${trip.crew.join(", ")}` : ""} — <span className="normal-case">{trip.story}</span>
               </p>
             </div>
             <button type="button" onClick={onOpen} className="chip chip-on-media" data-cursor="play" data-cursor-label="Watch">
@@ -310,7 +306,7 @@ function GridItem({ trip, index, onOpen }: { trip: Adventure; index: number; onO
           )}
         </span>
         <span className="meta">
-          {pad(index + 1)} — {trip.country} · {formatMonth(trip.date)}
+          {pad(index + 1)} — {trip.area} · {formatMonth(trip.date)}
         </span>
         <span className="font-display text-h2 font-semibold">{trip.place}</span>
       </button>

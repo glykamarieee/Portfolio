@@ -15,10 +15,11 @@ export function formatMonth(iso: string) {
 
 export const yearOf = (iso: string) => iso.slice(0, 4);
 
-export function formatCoords({ lat, lng }: { lat: number; lng: number }) {
-  const ns = lat >= 0 ? "N" : "S";
-  const ew = lng >= 0 ? "E" : "W";
-  return `${Math.abs(lat).toFixed(4)}° ${ns}, ${Math.abs(lng).toFixed(4)}° ${ew}`;
+/** seconds → "00:01:12:05" (hh:mm:ss:ff at 24fps) */
+export function timecode(seconds: number) {
+  const frames = Math.floor((seconds % 1) * 24);
+  const s = Math.floor(seconds);
+  return [Math.floor(s / 3600), Math.floor((s % 3600) / 60), s % 60, frames].map((n) => pad(n)).join(":");
 }
 
 /** Splits "plain *emphasised* plain" into segments. */

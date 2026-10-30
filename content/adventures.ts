@@ -1,49 +1,54 @@
 import type { Adventure } from "./types";
 
-// TODO: one entry per trip, in travel order. Compressed clips go in
-// /public/media/adventures/<slug>/ (raw footage goes in
-// /public/media/adventures/_raw/, which is git-ignored). Add `video` once
-// a clip is ready, e.g.:
-//   video: { src: "/media/adventures/trip-one/clip.mp4",
-//            preview: "/media/adventures/trip-one/preview.mp4",
-//            poster: "/media/adventures/trip-one/poster.jpg" },
+// Films from days out around Cebu with friends, newest first. The places below
+// are placeholders: swap in your own spots, dates, crew and one-liners.
+// Compressed clips go in /public/media/adventures/<slug>/ (raw footage goes in
+// /public/media/adventures/_raw/, which is git-ignored). Add `video` once a
+// clip is ready, e.g.:
+//   video: { src: "/media/adventures/kawasan/clip.mp4",
+//            preview: "/media/adventures/kawasan/preview.mp4",
+//            poster: "/media/adventures/kawasan/poster.jpg" },
 const PLACEHOLDER = "/media/placeholder.svg";
 
 export const adventures: Adventure[] = [
   {
-    slug: "trip-one",
-    place: "Place Name",
-    country: "Philippines",
+    slug: "kawasan",
+    place: "Kawasan Falls",
+    area: "Badian",
     date: "2025-04",
-    coordinates: { lat: 11.9674, lng: 121.9248 },
-    story: "One line about this trip.",
-    cover: { src: PLACEHOLDER, alt: "Trip one" },
+    story: "Canyoneering all morning, turquoise water all afternoon.",
+    crew: ["Friend", "Friend"],
+    tags: ["Cinematic"],
+    cover: { src: PLACEHOLDER, alt: "Kawasan Falls" },
   },
   {
-    slug: "trip-two",
-    place: "Place Name",
-    country: "Japan",
-    date: "2024-11",
-    coordinates: { lat: 35.0116, lng: 135.7681 },
-    story: "One line about this trip.",
-    cover: { src: PLACEHOLDER, alt: "Trip two" },
+    slug: "osmena-peak",
+    place: "Osmeña Peak",
+    area: "Dalaguete",
+    date: "2025-01",
+    story: "A 4 a.m. climb for ten minutes of sunrise over the hills.",
+    crew: ["Friend", "Friend", "Friend"],
+    tags: ["Cinematic", "Sunrise"],
+    cover: { src: PLACEHOLDER, alt: "Osmeña Peak" },
   },
   {
-    slug: "trip-three",
-    place: "Place Name",
-    country: "Indonesia",
+    slug: "moalboal",
+    place: "Sardine run",
+    area: "Moalboal",
+    date: "2024-10",
+    story: "Snorkels on, cameras under, a million fish in one shot.",
+    crew: ["Friend", "Friend"],
+    tags: ["Underwater"],
+    cover: { src: PLACEHOLDER, alt: "Moalboal sardine run" },
+  },
+  {
+    slug: "sirao",
+    place: "Sirao",
+    area: "Cebu City",
     date: "2024-06",
-    coordinates: { lat: -8.4095, lng: 115.1889 },
-    story: "One line about this trip.",
-    cover: { src: PLACEHOLDER, alt: "Trip three" },
-  },
-  {
-    slug: "trip-four",
-    place: "Place Name",
-    country: "South Korea",
-    date: "2023-10",
-    coordinates: { lat: 37.5665, lng: 126.978 },
-    story: "One line about this trip.",
-    cover: { src: PLACEHOLDER, alt: "Trip four" },
+    story: "Mountain roads, fog and a car full of friends.",
+    crew: ["Friend", "Friend", "Friend"],
+    tags: ["Road trip"],
+    cover: { src: PLACEHOLDER, alt: "Sirao" },
   },
 ];

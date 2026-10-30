@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 const stats = [
   { label: "Years creating", value: about.yearsCreating },
   { label: "Projects shipped", value: projects.length },
-  { label: "Countries explored", value: new Set(adventures.map((a) => a.country)).size },
+  { label: "Films edited", value: adventures.length },
   { label: "Certificates", value: certificates.length },
 ];
 
@@ -132,7 +132,7 @@ export default function AboutPage() {
                   <MediaImage media={trip.cover} sizes="(min-width: 768px) 30vw, 70vw" />
                 </div>
                 <p className="meta mt-3">
-                  {trip.place} · {trip.country}
+                  {trip.place} · {trip.area}
                 </p>
               </Parallax>
             </li>

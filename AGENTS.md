@@ -16,7 +16,7 @@ An immersive, scroll-driven portfolio. Read these before changing code:
 - `PLAN.md`: the phased build plan and current scope
 
 ## Stack
-Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind CSS v4 · GSAP + ScrollTrigger + SplitText (`@gsap/react`) · Lenis · React Three Fiber + drei · Motion (UI state only).
+Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind CSS v4 · GSAP + ScrollTrigger + SplitText (`@gsap/react`) · Lenis · Motion (UI state only). No WebGL at the moment (the R3F globe and hero field were retired).
 
 ## Commands
 - `npm run dev`: dev server at http://localhost:3000
@@ -28,7 +28,7 @@ Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind CSS v4 · G
 - `components/scenes/`: one folder per home-page scene, each self-contained
 - `components/ui/`: reusable primitives (MagneticLink, SplitHeading, ScrambleText, Marquee, Tag)
 - `components/system/`: global systems (Cursor/Lens, SmoothScroll, Preloader, Grain, PageTransition)
-- `components/webgl/`: R3F canvases, shaders, materials (always dynamic-imported)
+- `components/webgl/`: empty for now; any future R3F canvases go here (always dynamic-imported)
 - `lib/motion/`: the only place eases, durations, and timeline helpers are defined
 - `lib/hooks/`: `usePrefersReducedMotion`, `useMediaQuery`, `usePointer`, etc.
 - `content/`: typed data (projects, certificates, education, experience, skills, adventures, about, site). It's the single source of truth for every page, including `/resume`.
@@ -38,7 +38,7 @@ Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind CSS v4 · G
 ## Rules
 1. **Server components by default.** Add `"use client"` only for interactive or animated components.
 2. **GSAP:** use `useGSAP` from `@gsap/react` (scoped and auto-cleaned). Register plugins once in `lib/motion`. Every ScrollTrigger must be cleaned up on unmount.
-3. **Single RAF loop:** Lenis is driven by `gsap.ticker`. Don't create other RAF loops, except R3F's own, which must pause offscreen.
+3. **Single RAF loop:** Lenis is driven by `gsap.ticker`. Don't create other RAF loops (a future R3F canvas may keep its own, paused offscreen).
 4. **Motion tokens only:** import eases and durations from `lib/motion`. Don't use inline magic numbers.
 5. **Design tokens only:** colors, spacing, type, and z-index come from `styles/tokens.css` / Tailwind theme.
 6. **Cursor:** opt in with `data-cursor="link|view|play|drag|text|magnetic|invert|hide"`. Don't build one-off cursor logic.

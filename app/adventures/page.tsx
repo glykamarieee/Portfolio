@@ -8,10 +8,10 @@ import { Decor } from "@/components/ui/Decor";
 
 export const metadata: Metadata = {
   title: "Adventures",
-  description: "Field notes — travel and adventure films.",
+  description: "Field notes — cinematic films from days out around Cebu with friends.",
 };
 
-const countries = new Set(adventures.map((a) => a.country)).size;
+const areas = new Set(adventures.map((a) => a.area)).size;
 
 export default function AdventuresPage() {
   return (
@@ -19,13 +19,13 @@ export default function AdventuresPage() {
       <section className="container-grid gap-y-8 pt-40 pb-12 relative isolate">
         <Decor set="adventures" />
         <p className="meta col-span-12">
-          (Adventures) — {pad(adventures.length)} trips · {pad(countries)} countries
+          (Adventures) — {pad(adventures.length)} films · {pad(areas)} places around Cebu
         </p>
         <SplitHeading as="h1" by="chars" trigger="ready" className="font-display text-hero col-span-12 font-semibold">
           Field Notes
         </SplitHeading>
         <p className="text-lead col-span-12 text-fg-muted md:col-span-6">
-          Places I&apos;ve been, filmed as I saw them. Scroll the reel, or switch to the grid.
+          Days out around Cebu with friends — shot and edited by me. Scroll the reel, or switch to the grid.
         </p>
       </section>
       <AdventureReel />

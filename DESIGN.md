@@ -187,7 +187,7 @@ The lens motif also shows up in:
 | 5 | Skills | pinned dial: mono numbers on an arc turn with scroll, details beside the active one | same dial | numbered list |
 | 6 | Journey | two-lane timeline (work / school), path draws on scroll | single lane | static list |
 | 7 | Certificates — The Archive | camera flies forward through 3–4 depth layers | swipeable card deck | grid |
-| 8 | Adventures — Field Notes | globe with pins, route flies trip to trip, video plays in the lens | map card + video list | list with posters |
+| 8 | Adventures — Field Notes | pinned letterboxed screen; scroll cuts film to film with a wipe, REC/timecode HUD, filmstrip | list of 2.39:1 frames | list with posters |
 | 9 | Resume | sections fly in and stack into a document | static sheet | static |
 | 10 | Contact | magnetic "Let's talk", lens fills the screen | big tap target | static |
 | 11 | Footer | marquee, local time, back-to-top | same | no marquee |
@@ -200,8 +200,9 @@ The lens motif also shows up in:
 - The HUD at the right edge shows `07 / 12`, the issuer, and the year in mono.
 
 ### Adventures — Field Notes (detail)
-- Use a dotted/low-poly globe with accent pins. A route arc animates between stops as you scroll.
-- At each stop, the clip autoplays muted inside the lens window. The HUD shows the place, date, coordinates, and a one-line story.
+- The films are days out around Cebu with friends, shot and edited by the owner (not travel abroad), so the scene is a screening, not a map.
+- A pinned 2.39:1 letterboxed screen. Each scroll step wipes the next film in from the right (clip-path) while the outgoing one pushes in; it snaps per film.
+- Only the film on screen plays (muted preview). The HUD shows REC + a scroll-driven timecode, scene number, the area ("Badian, Cebu") and date; below sit the place, one-line story, crew, and a clickable filmstrip with sprocket holes.
 - `/adventures` is a full-bleed snap reel with letterbox bars, a timecode, a sound toggle, filters, and a grid/mosaic toggle with hover-scrub previews.
 
 ---

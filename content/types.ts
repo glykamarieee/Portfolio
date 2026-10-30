@@ -123,13 +123,15 @@ export type Skill = {
   projects?: string[]; // project slugs — powers the "hover highlights projects" link
 };
 
+// One edited film from a day out around Cebu.
 export type Adventure = {
   slug: string;
-  place: string;
-  country: string;
+  place: string; // the spot, e.g. "Kawasan Falls"
+  area: string; // town or city in Cebu, e.g. "Badian"
   date: string; // ISO "YYYY-MM"
-  coordinates: { lat: number; lng: number };
   story: string; // one line
+  crew?: string[]; // friends in the film (first names or handles)
+  tags?: string[]; // e.g. "Cinematic", "Drone", "Vlog"
   cover: Media; // still shown in lists and as the video poster fallback
   video?: Video;
   photos?: Media[];
