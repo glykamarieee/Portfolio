@@ -559,8 +559,7 @@
   border-radius: 0.12em;
   background: linear-gradient(var(--color-accent), var(--color-accent)) no-repeat left center / 100% 100%;
   color: var(--color-accent-ink);
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+  white-space: nowrap;
 }
 
 /* Craft chips: inline, sized in em so they scale with the statement */
@@ -2023,8 +2022,7 @@
   padding-inline: 3px;
   border-radius: 2px;
   background: linear-gradient(var(--color-accent), var(--color-accent)) no-repeat left 60% / 100% 100%;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+  white-space: nowrap;
 }
 
 .paper-rules {
@@ -2205,64 +2203,14 @@
   background: var(--color-bg);
 }
 
-.footer-card {
-  display: grid;
-  gap: 48px;
-  padding: clamp(28px, 4vw, 56px);
-  border: 1px solid var(--color-line);
-  border-radius: 28px;
-  background: var(--color-bg-elev);
-}
-
-@media (min-width: 64rem) {
-  .footer-card {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    align-items: end;
-  }
-}
-
-.footer-cta {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.footer-cta h2 {
-  max-width: 12em;
-}
-
-.footer-card {
-  position: relative;
-}
-
 /* "Let's work together" (components/system/WorkTogether.tsx): closes the
-   sub-pages; it reuses the footer card and tape styles below */
+   sub-pages with crossed tapes and a camera viewfinder brief-builder */
 .work-together {
   display: flex;
   flex-direction: column;
   gap: clamp(32px, 5vw, 64px);
   padding: 0 var(--page-margin) clamp(48px, 6vw, 96px);
   overflow: hidden;
-}
-
-/* The CTA card is inverted (dark on light, light on dark) so it stands apart
-   from the footer card right below it */
-.work-together-card {
-  border-color: transparent;
-}
-
-@media (min-width: 64rem) {
-  .work-together-card {
-    grid-template-columns: minmax(0, 1fr);
-    padding-right: calc(clamp(150px, 13vw, 200px) + 12%);
-  }
-
-  .work-together-card .footer-badge {
-    top: 50%;
-    right: 7%;
-    width: clamp(150px, 13vw, 200px);
-    translate: 0 -50%;
-  }
 }
 
 /* "Let's work together": two tapes crossing, running opposite ways */
@@ -2320,117 +2268,251 @@
 
 @media (prefers-reduced-motion: reduce) {
   .footer-tape-track,
-  .footer-badge-ring {
+  .vf-rec::before,
+  .vf-roll-dot {
     animation: none;
   }
 }
 
-/* Highlighter swipe under the last word */
-.footer-hl {
-  padding-inline: 0.08em;
-  background: linear-gradient(var(--color-accent), var(--color-accent)) no-repeat 0 94% / 100% 0.16em;
+/* The viewfinder: an inverted card with lime corner brackets and a camera
+   HUD along the top and bottom edges */
+.vf {
+  --vf-pad: clamp(20px, 3.4vw, 48px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vw, 56px);
+  padding: var(--vf-pad);
+  border-radius: 28px;
 }
 
-/* The three crafts, as numbered lines */
-.footer-services {
-  display: grid;
-  max-width: 40rem;
-  border-top: 1px solid var(--color-line);
-}
-
-.footer-services li {
-  display: grid;
-  grid-template-columns: 2.25rem minmax(0, 8rem) minmax(0, 1fr);
-  align-items: baseline;
-  gap: 12px;
-  padding-block: 12px;
-  border-bottom: 1px solid var(--color-line);
-}
-
-.footer-service-name {
-  font-weight: 600;
-}
-
-.footer-service-blurb {
-  color: var(--color-fg-muted);
-  font-size: 0.9375rem;
-}
-
-/* Spinning "available" badge, top-right of the card */
-.footer-badge {
+.vf-corners {
+  --c: var(--color-accent);
+  --l: clamp(22px, 2.6vw, 36px);
+  --w: 2px;
   position: absolute;
-  top: clamp(20px, 3vw, 40px);
-  right: clamp(20px, 3vw, 40px);
+  inset: calc(var(--vf-pad) * 0.45);
+  pointer-events: none;
+  background:
+    linear-gradient(var(--c), var(--c)) top left / var(--l) var(--w),
+    linear-gradient(var(--c), var(--c)) top left / var(--w) var(--l),
+    linear-gradient(var(--c), var(--c)) top right / var(--l) var(--w),
+    linear-gradient(var(--c), var(--c)) top right / var(--w) var(--l),
+    linear-gradient(var(--c), var(--c)) bottom left / var(--l) var(--w),
+    linear-gradient(var(--c), var(--c)) bottom left / var(--w) var(--l),
+    linear-gradient(var(--c), var(--c)) bottom right / var(--l) var(--w),
+    linear-gradient(var(--c), var(--c)) bottom right / var(--w) var(--l);
+  background-repeat: no-repeat;
+}
+
+.vf-hud {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-inline: clamp(8px, 1.4vw, 20px);
+  color: var(--color-fg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.vf-rec {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-fg);
+}
+
+.vf-rec::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-rec);
+  animation: hero-dot 1.6s var(--ease-ui) infinite;
+}
+
+.vf-body {
   display: grid;
-  width: clamp(104px, 10vw, 136px);
-  aspect-ratio: 1;
-  place-items: center;
+  gap: clamp(32px, 4vw, 56px);
+  padding-inline: clamp(8px, 1.4vw, 20px);
+}
+
+@media (min-width: 64rem) {
+  .vf-body {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    align-items: center;
+  }
+}
+
+.vf-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.vf-copy h2 {
+  max-width: 11em;
+}
+
+/* "in frame." sits inside its own little viewfinder */
+.vf-frame {
+  --c: var(--color-accent);
+  --l: 0.22em;
+  --w: 0.05em;
+  padding: 0 0.14em;
+  background:
+    linear-gradient(var(--c), var(--c)) top left / var(--l) var(--w),
+    linear-gradient(var(--c), var(--c)) top left / var(--w) var(--l),
+    linear-gradient(var(--c), var(--c)) top right / var(--l) var(--w),
+    linear-gradient(var(--c), var(--c)) top right / var(--w) var(--l),
+    linear-gradient(var(--c), var(--c)) bottom left / var(--l) var(--w),
+    linear-gradient(var(--c), var(--c)) bottom left / var(--w) var(--l),
+    linear-gradient(var(--c), var(--c)) bottom right / var(--l) var(--w),
+    linear-gradient(var(--c), var(--c)) bottom right / var(--w) var(--l);
+  background-repeat: no-repeat;
+  white-space: nowrap;
+}
+
+.vf-for legend {
+  margin-bottom: 12px;
+}
+
+.vf-chip {
+  padding: 8px 16px;
+  border: 1px solid var(--color-line);
   border-radius: 9999px;
+  font-size: 0.9375rem;
+  transition:
+    background-color var(--dur-fast) var(--ease-ui),
+    color var(--dur-fast) var(--ease-ui),
+    border-color var(--dur-fast) var(--ease-ui);
+}
+
+.vf-chip:hover {
+  border-color: var(--color-fg-muted);
+}
+
+.vf-chip.is-on {
+  border-color: var(--color-fg);
   background: var(--color-fg);
   color: var(--color-bg);
-  transition: scale var(--dur-fast) var(--ease-ui);
 }
 
-.footer-badge:hover,
-.footer-badge:focus-visible {
-  scale: 1.08;
-}
-
-.footer-badge-ring {
-  grid-area: 1 / 1;
-  width: 100%;
-  fill: currentColor;
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  animation: badge-spin 16s linear infinite;
-}
-
-.footer-badge-arrow {
-  grid-area: 1 / 1;
-  display: grid;
-  width: 40%;
-  aspect-ratio: 1;
-  place-items: center;
+/* Lime "roll" button with a blinking record dot */
+.vf-roll {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
   border-radius: 9999px;
   background: var(--color-accent);
   color: var(--color-accent-ink);
-  font-size: 1.25rem;
-  transition: rotate var(--dur-fast) var(--ease-ui);
+  font-weight: 600;
 }
 
-.footer-badge:is(:hover, :focus-visible) .footer-badge-arrow {
-  rotate: 45deg;
+.vf-roll-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-rec);
+  animation: hero-dot 1.6s var(--ease-ui) infinite;
 }
 
-@keyframes badge-spin {
-  to {
-    rotate: 360deg;
-  }
-}
-
-@media (max-width: 47.99rem) {
-  .footer-badge {
-    position: static;
-    justify-self: start;
-  }
-
-  .footer-services li {
-    grid-template-columns: 2.25rem minmax(0, 1fr);
-  }
-
-  .footer-service-blurb {
-    grid-column: 2;
-  }
-}
-
-.footer-email {
-  padding: 10px 20px;
+.vf-link {
+  padding: 13px 20px;
   border: 1px solid var(--color-line);
   border-radius: 9999px;
-  background: var(--color-bg);
   font-size: 0.9375rem;
+  transition: border-color var(--dur-fast) var(--ease-ui);
+}
+
+.vf-link:hover {
+  border-color: var(--color-fg-muted);
+}
+
+/* The three crafts as giant toggles: outlined when off, solid when picked */
+.vf-crafts {
+  display: flex;
+  flex-direction: column;
+}
+
+.vf-crafts > .meta {
+  margin-bottom: 8px;
+}
+
+.vf-craft {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: clamp(14px, 1.6vw, 24px);
+  padding-block: 10px;
+  border-bottom: 1px solid var(--color-line);
+  text-align: left;
+}
+
+.vf-craft-box {
+  grid-row: span 2;
+  display: grid;
+  width: clamp(26px, 2.4vw, 34px);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1.5px solid var(--color-fg-faint);
+  border-radius: 8px;
+  transition:
+    background-color var(--dur-fast) var(--ease-ui),
+    border-color var(--dur-fast) var(--ease-ui);
+}
+
+.vf-craft-box::after {
+  content: "✓";
+  color: var(--color-accent-ink);
+  font-size: 0.9em;
+  font-weight: 700;
+  scale: 0;
+  transition: scale var(--dur-fast) var(--ease-ui);
+}
+
+.vf-craft-name {
+  color: transparent;
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 6.4vw, 6rem);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+  -webkit-text-stroke: 1px var(--color-fg-muted);
+  transition:
+    color var(--dur-base) var(--ease-reveal),
+    translate var(--dur-base) var(--ease-reveal);
+}
+
+.vf-craft-blurb {
+  color: var(--color-fg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.vf-craft:hover .vf-craft-name {
+  -webkit-text-stroke-color: var(--color-fg);
+}
+
+.vf-craft.is-on .vf-craft-name {
+  color: var(--color-fg);
+  -webkit-text-stroke-color: var(--color-fg);
+  translate: 0.12em 0;
+}
+
+.vf-craft.is-on .vf-craft-box {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+
+.vf-craft.is-on .vf-craft-box::after {
+  scale: 1;
 }
 
 /* Footer end slate: a clapperboard — striped arm + bar, then chalk-label cells */

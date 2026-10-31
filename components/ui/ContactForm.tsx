@@ -1,11 +1,16 @@
 "use client";
 
-import { useState, type ComponentProps, type FormEvent } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type ComponentProps, type FormEvent } from "react";
 import { CurrentYear } from "@/components/system/FooterWordmark";
 import { MediaImage } from "@/components/ui/MediaImage";
+import { readBrief } from "@/lib/brief";
 import { cn } from "@/lib/cn";
 
 const TOPICS = ["Website", "Video edit", "Videography", "Something else"];
+// The topic each craft from a "Let's work together" brief lands on
+const CRAFT_TOPIC = { Code: "Website", Cut: "Video edit", Capture: "Videography" } as const;
+
+const noop = () => () => {};
 
 type ContactFormProps = {
   email: string;
@@ -21,8 +26,27 @@ type ContactFormProps = {
 // in (mailto) and a "Sent" postmark lands. Swap `onSubmit` for a form service
 // or a server action (e.g. Resend) at deploy time to send directly.
 export function ContactForm({ email, to, location, portrait }: ContactFormProps) {
-  const [topic, setTopic] = useState(TOPICS[0]);
+  // Arriving from a "Let's work together" brief (?need=…&for=…): the topic
+  // starts on the first craft picked and the message is started for them
+  const search = useSyncExternalStore(
+    noop,
+    () => window.location.search,
+    () => "",
+  );
+  const brief = readBrief(search);
+  const [picked, setTopic] = useState<string>();
+  const topic = picked ?? (brief?.need[0] ? CRAFT_TOPIC[brief.need[0]] : TOPICS[0]);
   const [sent, setSent] = useState(false);
+  const messageField = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const brief = readBrief(search);
+    const field = messageField.current;
+    if (!brief || !field || field.value) return;
+    const crafts = brief.need.length ? brief.need.join(" + ").toLowerCase() : "a hand";
+    const purpose = brief.purpose ? ` for ${brief.purpose.toLowerCase()}` : "";
+    field.value = `Hi! I'm looking for ${crafts}${purpose}. Here's the idea: `;
+  }, [search]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -78,6 +102,7 @@ export function ContactForm({ email, to, location, portrait }: ContactFormProps)
               Dear {to.split(" ")[0]},
             </label>
             <textarea
+              ref={messageField}
               id="contact-message"
               name="message"
               required
