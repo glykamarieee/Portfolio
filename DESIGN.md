@@ -179,10 +179,10 @@ The lens motif also shows up in:
 | 0 | Preloader | counter 0→100, lens opens | same | instant fade |
 | 1 | Hero | centered headline with inline image; cover cards fan out from a stack, drift outward on scroll | 4 cards | static cards |
 | 2 | Manifesto | centered statement over three giant outlined rows (Code/Cut/Capture) drifting opposite ways; lime quote mark; words light up as you scroll, key phrases get a lime highlighter swipe and an animated craft chip (code tag, splitting film strip, REC viewfinder); first name drawn as a signature + Code/Cut/Capture | same | all lit + highlighted |
-| 3 | About teaser | tilted photo stack (lens reveals the alternate shot, hover fans the cards), "Hi, I'm Glyka", value cards | same | static |
+| 3 | About teaser | crew pass on a Code ✺ Cut ✺ Capture lanyard (drops in, swings with pointer speed, flips to values + learning; lens reveals the alt shot), greeting, quick facts, now-learning chips | same, stacked | static, flip instant |
 | 4 | Selected Work | expanding slices: every project a tall rounded panel (cover, number, sideways title); hover/focus widens one to show year, role, title, stack, address and a View case study button while the rest squeeze into strips; ends on a lime "Your project?" slice linking to contact | stacked open cards | stacked open cards, no transitions |
 | 5 | Skills | three stacking cards — code editor, edit timeline with scrubbing playhead, viewfinder with rack focus | cards in a column | cards, no playhead/rack focus |
-| 6 | Journey | two-lane timeline of cards (monogram, Work/School pill, Now badge, highlights); spine draws, dots light, year badge rides the spine | single lane | all dots lit |
+| 6 | Journey | passport: holder page (photo, fields, MRZ) + open entry; stamps page (round school / rectangular work ink stamps as tabs); cover swings open, stamps thunk in | pages stacked, stamps first | static, open |
 | 7 | Certificates — The Archive | camera flies forward through paper certificate cards with issuer seals; frosted HUD with progress; two-column lightbox | swipeable card deck | grid |
 | 8 | Resume | blocks fly in and stack into a paper sheet | static sheet | static |
 | 9 | Contact | magnetic "Let's get in touch", contact cards (email copy, Cebu time, availability), social pills, form in a card | stacked | static |
